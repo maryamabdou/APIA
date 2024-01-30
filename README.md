@@ -1,7 +1,6 @@
 # APIA
 
-## Run the website
-
+### How to run the website ?
 Install Dependencies
 
 ```bash
