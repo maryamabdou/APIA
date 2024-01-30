@@ -1,5 +1,7 @@
 # APIA
 
+## Run the website
+
 Install Dependencies
 
 ```bash
