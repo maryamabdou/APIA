@@ -29,7 +29,7 @@ const SpeechReader = () => {
 //   };
 
 async function delay_time() {
-    await delay(5000);
+    // await delay(5000);
     console.log("This message will be logged after 3 seconds");
   }
 
