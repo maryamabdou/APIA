@@ -1,9 +1,7 @@
 import './App.css';
-import Interview from './pages/Interview/Interview';
-import React, { useState, useEffect } from 'react';
+import Interview from './Interview/Interview';
 
 function App() {
-
   return (
     <div>
       <Interview />
