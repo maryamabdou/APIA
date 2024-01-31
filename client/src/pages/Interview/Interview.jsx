@@ -10,7 +10,6 @@ function Interview() {
   
   return(
     <div>
-      {/* <WebGazer /> */}
       <Stack direction="column" spacing={1}>
         <Box sx={{ height: "7vh"}}>
           <Navbar />
