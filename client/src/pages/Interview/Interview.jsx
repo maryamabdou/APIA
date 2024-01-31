@@ -15,7 +15,7 @@ function Interview() {
           <Navbar />
         </Box>
 
-        <Box sx={{ backgroundColor: "white", height: "3vh"}}>
+        <Box sx={{ height: "3vh"}}>
           <WebGazer />
         </Box>
 
