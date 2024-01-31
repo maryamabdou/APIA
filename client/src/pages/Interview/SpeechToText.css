@@ -1,0 +1,24 @@
+.cardSTT {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 1024px;
+  height: 60px;
+  margin: auto;
+  padding: 19px 0;
+  border-radius: 5px;
+  background: #f1f1ff;
+  border: 2px solid #620404;
+}
+
+.cardSTT h1 {
+  color: #620404;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 33px;
+  letter-spacing: 0em;
+  text-align: center;
+}
