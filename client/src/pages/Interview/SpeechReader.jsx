@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import question from './questions.json';
+import '../../components/Button.css';
+import Button from '../../components/Button';
+
 
 const SpeechReader = () => {
   const [textToSpeak, setTextToSpeak] = useState('');
@@ -58,7 +61,7 @@ async function delay_time() {
     <div>
       {/* <input type="text" value={textToSpeak} onChange={handleTextChange} />
       <button onClick={handleSpeakClick}>Speak</button> */}
-      <button onClick={handleReadFromDataset}>Read from Dataset</button>
+      <button className="button" onClick={handleReadFromDataset}>Read from Dataset</button>
       {/* <ul>
         {dataset.map((item) => (
           <li key={item.id}>{item.text}</li>
