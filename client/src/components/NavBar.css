@@ -14,9 +14,9 @@
 
 .title {
   display: flex;
-  align-items: center;
+  align-items:center;
   color: #ffffff;
-  margin-right: 1730px;
+  margin-left: 10px;
 }
 
 .title h1 {
