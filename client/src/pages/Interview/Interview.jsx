@@ -12,11 +12,11 @@ function Interview() {
     <div>
       <WebGazer />
       <Stack direction="column" spacing={2}>
-        <Box sx={{ backgroundColor: "white", height: "7vh"}}>
+        <Box sx={{ height: "7vh"}}>
           <Navbar />
         </Box>
 
-        <Box sx={{ backgroundColor: "white", height: "75vh"}}>
+        <Box sx={{ height: "75vh"}}>
           <Avatar />
         </Box>
 
