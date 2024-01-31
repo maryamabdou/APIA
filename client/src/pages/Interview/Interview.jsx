@@ -10,17 +10,21 @@ function Interview() {
   
   return(
     <div>
-      <WebGazer />
-      <Stack direction="column" spacing={2}>
+      {/* <WebGazer /> */}
+      <Stack direction="column" spacing={1}>
         <Box sx={{ height: "7vh"}}>
           <Navbar />
+        </Box>
+
+        <Box sx={{ backgroundColor: "white", height: "3vh"}}>
+          <WebGazer />
         </Box>
 
         <Box sx={{ height: "75vh"}}>
           <Avatar />
         </Box>
 
-        <Box sx={{ backgroundColor: "white", height: "7vh"}}>
+        <Box sx={{ backgroundColor: "white", height: "6vh"}}>
           <SpeechReader />
         </Box>
 
