@@ -1,26 +1,23 @@
-/*import React, { useEffect, useRef } from "react";*/
-import React from "react";
+import React, { useState } from "react";
 import videoFile from './result_video.mp4';
 import './Avatar.css';
-import { Player , BigPlayButton} from 'video-react';
 
 
 function Avatar() {
-/*  const vidRef = useRef();
 
-  useEffect(() => {
-    vidRef.current.muted = false;
-  }, []);*/
-  
+  const [muted, setMuted] = useState(true);
+  const handleToggleMute = () => setMuted(current => !current);
 
   return(
     
     <div className="avatar">
-      <Player autoPlay loop fluid={false} disableDefaultControls disableFullscreen>
+      
+      <video autoPlay muted={muted}>
         <source src={videoFile} type="video/mp4" />
-        <BigPlayButton/>
-      </Player>
-
+      </video>
+      <button onClick={handleToggleMute} className="unmute_button">
+        {muted ? 'Unmute' : 'Mute'}
+      </button>
     </div>
   );
 };
