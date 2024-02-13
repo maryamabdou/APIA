@@ -1,29 +1,12 @@
 import './App.css';
 import Interview from './pages/Interview/Interview';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 function App() {
-  const [data, setData] = useState([{}])
-  useEffect (()=> {
-     fetch("/members").then(
-          res => res.json()
-     ).then (
-          data => {
-             setData(data)
-             console. log(data)
-          }
-     )
-   },[] )
+
   return (
     <div>
       <Interview />
-      {(typeof data.members === 'undefined') ?(
-       <p> loading... </p>
-    ): (
-       data.members.map((member, i) => (
-             <p key={i}>{member} </p>
-       ))
-    )}
      </div>
    
      
