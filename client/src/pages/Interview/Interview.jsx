@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { Box, Stack } from "@mui/material";
 import Navbar from "../../components/Navbar.jsx";
 import WebGazer from './WebGazer';
-// import SpeechReader from "./SpeechReader";
+import SpeechReader from "./SpeechReader";
 import Avatar from "./Avatar.jsx";
-import SpeechToText from "./SpeechToText.jsx"
 
 function Interview() {
   
@@ -19,16 +18,12 @@ function Interview() {
           {/* <WebGazer /> */}
         </Box>
 
-        <Box sx={{ height: "75vh"}}>
+        <Box sx={{ height: "73vh"}}>
           <Avatar />
         </Box>
 
-        <Box sx={{ backgroundColor: "white", height: "6vh"}}>
-          {/* <SpeechReader /> */}
-        </Box>
-
-        <Box sx={{ backgroundColor: "white", height: "5vh"}}>
-          <SpeechToText />
+        <Box sx={{ backgroundColor: "white", height: "12vh" }}>
+          <SpeechReader />
         </Box>
       </Stack>
     </div>
