@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar.jsx";
 import WebGazer from './WebGazer';
 import SpeechReader from "./SpeechReader";
 import Avatar from "./Avatar.jsx";
+import Sentsim from "./Sentsim.jsx"
 
 function Interview() {
   

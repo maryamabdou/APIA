@@ -1,13 +1,16 @@
 import './App.css';
 import Interview from './pages/Interview/Interview';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 function App() {
 
   return (
     <div>
       <Interview />
-    </div>
+     </div>
+   
+     
+ 
   )
 }
 
