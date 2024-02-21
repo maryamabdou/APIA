@@ -19,11 +19,11 @@ function Interview() {
           {/* <WebGazer /> */}
         </Box>
 
-        <Box sx={{ height: "73vh"}}>
+        {/* <Box sx={{ height: "73vh"}}>
           <Avatar />
-        </Box>
+        </Box> */}
 
-        <Box sx={{ backgroundColor: "white", height: "12vh" }}>
+        <Box direction="column" sx={{ height: "85vh" }}>
           <SpeechReader />
         </Box>
       </Stack>

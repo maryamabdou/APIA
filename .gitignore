@@ -3,6 +3,7 @@
 # dependencies
 client/node_modules
 /.vscode
+flask-server/Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth
 /.pnp
 .pnp.js
 
