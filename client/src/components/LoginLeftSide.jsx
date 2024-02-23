@@ -13,9 +13,9 @@ function LoginLeftSide (){
                 <h1> APIA </h1>
             </div>
             <div className='check'>
-                <h5> <img src={Group} alt="Group" className='checkimg'/> The Future of Interview Practice </h5>
-                <h5> <img src={Group} alt="Group" className='checkimg'/> Your Interview Performance, Our Expertise </h5>
-                <h5> <img src={Group} alt="Group" className='checkimg'/> Interview Success Starts Here </h5>
+                <h5> <img src={Group} alt="Group" className='checking'/> The Future of Interview Practice </h5>
+                <h5> <img src={Group} alt="Group" className='checking'/> Your Interview Performance, Our Expertise </h5>
+                <h5> <img src={Group} alt="Group" className='checking'/> Interview Success Starts Here </h5>
             </div>
         </div>
     );
