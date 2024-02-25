@@ -2,13 +2,9 @@ import React from 'react';
 import './Button.css';
 
 function Button({ label, onClick }) {
-  const handleClick = () => {
-    // You can also perform other actions or state updates here
-    onClick(); // Invoke the provided onClick function
-  };
 
   return (
-    <button className="button" onClick={handleClick}>
+    <button className="button" onClick={onClick}>
       {label}
     </button>
   );

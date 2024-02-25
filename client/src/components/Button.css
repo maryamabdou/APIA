@@ -1,15 +1,19 @@
-.button {
+  .button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 10%; 
-    height: 50px; 
-    padding: 18px 26px; 
+    width: 558px;
+    height: 67px;
+    padding: 18px 26px;
     border-radius: 45px;
-    background: #620404;
-    border: 1px solid #383731;
+    background: #FC5185;    ;
+    border: 1px solid #FC5185;
     color: #ffffff;
     font-family: 'Poppins-SemiBold';
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 600;
     cursor: pointer;
+    margin-top: 30px;
   }
   
