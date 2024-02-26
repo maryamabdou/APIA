@@ -12,7 +12,7 @@ const SpeechReader = () => {
   const [userResponses, setUserResponses] = useState([]);
   const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const [quest, setQuest] = useState("");
- 
+
   const totalQuestions =  questions.result.length;
   const [index, setIndex] = useState(Math.floor(Math.random() * totalQuestions)); // Initial random index
   
@@ -29,7 +29,6 @@ const SpeechReader = () => {
       SpeechRecognition.stopListening();
     }
   }, [listening]);
-  
 
   useEffect(() => {
     if (transcript !== '') {
@@ -86,7 +85,6 @@ const SpeechReader = () => {
     });
   };
 
-
   const handleReadFromDataset = () => {
     setListening(false);
       const data = questions.result[index].question;
@@ -137,7 +135,6 @@ const SpeechReader = () => {
           <p>{transcript}</p>
         </Stack>
       </Stack>
-      
     </div>
   );
 };
