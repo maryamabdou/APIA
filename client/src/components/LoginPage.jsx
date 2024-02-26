@@ -65,6 +65,11 @@ const LoginPage = () => {
             </div>
             <br/>
             <Button label="Login" onClick={handleLogin}/>
+            <div className='click-text'>
+            <span onClick={() => navigate("/main")} style={{ cursor: 'pointer'}}>
+                Create an Account ?
+            </span>
+            </div>
         </form>
       </div>
     );
