@@ -4,14 +4,14 @@ import questions from './questions.json';
 import Avatar from "./Avatar.jsx";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { storage, database } from '../../firebase';
-import { getDownloadURL, listAll, ref as storageRef } from "firebase/storage";
+import { getDownloadURL, ref as storageRef } from "firebase/storage";
 import { ref as databaseRef, onValue } from "firebase/database";
 
 const SpeechReader = () => {
   const [listening, setListening] = useState(false);
   const [userResponses, setUserResponses] = useState([]);
   const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
-  const [quest, setQuest] = useState("")
+  const [quest, setQuest] = useState("");
  
   const totalQuestions =  questions.result.length;
   const [index, setIndex] = useState(Math.floor(Math.random() * totalQuestions)); // Initial random index
@@ -21,28 +21,7 @@ const SpeechReader = () => {
   const handleUserSpeech = (speech) => {
     setUserResponses(prevResponses => [...prevResponses, speech]); // Store user's speech
   };
-
-  // Get the custom ID from your Realtime Database
-  const videoId = 1;
-
-  var videosRef = databaseRef(database, "videos/" + videoId)
-  console.log(videosRef)
-  onValue(videosRef, (snapshot) => {
-    const data = snapshot.val();
-    const filename = data.filename;
-    console.log(filename);
-    const urlRef = storageRef(storage, "videos/" + filename);
-    getDownloadURL(urlRef)
-    .then((downloadURL) => {
-      setVideoUrl(downloadURL)
-      console.log("Video URL:", downloadURL);
-    })
-    .catch((error) => {
-      console.error("Error getting video URL:", error);
-    });
-  });
-
-
+  
   useEffect(() => {
     if (listening) {
       SpeechRecognition.startListening({continuous: true});
@@ -63,24 +42,32 @@ const SpeechReader = () => {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
+  const getQuestionVideo = (videoId) => {
+    var videosRef = databaseRef(database, "videos/" + videoId)
+    console.log(videosRef)
+    onValue(videosRef, (snapshot) => {
+      const data = snapshot.val();
+      const filename = data.filename;
+      console.log(filename);
+      const urlRef = storageRef(storage, "videos/" + filename);
+      getDownloadURL(urlRef)
+      .then((downloadURL) => {
+        setVideoUrl(downloadURL)
+        console.log("Video URL:", downloadURL);
+      })
+      .catch((error) => {
+        console.error("Error getting video URL:", error);
+      });
+    });
+  }
+
   const handleSpeakClick = (text) => {
     const utterance = new SpeechSynthesisUtterance();
     utterance.text = text;
     utterance.voice = window.speechSynthesis.getVoices()[0]; // Select the desired voice
-    utterance.rate = 1.0; // Adjust speech rate
+    utterance.rate = 1; // Adjust speech rate
     speechSynthesis.speak(utterance);
     sendTextToFlask(text);
-  };
-
-  const generateAudioFromSpeech = (text) => {
-    // Generate audio from speech
-   // speak({ text });
-
-    // Return the generated audio element
-    const audioElement = new Audio();
-    audioElement.src = 'data:audio/wav;base64,${btoa(text)}';
-
-    return audioElement;
   };
 
   const sendTextToFlask = (text) => {
@@ -105,8 +92,9 @@ const SpeechReader = () => {
       const data = questions.result[index].question;
       const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
       if(data){
+        getQuestionVideo(index)
         setQuest(data);
-        handleSpeakClick(data);
+        // handleSpeakClick(data);
 
         setTimeout(() => {
           setListening(true);
@@ -123,8 +111,9 @@ const SpeechReader = () => {
 
   const startInterview = () => {
       var data = questions.result[0].question;
+      getQuestionVideo(0)
       setQuest(data);
-      handleSpeakClick(data);
+      // handleSpeakClick(data);
   
       setTimeout(() => {
         setListening(true);

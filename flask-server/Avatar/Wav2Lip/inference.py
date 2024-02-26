@@ -18,7 +18,7 @@ parser.add_argument('--face', type=str,
 parser.add_argument('--audio', type=str, 
 					help='Filepath of video/audio file to use as raw audio source', required=True)
 parser.add_argument('--outfile', type=str, help='Video path to save result. See default for an e.g.', 
-								default='../client/src/pages/Interview/result_video.mp4')
+								default='./Avatar/result_video.mp4')
 
 parser.add_argument('--static', type=bool, 
 					help='If True, then use only first video frame for inference', default=False)
@@ -178,6 +178,14 @@ def load_model(path):
 	model = model.to(device)
 	return model.eval()
 
+def save_model_to_cache(model, cache_file_path):
+    torch.save(model.state_dict(), cache_file_path)
+
+def load_model_from_cache(cache_file_path):
+    model = Wav2Lip()
+    model.load_state_dict(torch.load(cache_file_path))
+    return model.eval()
+
 def main():
 	if not os.path.isfile(args.face):
 		raise ValueError('--face argument must be a valid path to video/image file')
@@ -249,8 +257,21 @@ def main():
 	for i, (img_batch, mel_batch, frames, coords) in enumerate(tqdm(gen, 
 											total=int(np.ceil(float(len(mel_chunks))/batch_size)))):
 		if i == 0:
-			model = load_model(args.checkpoint_path)
-			print ("Model loaded")
+			# model = load_model(args.checkpoint_path)
+			# print ("Model loaded")
+
+			# Check if the model is already in the cache
+			CACHE_FILE_PATH = "Avatar/Wav2Lip/model_cache/model_cache.pth"
+			if not os.path.exists(CACHE_FILE_PATH):
+				# If not, load the model and save it to the cache
+				model = load_model(args.checkpoint_path)
+				save_model_to_cache(model, CACHE_FILE_PATH)
+				print ("Model loaded")
+			else:
+				# If yes, load the model from the cache
+				model = load_model_from_cache(CACHE_FILE_PATH)
+				print ("Model loaded from cashe")
+			
 
 			print("full frames: ", full_frames[0].shape)
 			frame_h, frame_w = full_frames[0].shape[:-1]
