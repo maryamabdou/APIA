@@ -4,16 +4,18 @@ import MainPage from "./components/MainPage"
 import Interview from "./pages/Interview/Interview";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Main from "./pages/Man/Main";
 
 function App() {
   return (
     <div>
-      <Router>
+      <Main />
+      {/* <Router>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/main" element={<MainPage />} />
         </Routes>
-      </Router>
+      </Router> */}
     </div>
   );
 }
