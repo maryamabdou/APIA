@@ -1,3 +1,5 @@
+import * as bootstrap from 'bootstrap';
+import SimpleLightbox from 'simplelightbox';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React, { useEffect } from "react";
