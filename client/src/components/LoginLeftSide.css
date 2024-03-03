@@ -1,0 +1,49 @@
+.LoginLeftSide {
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    background-color:#36506B;
+    margin: 0px;
+    padding: 0px;
+}
+
+.robot{
+    width: 25%;
+    height: 25%;
+    margin-top: 25%;
+    margin-left: 35%;
+}
+
+.APIA{
+    width: 30%;
+    height: 8%;
+    margin-left: 38%;
+    margin-top: -4%;
+    font-size: 150%;
+    line-height: 160%;
+    color: #FFFFFF;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+.check{
+    
+    width: Hug (200%);
+    height: Hug (200%);
+    gap: 10%;
+    color: #FFFFFF;
+    margin-top: 3%;
+    margin-left: 23%;
+    font-size: 115%;
+    line-height: 125%;
+    letter-spacing: 0em;
+    text-align: left;
+    
+}
+
+.checking{
+    width: 3%;
+    height: 3%;
+    top: 1%;
+    left: 1%;
+}

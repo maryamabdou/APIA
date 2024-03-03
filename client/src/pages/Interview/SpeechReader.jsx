@@ -1,72 +1,154 @@
-// Create a new file named `SpeechReader.js` inside the `src` directory
-import React, { useState } from 'react';
-import { useSpeechSynthesis } from 'react-speech-kit';
-import question from './questions.json';
-import Button from '../../components/Button';
-
+import React, { useState , useEffect} from 'react';
+import { Box, Stack } from "@mui/material";
+import questions from './questions.json';
+import Avatar from "./Avatar.jsx";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { storage, database } from '../../firebase';
+import { getDownloadURL, listAll, ref as storageRef } from "firebase/storage";
+import { ref as databaseRef, onValue } from "firebase/database";
 
 const SpeechReader = () => {
-  const [textToSpeak, setTextToSpeak] = useState('');
-  const [dataset, setDataset] = useState([]);
+  const [listening, setListening] = useState(false);
+  const [userResponses, setUserResponses] = useState([]);
+  const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+  const [quest, setQuest] = useState("")
+ 
+  const totalQuestions =  questions.result.length;
+  const [index, setIndex] = useState(Math.floor(Math.random() * totalQuestions)); // Initial random index
+  
+  const [videoUrl, setVideoUrl] = useState("")
 
-//   const handleTextChange = (event) => {
-//     setTextToSpeak(event.target.value);
-//   };
+  const handleUserSpeech = (speech) => {
+    setUserResponses(prevResponses => [...prevResponses, speech]); // Store user's speech
+  };
 
-  const handleSpeakClick = (data) => {
+  // Get the custom ID from your Realtime Database
+  const videoId = 1;
+
+  var videosRef = databaseRef(database, "videos/" + videoId)
+  console.log(videosRef)
+  onValue(videosRef, (snapshot) => {
+    const data = snapshot.val();
+    const filename = data.filename;
+    console.log(filename);
+    const urlRef = storageRef(storage, "videos/" + filename);
+    getDownloadURL(urlRef)
+    .then((downloadURL) => {
+      setVideoUrl(downloadURL)
+      console.log("Video URL:", downloadURL);
+    })
+    .catch((error) => {
+      console.error("Error getting video URL:", error);
+    });
+  });
+
+
+  useEffect(() => {
+    if (listening) {
+      SpeechRecognition.startListening({continuous: true});
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  }, [listening]);
+  
+
+  useEffect(() => {
+    if (transcript !== '') {
+      handleUserSpeech(transcript); // Pass user's speech to parent component
+      // resetTranscript(); // Reset transcript after passing the speech
+    }
+  }, [transcript, handleUserSpeech]);
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
+
+  const handleSpeakClick = (text) => {
     const utterance = new SpeechSynthesisUtterance();
-    utterance.text = data;
+    utterance.text = text;
     utterance.voice = window.speechSynthesis.getVoices()[0]; // Select the desired voice
     utterance.rate = 1.0; // Adjust speech rate
     speechSynthesis.speak(utterance);
+    sendTextToFlask(text);
   };
 
-//   const fetchDataset = async () => {
-//     const response = await fetch('https://github.com/jdorfman/awesome-json-datasets');
-//     // response = await fetch('questions.json');
-//     const data = await response.json();
-//     setDataset(data);
-//     //.log(data);
+  const generateAudioFromSpeech = (text) => {
+    // Generate audio from speech
+   // speak({ text });
 
-//   };
+    // Return the generated audio element
+    const audioElement = new Audio();
+    audioElement.src = 'data:audio/wav;base64,${btoa(text)}';
 
-async function delay_time() {
-    // await delay(5000);
-    console.log("This message will be logged after 3 seconds");
-  }
+    return audioElement;
+  };
+
+  const sendTextToFlask = (text) => {
+    fetch('/uploadText', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the Content-Type header
+      },
+      body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error('Error uploading text:', error);
+    });
+  };
+
 
   const handleReadFromDataset = () => {
-     //fetchDataset();
-    question.map(q => {
-        for(let i=0; i<3; i++){
-            // console.log(q.result[i].question);
-            setTextToSpeak(q.result[i].question);
-            var data = q.result[i].question;
-            console.log(data);
-            handleSpeakClick(data);
-            //delay_time();
-        }
-       
-    })
-    //  .catch(error => console.log('error'))
-    // const selectedText = dataset[Math.floor(Math.random() * dataset.length)].text;
-   // const selectedText = dataset;
-   // console.log(selectedText);
-   // setTextToSpeak(selectedText);
-    
+    setListening(false);
+      const data = questions.result[index].question;
+      const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
+      if(data){
+        setQuest(data);
+        handleSpeakClick(data);
+
+        setTimeout(() => {
+          setListening(true);
+          // SpeechRecognition.startListening({continuous: true});
+          
+          setIndex(randomIndex);
+        }, 10000); //get size q from vid avatar
+      }
+      else{
+        //No more questions, notify the parent component
+        // navigate to score page
+      }
   };
 
+  const startInterview = () => {
+      var data = questions.result[0].question;
+      setQuest(data);
+      handleSpeakClick(data);
+  
+      setTimeout(() => {
+        setListening(true);
+      }, 10000); //get size q from vid avatar
+  };
+  
+ 
   return (
     <div>
-      {/* <input type="text" value={textToSpeak} onChange={handleTextChange} />
-      <button onClick={handleSpeakClick}>Speak</button> */}
-      {/* <button className="button" onClick={handleReadFromDataset}>Read from Dataset</button> */}
-      <Button label="Read from Dataset" onClick={handleReadFromDataset}/>
-      {/* <ul>
-        {dataset.map((item) => (
-          <li key={item.id}>{item.text}</li>
-        ))}
-      </ul> */}
+      <Stack direction="column" spacing={3}>
+        <Box sx={{height: "75vh"}}>
+          <Avatar url={videoUrl} />
+        </Box>
+        <Box sx={{height: "3vh"}}>
+          <center><p>{quest}</p></center>
+        </Box>
+        <Stack direction="row" spacing={1}>
+          <p>Microphone: {listening ? 'on' : 'off'}</p>
+          <button onClick={startInterview}>start interview</button>
+          <button onClick={handleReadFromDataset}>stop</button>
+          <p>{transcript}</p>
+        </Stack>
+      </Stack>
+      
     </div>
   );
 };

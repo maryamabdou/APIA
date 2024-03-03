@@ -15,7 +15,7 @@ function Navbar() {
       </div>
       
       <div className="content">
-        <NavButton label="Stop" onClick={() => console.log('Button clicked!')} />
+        <NavButton label="Exit" onClick={() => console.log('Button clicked!')} />
       </div>
     </div>
   );
