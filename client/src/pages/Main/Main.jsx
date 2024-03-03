@@ -2,6 +2,7 @@ import {React, useEffect} from "react";
 import * as bootstrap from 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import simInt_image from "../../assets/images/portfolio/thumbnails/1.jpg";
 import emotionRecog_image from "../../assets/images/portfolio/thumbnails/2.jpg";
 import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
