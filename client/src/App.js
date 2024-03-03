@@ -10,14 +10,14 @@ import Main from "./pages/Main/Main";
 function App() {
   return (
     <div>
-     <Main />
-       {/* <Router>
+      <Router>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<Main />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/main" element={<MainPage />} />
         </Routes>
-      </Router>  */}
+      </Router> 
     </div>
   );
 }
