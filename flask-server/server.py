@@ -11,10 +11,15 @@ app = Flask(__name__)
 f = firebase()
 storage, database = f.initialize()
 
-@app.route("/members")
+@app.route("/similarity", methods=['POST'])
 def members():
-    cosine_scores = sentSim(1)
-    return {"members":[float(cosine_scores[0][0]),float(cosine_scores[1][1]),float(cosine_scores[2][2])]}
+    data = request.get_json()
+    received_text = data.get('text', '')
+    print(received_text[0])
+    print(received_text[1])
+    # cosine_scores = sentSim(1)
+    # return {"members":[float(cosine_scores[0][0]),float(cosine_scores[1][1]),float(cosine_scores[2][2])]}
+    return "hello"
 
 @app.route('/uploadText', methods=['POST'])
 def upload_audio():

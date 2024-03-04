@@ -9,12 +9,13 @@ import { ref as databaseRef, onValue } from "firebase/database";
 
 const SpeechReader = () => {
   const [listening, setListening] = useState(false);
+  const [firstQuest, setFirstQuest] = useState(true);
   const [userResponses, setUserResponses] = useState([]);
   const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const [quest, setQuest] = useState("");
 
   const totalQuestions =  questions.result.length;
-  const [index, setIndex] = useState(Math.floor(Math.random() * totalQuestions)); // Initial random index
+  const [index, setIndex] = useState(0); // Initial random index
   
   const [videoUrl, setVideoUrl] = useState("")
 
@@ -60,35 +61,65 @@ const SpeechReader = () => {
     });
   }
 
-  const handleSpeakClick = (text) => {
-    const utterance = new SpeechSynthesisUtterance();
-    utterance.text = text;
-    utterance.voice = window.speechSynthesis.getVoices()[0]; // Select the desired voice
-    utterance.rate = 1; // Adjust speech rate
-    speechSynthesis.speak(utterance);
-    sendTextToFlask(text);
-  };
+  // const handleSpeakClick = (text) => {
+  //   const utterance = new SpeechSynthesisUtterance();
+  //   utterance.text = text;
+  //   utterance.voice = window.speechSynthesis.getVoices()[0]; // Select the desired voice
+  //   utterance.rate = 1; // Adjust speech rate
+  //   speechSynthesis.speak(utterance);
+  //   sendTextToFlask(text);
+  // };
 
-  const sendTextToFlask = (text) => {
-    fetch('/uploadText', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Set the Content-Type header
-      },
-      body: JSON.stringify({ text }),
-    })
-    .then(response => {
-        // Handle response from Flask
-    })
-    .catch(error => {
-        console.error('Error uploading text:', error);
-    });
-  };
+  // const sendTextToFlask = (text) => {
+  //   fetch('/uploadText', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json', // Set the Content-Type header
+  //     },
+  //     body: JSON.stringify({ text }),
+  //   })
+  //   .then(response => {
+  //       // Handle response from Flask
+  //   })
+  //   .catch(error => {
+  //       console.error('Error uploading text:', error);
+  //   });
+  // };
+
+  const compareAnswer = (answer, transcript) => { 
+    const text = []
+    text.push(answer)
+    text.push(transcript)
+      fetch('/similarity', {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json', // Set the Content-Type header
+          },
+          body: JSON.stringify({ text }),
+      })
+      .then(response => {
+          // Handle response from Flask
+      })
+      .catch(error => {
+          console.error('Error uploading text:', error);
+      });
+  }
 
   const handleReadFromDataset = () => {
     setListening(false);
+    //compare result before getting new question
+    if(firstQuest){
+      setFirstQuest(false)
+    }
+    else {
+      const answer = questions.result[index].correct_answer;
+      compareAnswer(answer, transcript)
+      setUserResponses(prevResponses => []);
+    }
+    // new question
+    const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
+      setIndex(randomIndex);
       const data = questions.result[index].question;
-      const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
       if(data){
         getQuestionVideo(index)
         setQuest(data);
@@ -98,7 +129,6 @@ const SpeechReader = () => {
           setListening(true);
           // SpeechRecognition.startListening({continuous: true});
           
-          setIndex(randomIndex);
         }, 10000); //get size q from vid avatar
       }
       else{
@@ -115,6 +145,7 @@ const SpeechReader = () => {
   
       setTimeout(() => {
         setListening(true);
+        // setFirstQuest(true);
       }, 10000); //get size q from vid avatar
   };
   
