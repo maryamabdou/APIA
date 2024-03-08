@@ -11,8 +11,8 @@ import Main from "./pages/Main/Main";
 function App() {
   return (
     <div>
-      <Interview />
-      {/* <Router>
+      {/* <Interview /> */}
+      <Router>
         <Routes>
         <Route path="/" element={<Main />} />
           <Route path="/login" element={<LoginPage />} />
