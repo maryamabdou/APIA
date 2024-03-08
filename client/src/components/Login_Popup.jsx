@@ -10,27 +10,27 @@ const Login_Popup = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const handleLogin = async (event) => {
-    const endpoint = "http://localhost:3000/database";
-    const data = { username, password };
-    event.preventDefault();
-  
-    // if (!username || !password) {
-    //   setError("Please fill in all the fields.");
-    //   return;
-    // }
-  
-    // try {
-    //   const response = await axios.post(endpoint, data);
-  
-    //   if (response.status === 201) {
-    //     navigate("/main");
-    //   } else {
-    //     setError(`Login Failed, Server returned status ${response.status}`);
-    //   }
-    // } catch (error) {
-    //   setError(`Login Failed. ${error.message}`);
-    // }
-  };
+      const endpoint = "http://localhost:3000/database";
+      const data = { username, password };
+      event.preventDefault();
+    
+      // if (!username || !password) {
+      //   setError("Please fill in all the fields.");
+      //   return;
+      // }
+    
+      // try {
+      //   const response = await axios.post(endpoint, data);
+    
+      //   if (response.status === 201) {
+      //     navigate("/main");
+      //   } else {
+      //     setError(`Login Failed, Server returned status ${response.status}`);
+      //   }
+      // } catch (error) {
+      //   setError(`Login Failed. ${error.message}`);
+      // }
+    };
   
   return (
       <div>
