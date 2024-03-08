@@ -12,7 +12,8 @@ import Firstpage from "./pages/FirstPage/Firstpage";
 function App() {
   return (
     <div>
-      <Interview />
+      {/* <Interview /> */}
+      <Upload />
       {/* <Router>
         <Routes>
         <Route path="/" element={<Main />} />

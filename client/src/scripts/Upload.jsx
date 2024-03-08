@@ -8,6 +8,7 @@ import { ref as databaseRef, onValue } from "firebase/database";
 import Papa from "papaparse";
 
 const Upload = () => {
+    // const [question, setQuestion]= useState([]);
     let question = [];
     let answer = [];
 
@@ -36,12 +37,11 @@ const Upload = () => {
                     question.push(Object.values(d)[1])
                     answer.push(Object.values(d)[2])
                 })
+                question.push(fileName);
+                sendTextToFlask(question);
             }
         });
-        sendTextToFlask(question);
 
-        question = [];
-        answer = [];
         //IMPORTANT
         // for (let i = 0; i < totalQuestions; i++) {
         //     const question = questions.result[i].question;
