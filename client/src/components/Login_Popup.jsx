@@ -1,53 +1,50 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TextBox from './TextBox';
 import Button from './Button';
-import LoginLeftSide from './LoginLeftSide'
-import './LoginPage.css'
+import { useHistory, useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const Login_Popup = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-  
     const handleLogin = async (event) => {
-      const endpoint = "http://localhost:3000/database";
-      const data = { username, password };
-      event.preventDefault();
-    
-      if (!username || !password) {
-        setError("Please fill in all the fields.");
-        return;
-      }
-    
-      try {
-        const response = await axios.post(endpoint, data);
-    
-        if (response.status === 201) {
-          navigate("/main");
-        } else {
-          setError(`Login Failed, Server returned status ${response.status}`);
-        }
-      } catch (error) {
-        setError(`Login Failed. ${error.message}`);
-      }
-    };
-    
+    const endpoint = "http://localhost:3000/database";
+    const data = { username, password };
+    event.preventDefault();
   
-    return (
-      <div className="login-page">
-        <LoginLeftSide/>
+    // if (!username || !password) {
+    //   setError("Please fill in all the fields.");
+    //   return;
+    // }
+  
+    // try {
+    //   const response = await axios.post(endpoint, data);
+  
+    //   if (response.status === 201) {
+    //     navigate("/main");
+    //   } else {
+    //     setError(`Login Failed, Server returned status ${response.status}`);
+    //   }
+    // } catch (error) {
+    //   setError(`Login Failed. ${error.message}`);
+    // }
+  };
+  
+  return (
+      <div>
+        <div class ='twelve'>
+          <h1>Login</h1>
+        </div>
+        
         <form className = 'form'>
-        <h1>Login</h1>
-        <h3>Welcome Back!</h3>
         {error && (
           <div className="error-card">
             <p>{error}</p>
           </div>
         )}
-        
+
           <div className = 'textbox'>
             <TextBox
               value={username}
@@ -63,15 +60,19 @@ const LoginPage = () => {
             />
             </div>
             <br/>
-            <Button label="Login" onClick={handleLogin}/>
+            <Button label="Login" onClick={() => navigate("/firstpage")}/>
             <div className='click-text'>
             <span onClick={() => navigate("/signup")} style={{ cursor: 'pointer'}}>
                 Create an Account ?
             </span>
+            <div className='forgot_password'>
+            <span onClick={() => navigate("/signup")} style={{ cursor: 'pointer'}}>
+                Forgot Password?
+            </span>
+            </div>
             </div>
         </form>
       </div>
-    );
-  };
-  
-  export default LoginPage;
+  );
+};
+export default Login_Popup;
