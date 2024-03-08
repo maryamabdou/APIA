@@ -1,14 +1,47 @@
 from flask import Flask, request, jsonify;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
-from firebase import firebase
+# from firebase import firebase
 import os
+from flask_mysqldb import MySQL
+from flask import Flask, request, jsonify;
 from gtts import gTTS
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+#f = firebase()
+#storage, database = f.initialize()
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'flask'
 
+mysql = MySQL(app)
+@app.route('/signup',methods=["POST"])
+def signup():
+    print("Hello, this is a debug message!")
+    data = request.json
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' CREATE TABLE Customer (
+    username VARCHAR(255), 
+    email VARCHAR(255),
+    password VARCHAR(255)             
+    ); ''')
+    cursor.execute(''' CREATE TABLE History (
+      time VARCHAR(255), 
+        type VARCHAR(255),
+        score INT               -- Example data type for age
+    ); ''')
+
+    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+    mysql.commit()
+    cursor.close()
+
+    return jsonify({'message': 'User signed up successfully'})
 @app.route("/members")
 def members():
     cosine_scores = sentSim(1)
@@ -31,8 +64,8 @@ def upload_audio():
         "id": audio_id,
         "filename": "audio.wav"  # Extract filename if needed
     }
-    storage.child("audios/audio.wav").put("Avatar/audio.wav")
-    database.child("audios").child(str(audio_id)).set(audio_data)
+    #storage.child("audios/audio.wav").put("Avatar/audio.wav")
+    #database.child("audios").child(str(audio_id)).set(audio_data)
     
     command = "python3 Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/talking.mp4 --audio Avatar/audio.wav"
     try:
@@ -43,8 +76,8 @@ def upload_audio():
             "filename": "video.mp4"  # Extract filename if needed
         }
         
-        storage.child("videos/video.mp4").put("../client/src/pages/Interview/result_video.mp4")
-        database.child("videos").child(str(video_id)).set(video_data)
+       # storage.child("videos/video.mp4").put("../client/src/pages/Interview/result_video.mp4")
+        #database.child("videos").child(str(video_id)).set(video_data)
     except Exception as e:
         return "not completed"
     return "completed"

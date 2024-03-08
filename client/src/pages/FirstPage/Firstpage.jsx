@@ -1,4 +1,4 @@
-import {React,useState, useEffect} from "react";
+import {React, useEffect} from "react";
 import * as bootstrap from 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -6,16 +6,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import simInt_image from "../../assets/images/portfolio/thumbnails/1.jpg";
 import emotionRecog_image from "../../assets/images/portfolio/thumbnails/2.jpg";
 import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
-import "./styles.css";
+import "./style.css";
 
-import Model from 'react-modal';
-import Login_Popup from "../../components/Login_Popup";
-import Signin_popup from "../../components/Signin_popup";
-
-function Main() {
-    const[visible,setvisible]=useState(false)
-    const[visible2,setvisible2]=useState(false)
-
+function Firstpage() {
     useEffect(() => {
         // Navbar shrink function
         const navbarShrink = () => {
@@ -65,50 +58,16 @@ function Main() {
             {/* Navigation */}
             <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div className="container px-4 px-lg-5">
-
+                    <a className="navbar-brand" href="/Main">Sign out</a>
+                    <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
                     
-
-                <a className="navbar-brand" onClick={()=>setvisible(true)}>Login</a>
-                    <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
-                        overlay: { // Style for the overlay (background)
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
-                        },
-                        content:{width:'40%',
-                        height:'70%',
-                        margin: 'auto',
-                        backgroundColor: "#B8A995",
-                      } 
-                }}>
-                        <Login_Popup/>
-                        
-                        {/* <a onClick={()=>setvisible(false)}>close model</a> */}
-                    </Model>
-
-                    <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <a className="navbar-brand" onClick={()=>setvisible2(true)}>Sign Up</a>
-                    <Model isOpen={visible2} onRequestClose={()=>setvisible2(false)} style={{
-                        overlay: { // Style for the overlay (background)
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
-                        },
-                        content:{width:'40%',
-                        height:'70%',
-                        margin: 'auto',
-                        backgroundColor: "#B8A995",
-                      } 
-                }}>
-                        <Signin_popup/>
-                        {/* <a onClick={()=>setvisible(false)}>close model</a> */}
-                    </Model>
-                    <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto my-2 my-lg-0">
-                            <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
+                            <li className="nav-item"><a className="nav-link" href="#about">History</a></li>
                             <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>
-                            <li className="nav-item"><a className="nav-link" href="#portfolio">Portfolio</a></li>
+                            
                             <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -126,7 +85,7 @@ function Main() {
                         </div>
                         <div className="col-lg-8 align-self-baseline">
                             <h4 className="text-white-75 mb-5">Sharpen your interview edge. Simulate real-world scenarios with advanced AI coaching.</h4>
-                            <a className="btn btn-primary btn-xl" href="#about">Find Out More</a>
+                            <a className="btn btn-primary btn-xl" href="/interview">Start Interview</a>
                         </div>
                     </div>
                 </div>
@@ -184,40 +143,7 @@ function Main() {
                 </div>
             </section>
 
-            {/* Portfolio */}
-            <div id="portfolio">
-                <div className="container-fluid p-0">
-                    <div className="row g-0">
-                        <div className="col-lg-4 col-sm-6">
-                            <a className="portfolio-box" href="src/pages/Man/assets/img/portfolio/thumbnails/1.jpg" title="APIA">
-                                <img className="img-fluid" src={simInt_image} alt="..." />
-                                <div className="portfolio-box-caption">
-                                    <div className="project-category text-white-50">Category</div>
-                                    <div className="project-name">Simulated Interview</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="col-lg-4 col-sm-6">
-                            <a className="portfolio-box" href="src/pages/Man/assets/img/portfolio/fullsize/2.jpg" title="APIA">
-                                <img className="img-fluid" src={emotionRecog_image} alt="..." />
-                                <div className="portfolio-box-caption">
-                                    <div className="project-category text-white-50">Category</div>
-                                    <div className="project-name">Facial Emotional Recognition</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="col-lg-4 col-sm-6">
-                            <a className="portfolio-box" href="src/pages/Man/assets/img/portfolio/fullsize/3.jpg" title="APIA">
-                                <img className="img-fluid" src={eyeTrack_image} alt="..." />
-                                <div className="portfolio-box-caption">
-                                    <div className="project-category text-white-50">Category</div>
-                                    <div className="project-name">Eye Tracking</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
             {/* Contact */}
             <section className="page-section" id="contact">
@@ -285,4 +211,4 @@ function Main() {
         </div>
     );
 };
-export default Main;
+export default Firstpage;
