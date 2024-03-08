@@ -7,19 +7,36 @@ import LoginLeftSide from './LoginLeftSide'
 import './LoginPage.css'
 
 
-const LoginPage = () => {
-    const [username, setUsername] = useState('');
+const SignUpPage = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    const isEmailValid = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
   
-    const handleLogin = async (event) => {
+    const handleSignUp = async (event) => {
       const endpoint = "http://localhost:3000/database";
-      const data = { username, password };
+      const data = { name, email,password,confirmPass };
       event.preventDefault();
     
-      if (!username || !password) {
+      if (!name || !email || !password || !confirmPass) {
         setError("Please fill in all the fields.");
+        return;
+      }
+
+      if (!isEmailValid(email)) {
+        setError("Please enter a valid email address.");
+        return;
+      }
+
+      if (password != confirmPass) {
+        setError("Password and confirm password do not match.");
         return;
       }
     
@@ -41,8 +58,8 @@ const LoginPage = () => {
       <div className="login-page">
         <LoginLeftSide/>
         <form className = 'form'>
-        <h1>Login</h1>
-        <h3>Welcome Back!</h3>
+        <h1>Sign Up</h1>
+        <h3>Welcome to APIA!</h3>
         {error && (
           <div className="error-card">
             <p>{error}</p>
@@ -51,9 +68,15 @@ const LoginPage = () => {
         
           <div className = 'textbox'>
             <TextBox
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              placeholder="Username"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Your Name"
+            />
+            <br/>
+            <TextBox
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Email Address"
             />
             <br/>
             <TextBox
@@ -62,12 +85,21 @@ const LoginPage = () => {
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Password"
             />
+            <br/>
+            <TextBox
+              type="password"
+              value={confirmPass}
+              onChange={(event) => setConfirmPass(event.target.value)}
+              placeholder="Confirm Password"
+            />
             </div>
             <br/>
-            <Button label="Login" onClick={handleLogin}/>
+            <br/>
+            <br/>
+            <Button label="Sign Up" onClick={handleSignUp}/>
             <div className='click-text'>
-            <span onClick={() => navigate("/signup")} style={{ cursor: 'pointer'}}>
-                Create an Account ?
+            <span onClick={() => navigate("/")} style={{ cursor: 'pointer'}}>
+                Already Have an Account ?
             </span>
             </div>
         </form>
@@ -75,4 +107,4 @@ const LoginPage = () => {
     );
   };
   
-  export default LoginPage;
+  export default SignUpPage;

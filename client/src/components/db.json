@@ -9,6 +9,20 @@
       "id": "b71e",
       "username": "Farah",
       "password": "Farah1234"
+    },
+    {
+      "id": "00be",
+      "name": "rawan",
+      "email": "rawan@gmail.com",
+      "password": "rawan1234",
+      "confirmPass": "rawan1234"
+    },
+    {
+      "id": "8cee",
+      "name": "farah",
+      "email": "farah@gmail.com",
+      "password": "farah12",
+      "confirmPass": "farah12"
     }
   ]
 }
