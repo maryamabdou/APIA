@@ -46,14 +46,16 @@ const Signin_popup = () => {
   
   
     
-    const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    // const handleChange = (e) => {
+    //   setFormData({ ...formData, [e.target.name]: e.target.value });
+      
+    // };
     const handleSubmit = async () => {
       try {
-        const response = await axios.post('http://127.0.0.1:5000/signup', formData);
-        console.log(response.data);
-        navigate('/firstpage');
+        console.log(formData);
+       // const response = await axios.post('http://127.0.0.1:5000/signup', formData);
+        //console.log(response.data);
+       // navigate('/firstpage');
       } catch (error) {
         console.error('Error:', error);
       }
@@ -74,15 +76,25 @@ const Signin_popup = () => {
 
           <div className = 'textbox'>
             <TextBox
-              value={formData.username} 
-              onChange={handleChange}
+              
+              onChange={(e) =>  setFormData({
+                ...formData,
+               username:e.target.value
+                
+            })}
+             
               placeholder="Username"
             />
             
             <br/>
             <TextBox
-              value={formData.email} 
-              onChange={handleChange}
+              
+              
+              onChange={(e) =>  setFormData({
+                ...formData,
+               email:e.target.value
+                
+            })}
               placeholder="Email"
             />
            
@@ -90,12 +102,21 @@ const Signin_popup = () => {
             <br/>
             <TextBox
               type="password"
-              value={formData.password} onChange={handleChange}
+              onChange={(e) =>  setFormData({
+                ...formData,
+               password:e.target.value
+                
+            })}
+              
               placeholder="Password"
             />
             <TextBox
               type="confirmpass"
-              value={formData.confirmpass} onChange={handleChange}
+              onChange={(e) =>  setFormData({
+                ...formData,
+               confirmPass:e.target.value
+                
+            })}
               placeholder="ConfirmPassword"
             />
             </div>

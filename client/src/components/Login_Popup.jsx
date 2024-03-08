@@ -3,8 +3,7 @@ import axios from "axios";
 import TextBox from './TextBox';
 import Button from './Button';
 import { useHistory, useNavigate } from 'react-router-dom';
-import "./LoginPage.css";
-import "./LoginLeftSide.css"
+import "./LoginPage.css"
 
 
 

@@ -1,7 +1,6 @@
 import "./App.css";
 import LoginPage from "./components/LoginPage";
 import Signin_popup from "./components/Signin_popup";
-import MainPage from "./components/MainPage"
 import Interview from "./pages/Interview/Interview";
 import Firstpage from "./pages/FirstPage/Firstpage"
 import React from "react";

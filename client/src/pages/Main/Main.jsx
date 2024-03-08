@@ -98,6 +98,8 @@ function Main() {
                         backgroundColor: "#B8A995",
                       } 
                 }}>
+                    
+
                         <Signin_popup/>
                         {/* <a onClick={()=>setvisible(false)}>close model</a> */}
                     </Model>
