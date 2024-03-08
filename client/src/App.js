@@ -12,16 +12,15 @@ import Firstpage from "./pages/FirstPage/Firstpage";
 function App() {
   return (
     <div>
-      {/* <Interview /> */}
-      <Router>
+      <Interview />
+      {/* <Router>
         <Routes>
         <Route path="/" element={<Main />} />
-          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route path="/firstpage" element={<Firstpage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/main" element={<MainPage />} />
         </Routes>
-      </Router> 
+      </Router>  */}
     </div>
   );
 }
