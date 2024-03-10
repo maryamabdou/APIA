@@ -1,8 +1,8 @@
 # APIA
 
-### Run the website
+## Run the website
 
-#### Frontend
+### Frontend
 Go to client folder
 
 ```bash
@@ -19,7 +19,7 @@ Start the server
 ```bash
   npm start
 ```
-#### Backend
+### Backend
 Go to flask-server folder
 
 ```bash
