@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, useRef} from 'react';
 import { Box, Stack } from "@mui/material";
 import questions from './questions.json';
 import Avatar from "./Avatar.jsx";
@@ -15,7 +15,7 @@ const SpeechReader = () => {
   const [quest, setQuest] = useState("");
 
   const totalQuestions =  questions.result.length;
-  const [index, setIndex] = useState(0); // Initial random index
+  const index = useRef(0);
   
   const [videoUrl, setVideoUrl] = useState("")
 
@@ -44,7 +44,6 @@ const SpeechReader = () => {
 
   const getQuestionVideo = (videoId) => {
     var videosRef = databaseRef(database, "videos/" + videoId)
-    console.log(videosRef)
     onValue(videosRef, (snapshot) => {
       const data = snapshot.val();
       const filename = data.filename;
@@ -112,29 +111,32 @@ const SpeechReader = () => {
       setFirstQuest(false)
     }
     else {
-      const answer = questions.result[index].correct_answer;
+      var answer = questions.result[index.current].correct_answer;
+      console.log("index before",index.current)
+      console.log(answer)
       compareAnswer(answer, transcript)
-      setUserResponses(prevResponses => []);
+      // setUserResponses(prevResponses => []);
     }
     // new question
-    const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
-      setIndex(randomIndex);
-      const data = questions.result[index].question;
-      if(data){
-        getQuestionVideo(index)
-        setQuest(data);
-        // handleSpeakClick(data);
+    var randomIndex = Math.floor(Math.random() * totalQuestions);
+    index.current = randomIndex;
+    const data = questions.result[index.current].question;
+    if(data){
+      getQuestionVideo(index.current)
+      setQuest(data);
+      // handleSpeakClick(data);
 
-        setTimeout(() => {
-          setListening(true);
-          // SpeechRecognition.startListening({continuous: true});
-          
-        }, 10000); //get size q from vid avatar
-      }
-      else{
-        //No more questions, notify the parent component
-        // navigate to score page
-      }
+      setTimeout(() => {
+        setListening(true);
+        // SpeechRecognition.startListening({continuous: true});
+        
+      }, 10000); //get size q from vid avatar
+    }
+    else{
+      //No more questions, notify the parent component
+      // navigate to score page
+    }
+    
   };
 
   const startInterview = () => {

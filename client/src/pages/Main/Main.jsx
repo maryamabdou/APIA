@@ -9,9 +9,6 @@ import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
 import "./styles.css";
 import Model from 'react-modal';
 import Login_Popup from "../../components/Login_Popup";
-
-import Model from 'react-modal';
-import Login_Popup from "../../components/Login_Popup";
 import Signin_popup from "../../components/Signin_popup";
 
 function Main() {
