@@ -85,7 +85,7 @@ function Firstpage() {
                         </div>
                         <div className="col-lg-8 align-self-baseline">
                             <h4 className="text-white-75 mb-5">Sharpen your interview edge. Simulate real-world scenarios with advanced AI coaching.</h4>
-                            <a className="btn btn-primary btn-xl" href="/login">Start Interview</a>
+                            <a className="btn btn-primary btn-xl" href="/interview">Start Interview</a>
                         </div>
                     </div>
                 </div>

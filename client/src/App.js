@@ -2,8 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import LoginPage from "./components/LoginPage";
-import SignUpPage from "./components/SignUpPage";
-import MainPage from "./components/MainPage"
+import Signin_popup from "./components/Signin_popup";
 import Interview from "./pages/Interview/Interview";
 import Upload from "./scripts/Upload";
 import Main from "./pages/Main/Main";
@@ -13,15 +12,17 @@ function App() {
   return (
     <div>
       {/* <Interview /> */}
-      <Upload />
-      {/* <Router>
+      {/* <Upload /> */}
+       <Router>
         <Routes>
-        <Route path="/" element={<Main />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<Signin_popup />} />
           <Route path="/firstpage" element={<Firstpage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/main" element={<MainPage />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/interview" element={<Interview />} />
         </Routes>
-      </Router>  */}
+      </Router> 
     </div>
   );
 }

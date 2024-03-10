@@ -1,15 +1,47 @@
 from flask import Flask, request, jsonify;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
-from firebase import firebase
+# from firebase import firebase
 import os
+from flask_mysqldb import MySQL
+from flask import Flask, request, jsonify;
 from gtts import gTTS
 import uuid
 import pyttsx3
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+#f = firebase()
+#storage, database = f.initialize()
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'flask'
+
+mysql = MySQL(app)
+@app.route('/signup',methods=["POST"])
+def signup():
+    print("Hello, this is a debug message!")
+    data = request.json
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' CREATE TABLE Customer (
+    username VARCHAR(255), 
+    email VARCHAR(255),
+    password VARCHAR(255)             
+    ); ''')
+    cursor.execute(''' CREATE TABLE History (
+      time VARCHAR(255), 
+        type VARCHAR(255),
+        score INT               -- Example data type for age
+    ); ''')
+
+    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+    mysql.commit()
+    cursor.close()
 
 @app.route("/similarity", methods=['POST'])
 def members():

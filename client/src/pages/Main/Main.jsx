@@ -10,8 +10,14 @@ import "./styles.css";
 import Model from 'react-modal';
 import Login_Popup from "../../components/Login_Popup";
 
+import Model from 'react-modal';
+import Login_Popup from "../../components/Login_Popup";
+import Signin_popup from "../../components/Signin_popup";
+
 function Main() {
     const[visible,setvisible]=useState(false)
+    const[visible2,setvisible2]=useState(false)
+
     useEffect(() => {
         // Navbar shrink function
         const navbarShrink = () => {
@@ -61,6 +67,9 @@ function Main() {
             {/* Navigation */}
             <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div className="container px-4 px-lg-5">
+
+                    
+
                 <a className="navbar-brand" onClick={()=>setvisible(true)}>Login</a>
                     <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
                         overlay: { // Style for the overlay (background)
@@ -73,13 +82,29 @@ function Main() {
                       } 
                 }}>
                         <Login_Popup/>
+                        
                         {/* <a onClick={()=>setvisible(false)}>close model</a> */}
                     </Model>
 
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" href="/signup">Sign Up</a>
+                    <a className="navbar-brand" onClick={()=>setvisible2(true)}>Sign Up</a>
+                    <Model isOpen={visible2} onRequestClose={()=>setvisible2(false)} style={{
+                        overlay: { // Style for the overlay (background)
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
+                        },
+                        content:{width:'40%',
+                        height:'70%',
+                        margin: 'auto',
+                        backgroundColor: "#B8A995",
+                      } 
+                }}>
+                    
+
+                        <Signin_popup/>
+                        {/* <a onClick={()=>setvisible(false)}>close model</a> */}
+                    </Model>
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
