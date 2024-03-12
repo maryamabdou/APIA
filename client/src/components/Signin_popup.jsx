@@ -52,10 +52,20 @@ const Signin_popup = () => {
     // };
     const handleSubmit = async () => {
       try {
-        console.log(formData);
-       // const response = await axios.post('http://127.0.0.1:5000/signup', formData);
+      fetch('/signup', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(responseData => {
+                console.log(responseData); // Response from Flask route
+            });
+        //console.log("formData");
+//         const response = await axios.post('http://127.0.0.1:5000/signup', formData);
+        console.log("formData");
         //console.log(response.data);
-       // navigate('/firstpage');
+       navigate('/firstpage');
       } catch (error) {
         console.error('Error:', error);
       }
