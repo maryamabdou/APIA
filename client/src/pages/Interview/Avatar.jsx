@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import videoFile from './result_video.mp4';
+import './Avatar.css';
 
-function Avatar() {
+
+function Avatar({url}) {
+
+  const [muted, setMuted] = useState(true);
+  const handleToggleMute = () => setMuted(current => !current);
+
   return(
-    <div>
-        <center><img display="block" width= "55%" height= "100%" 
-        src = "https://img.freepik.com/free-photo/business-job-interview-concept_1421-77.jpg?w=900&t=st=1698335011~exp=1698335611~hmac=6378f07665023493e93dd628968956c7f7853a76f1115b862c62dfca671d90ae"/>
-        </center>
+    <div className="avatar">
+      <video autoPlay muted={muted} src={url}>
+        {/* <source src={url} type="video/mp4" /> */}
+      </video>
+      <button onClick={handleToggleMute} className="unmute_button">
+        {muted ? 'Unmute' : 'Mute'}
+      </button>
     </div>
   );
 };
 
 export default Avatar;
-

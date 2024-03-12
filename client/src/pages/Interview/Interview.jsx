@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar.jsx";
 import WebGazer from './WebGazer';
 import SpeechReader from "./SpeechReader";
 import Avatar from "./Avatar.jsx";
-import SpeechToText from "./SpeechToText.jsx"
+import Sentsim from "./Sentsim.jsx"
 
 function Interview() {
   
@@ -16,19 +16,15 @@ function Interview() {
         </Box>
 
         <Box sx={{ height: "3vh"}}>
-          <WebGazer />
+          {/* <WebGazer /> */}
         </Box>
 
-        <Box sx={{ height: "75vh"}}>
+        {/* <Box sx={{ height: "73vh"}}>
           <Avatar />
-        </Box>
+        </Box> */}
 
-        <Box sx={{ backgroundColor: "white", height: "6vh"}}>
+        <Box direction="column" sx={{ height: "85vh" }}>
           <SpeechReader />
-        </Box>
-
-        <Box sx={{ backgroundColor: "white", height: "5vh"}}>
-          <SpeechToText />
         </Box>
       </Stack>
     </div>
