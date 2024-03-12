@@ -5,7 +5,7 @@ import Avatar from "./Avatar.jsx";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { storage, database } from '../../firebase';
 import { getDownloadURL, ref as storageRef } from "firebase/storage";
-import { ref as databaseRef, onValue } from "firebase/database";
+import { ref as databaseRef, onValue, startAfter } from "firebase/database";
 
 const SpeechReader = () => {
   const [firstQuest, setFirstQuest] = useState(true);
@@ -89,8 +89,25 @@ const SpeechReader = () => {
       });
   }
 
+  const datectFer = (text) => {
+    fetch('/fer', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json', // Set the Content-Type header
+        },
+        body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error(error);
+    });
+  }
+
   const handleReadFromDataset = () => {
     SpeechRecognition.stopListening()
+    datectFer(0)
     //compare result before getting new question
     if(firstQuest){
       setFirstQuest(false)
@@ -113,7 +130,7 @@ const SpeechReader = () => {
 
         setTimeout(() => {
           SpeechRecognition.startListening({continuous: true})
-          
+          datectFer(1)
         }, 10000); //get size q from vid avatar
       }
       else{

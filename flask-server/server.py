@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify;
+from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
+from FaceEmotionDetection import FaceEmotionDetection
 from firebase import firebase
 import os
 from flask_mysqldb import MySQL
-from flask import Flask, request, jsonify;
 from gtts import gTTS
 import uuid
 import pyttsx3
@@ -59,6 +59,19 @@ def similarity():
     print('total score: ',score)
     return "completed"
 
+@app.route("/fer", methods=['POST'])
+def fer():
+    data = request.get_json()
+    method = data.get('text', '')
+    prediction = []
+    if method == 1:
+        d = FaceEmotionDetection()
+        prediction = Response(d.predict())
+    else:
+        print(prediction)
+    # return Response(d.predict())
+    return "completed"
+
 @app.route('/uploadText', methods=['POST'])
 def upload_audio():
     data = request.get_json()
@@ -69,21 +82,21 @@ def upload_audio():
     print(fileName)
     index = 0
     # for question in received_text:
-    tts = gTTS(received_text[0], tld="us")
-    audio_path = 'Avatar/audio.wav'
-    tts.save(audio_path)
-    # engine = pyttsx3.init("espeak")
-    # rate = engine.getProperty('rate')
-    # engine.setProperty('rate', rate+30)
-    # voices = engine.getProperty('voices')
-    # engine.setProperty('voice', voices[10].id)
+    # tts = gTTS(received_text[0], tld="us")
+    # audio_path = 'Avatar/audio.wav'
+    # tts.save(audio_path)
+    engine = pyttsx3.init()
+    rate = engine.getProperty('rate')
+    engine.setProperty('rate', rate+30)
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[10].id)
     # for voice in voices:
     #     if voice.languages[0] == 'en-US' and 'male' in voice.name.lower():
     #         engine.setProperty('voice', voice.id)
     #         break
-    # engine.save_to_file(received_text[0], "Avatar/audio.wav")
-    # engine.say(received_text[0])
-    # engine.runAndWait()
+    engine.save_to_file(received_text[0], "Avatar/audio.wav")
+    engine.say(received_text[0])
+    engine.runAndWait()
     # while "audio.wav" not in os.listdir("Avatar"):
     #     sleep(1)
 
