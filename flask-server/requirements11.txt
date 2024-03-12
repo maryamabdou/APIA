@@ -1,3 +1,0 @@
-pyttsx3 
-sudo apt install espeak 
-pyaudio
