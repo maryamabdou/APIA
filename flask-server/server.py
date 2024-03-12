@@ -19,7 +19,8 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
 mysql = MySQL(app)
 
-score = 250
+total_score = 250
+similarity_score = 0
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -50,16 +51,16 @@ def signup():
 
 @app.route("/similarity", methods=['POST'])
 def similarity():
-    global score
+    global similarity_score
     data = request.get_json()
     received_text = data.get('text', '')
     print(received_text[0])
     print(received_text[1])
     cosine_scores = sentSim(received_text[0], received_text[1])
     if cosine_scores < 0.6:
-        score = score - 5
-    print('similarity score: ',cosine_scores)
-    print('total score: ',score)
+        similarity_score = similarity_score + 5
+    print('similarity score: ', cosine_scores)
+    print('similarity score: ', similarity_score)
     return "completed"
 
 @app.route("/fer", methods=['POST'])
