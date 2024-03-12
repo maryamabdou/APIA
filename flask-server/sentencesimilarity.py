@@ -23,7 +23,7 @@ def sentSim(sentences1, sentences2):
 
     # Compute cosine-similarities
     cosine_scores = util.cos_sim(embeddings1, embeddings2)
-    return cosine_scores
+    return float(cosine_scores[0][0])
     # Output the pairs with their score
     # for i in range(len(sentences1)):
     #     print("{} \t\t {} \t\t Score: {:.4f}".format(

@@ -5,7 +5,7 @@ from firebase import firebase
 import os
 from flask_mysqldb import MySQL
 from flask import Flask, request, jsonify;
-# from gtts import gTTS
+from gtts import gTTS
 import uuid
 import pyttsx3
 from time import sleep
@@ -17,9 +17,10 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
+score = 250
 
 mysql = MySQL(app)
-@app.route('/signup',methods=["POST"])
+@app.route('/signup', methods=["POST"])
 def signup():
     print("Hello, this is a debug message!")
     data = request.json
@@ -46,12 +47,16 @@ def signup():
 
 @app.route("/similarity", methods=['POST'])
 def similarity():
+    global score
     data = request.get_json()
     received_text = data.get('text', '')
     print(received_text[0])
     print(received_text[1])
     cosine_scores = sentSim(received_text[0], received_text[1])
-    print(float(cosine_scores[0][0]))
+    if cosine_scores < 0.6:
+        score = score - 5
+    print('similarity score: ',cosine_scores)
+    print('total score: ',score)
     return "completed"
 
 @app.route('/uploadText', methods=['POST'])
@@ -64,21 +69,21 @@ def upload_audio():
     print(fileName)
     index = 0
     # for question in received_text:
-        # tts = gTTS(received_text[0], tld="co.za")
-        # audio_path = 'Avatar/audio.wav'
-        # tts.save(audio_path)
-    engine = pyttsx3.init("espeak")
-    rate = engine.getProperty('rate')
-    engine.setProperty('rate', rate+30)
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[10].id)
+    tts = gTTS(received_text[0], tld="us")
+    audio_path = 'Avatar/audio.wav'
+    tts.save(audio_path)
+    # engine = pyttsx3.init("espeak")
+    # rate = engine.getProperty('rate')
+    # engine.setProperty('rate', rate+30)
+    # voices = engine.getProperty('voices')
+    # engine.setProperty('voice', voices[10].id)
     # for voice in voices:
     #     if voice.languages[0] == 'en-US' and 'male' in voice.name.lower():
     #         engine.setProperty('voice', voice.id)
     #         break
-    engine.save_to_file(received_text[0], "Avatar/audio.wav")
-    engine.say(received_text[0])
-    engine.runAndWait()
+    # engine.save_to_file(received_text[0], "Avatar/audio.wav")
+    # engine.say(received_text[0])
+    # engine.runAndWait()
     # while "audio.wav" not in os.listdir("Avatar"):
     #     sleep(1)
 

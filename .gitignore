@@ -9,6 +9,7 @@ flask-server/Avatar/Wav2Lip/model_cache/model_cache.pth
 .pnp.js
 *.pyc
 *.pth
+
 # testing
 /coverage
 
