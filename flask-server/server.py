@@ -60,7 +60,7 @@ def similarity():
     if cosine_scores < 0.6:
         similarity_score = similarity_score + 5
     print('similarity score: ', cosine_scores)
-    print('similarity score: ', similarity_score)
+    print('score: ', similarity_score)
     return "completed"
 
 @app.route("/fer", methods=['POST'])
