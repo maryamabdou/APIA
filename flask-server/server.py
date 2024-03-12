@@ -5,7 +5,7 @@ from firebase import firebase
 import os
 from flask_mysqldb import MySQL
 from flask import Flask, request, jsonify;
-from gtts import gTTS
+# from gtts import gTTS
 import uuid
 import pyttsx3
 from time import sleep
@@ -50,9 +50,9 @@ def similarity():
     received_text = data.get('text', '')
     print(received_text[0])
     print(received_text[1])
-    # cosine_scores = sentSim(1)
-    # return {"members":[float(cosine_scores[0][0]),float(cosine_scores[1][1]),float(cosine_scores[2][2])]}
-    return "hello"
+    cosine_scores = sentSim(received_text[0], received_text[1])
+    print(float(cosine_scores[0][0]))
+    return "completed"
 
 @app.route('/uploadText', methods=['POST'])
 def upload_audio():

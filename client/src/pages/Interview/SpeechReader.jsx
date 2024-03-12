@@ -112,7 +112,7 @@ const SpeechReader = () => {
         // handleSpeakClick(data);
 
         setTimeout(() => {
-          SpeechRecognition.startListening()
+          SpeechRecognition.startListening({continuous: true})
           
         }, 10000); //get size q from vid avatar
       }
@@ -128,7 +128,7 @@ const SpeechReader = () => {
       setQuest(data);
   
       setTimeout(() => {
-        SpeechRecognition.startListening()
+        SpeechRecognition.startListening({continuous: true})
       }, 10000); //get size q from vid avatar
   };
   

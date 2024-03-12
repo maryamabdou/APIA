@@ -28,7 +28,7 @@ Go to flask-server folder
 Install Dependencies
 
 ```bash
-  pip install requirements.txt
+  pip install -r requirements.txt
 ```
 
 Start the server
