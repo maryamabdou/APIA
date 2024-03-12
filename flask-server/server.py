@@ -23,11 +23,11 @@ mysql = MySQL(app)
 @app.route('/signup', methods=["POST"])
 def signup():
     print("Hello, this is a debug message!")
-    data = request.json
+    data = request.get_json()
+    # data = request.json
     username = data['username']
     email = data['email']
     password = data['password']
-    
 
     cursor = mysql.connection.cursor()
     cursor.execute(''' CREATE TABLE Customer (
@@ -41,9 +41,11 @@ def signup():
         score INT               -- Example data type for age
     ); ''')
 
-    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-    mysql.commit()
+    cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+    mysql.connection.commit()
     cursor.close()
+
+    return jsonify({'message': 'User signed up successfully'})
 
 @app.route("/similarity", methods=['POST'])
 def similarity():
