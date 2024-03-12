@@ -11,9 +11,9 @@ import Firstpage from "./pages/FirstPage/Firstpage";
 function App() {
   return (
     <div>
-      <Interview />
+      {/* <Interview /> */}
       {/* <Upload /> */}
-      {/* <Router>
+      <Router>
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<LoginPage />} />
@@ -22,7 +22,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/interview" element={<Interview />} />
         </Routes>
-      </Router>  */}
+      </Router> 
     </div>
   );
 }
