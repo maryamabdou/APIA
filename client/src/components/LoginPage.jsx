@@ -6,7 +6,6 @@ import Button from './Button';
 import LoginLeftSide from './LoginLeftSide'
 import './LoginPage.css'
 
-
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

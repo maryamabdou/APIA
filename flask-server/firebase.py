@@ -12,10 +12,11 @@ class firebase():
         "serviceAccount": "serviceAccount.json",
         "databaseURL": "https://apia-72347-default-rtdb.firebaseio.com/"
         }
-        # firebase = pyrebase.initialize_app(config)
+        # firebase = pyrebase.initialize_app(self.config)
         # storage = firebase.storage()
+        # database = firebase.database()
 
-        # return storage
+        # return storage, database
 
     def initialize(self):
         firebase = pyrebase.initialize_app(self.config)
