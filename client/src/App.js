@@ -1,6 +1,7 @@
 import "./App.css";
-import LoginPage from "./components/LoginPage";
+//import LoginPage from "./components/LoginPage";
 import Signin_popup from "./components/Signin_popup";
+import Login_Popup from "./components/Login_Popup";
 import Interview from "./pages/Interview/Interview";
 import Firstpage from "./pages/FirstPage/Firstpage"
 import React from "react";
@@ -14,7 +15,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Main />} />
 
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<Login_Popup />} />
           <Route path="/signup" element={<Signin_popup />} />
           
 

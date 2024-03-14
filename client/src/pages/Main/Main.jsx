@@ -68,7 +68,7 @@ function Main() {
 
                     
 
-                <a className="navbar-brand" onClick={()=>setvisible(true)}>Login</a>
+                <a className="navbar-brand"  onClick={()=>setvisible(true)}>Login</a>
                     <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
@@ -77,6 +77,7 @@ function Main() {
                         height:'70%',
                         margin: 'auto',
                         backgroundColor: "#B8A995",
+                        
                       } 
                 }}>
                         <Login_Popup/>

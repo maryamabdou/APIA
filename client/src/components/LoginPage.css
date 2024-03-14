@@ -67,16 +67,17 @@
 }
 
 .error-card {
-  background-color: #fde0d0;
-  color: #e31a1a;
+  /* background-color: #fde0d0;   */
+  color:#cc0000;
   width: 50%;
   height: 6.3em;
-  padding: 0.8em 1.6em;
+  display: inline;
+   padding: 1em 1.6em;  
   border-radius: 1em;
   margin-bottom: 1em;
   font-family: Poppins-SemiBold;
   font-size: 0.875em;
-  line-height: 1.3;
+  line-height: 1.2;
   font-weight: 600;
 }
 

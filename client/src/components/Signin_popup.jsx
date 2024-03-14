@@ -1,57 +1,46 @@
 import React, { useState } from 'react';
-import axios from "axios";
+//import axios from "axios";
 import TextBox from './TextBox';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
 
 
 const Signin_popup = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPass, setConfirmPass] = useState('');
-    const [email, setEmail] = useState('');
+  
     const [error, setError] = useState('');
-   
-
-   
      const navigate = useNavigate();
-    // const handleLogin = async (event) => {
-    //const endpoint = "http://localhost:5000/database";
-    // const data = { username, password };
-    // event.preventDefault();
-
     const [formData, setFormData] = useState({
       username: '',
       email: '',
       password: '',
       confirmPass:''
     });
-  
-    // if (!username || !password) {
-    //   setError("Please fill in all the fields.");
-    //   return;
-    // }
-  
-    // try {
-    //   const response = await axios.post(endpoint, data);
-  
-    //   if (response.status === 201) {
-    //     navigate("/main");
-    //   } else {
-    //     setError(`Login Failed, Server returned status ${response.status}`);
-    //   }
-    // } catch (error) {
-    //   setError(`Login Failed. ${error.message}`);
-    // }
-  
+    
   
     
-    // const handleChange = (e) => {
-    //   setFormData({ ...formData, [e.target.name]: e.target.value });
-      
-    // };
-    const handleSubmit = async () => {
+    const isEmailValid = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      if (!formData.username || !formData.email || !formData.password || !formData.confirmPass) {
+        // setError("Please Fill In All The Fields.");
+        alert("Please Fill In All The Fields.");
+        return ;
+      }
+      if (!isEmailValid(formData.email)) {
+        //setError("Please enter a valid email address.");
+        alert("Please enter a valid email address.")
+        return;
+      }
+
+      if (formData.password!==formData.confirmPass) {
+       // setError("Password and confirm password do not match.");
+       alert("Password and confirm password do not match.")
+        return;
+      }
       try {
       fetch('/signup', {
                 method: 'POST',
@@ -62,10 +51,10 @@ const Signin_popup = () => {
             .then(responseData => {
                 console.log(responseData); // Response from Flask route
             });
-        //console.log("formData");
-//         const response = await axios.post('http://127.0.0.1:5000/signup', formData);
+           
         console.log("formData");
         //console.log(response.data);
+        alert('successfull');
        navigate('/firstpage');
       } catch (error) {
         console.error('Error:', error);
@@ -79,11 +68,7 @@ const Signin_popup = () => {
         </div>
         
         <form className = 'form' >
-        {error && (
-          <div className="error-card">
-            <p>{error}</p>
-          </div>
-        )}
+        
 
           <div className = 'textbox'>
             <TextBox id="input"
@@ -138,19 +123,27 @@ const Signin_popup = () => {
   }}
               placeholder="ConfirmPassword"
             />
+            {error && (
+          //<div className="error-card">
+          <div className="error-card" style={{ marginBottom: '1em', position: 'relative', bottom: '0', left: '-80%' }}>
+            <p>{error}</p>
+            
+          </div>
+        )}
             </div>
             <br/>
             <br/>
             <br/>
             <br/>
-            <br/>
-            <br/>
-            <br/>
+            
+            
+           
 
             
             
              {/* <Button label="Sign In" onClick={() => navigate("/firstpage")}/>  */}
-             <Button label="Sign In" onClick={handleSubmit}/>
+             <Button label="Sign In" onClick={handleSubmit} />
+             <a href='/login' style={{ color: 'black', fontFamily: 'Arial', fontSize: '16px', fontWeight: 'bold' }}>Already Have an Account ?</a>
            {/* <input type = "submit" value = "Sign In"  /> */}
         </form>
       </div>
