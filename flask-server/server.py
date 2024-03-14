@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-from firebase import firebase
+# from firebase import firebase
 import os
 from flask_mysqldb import MySQL
 from gtts import gTTS
@@ -11,8 +11,8 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+# f = firebase()
+# storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
