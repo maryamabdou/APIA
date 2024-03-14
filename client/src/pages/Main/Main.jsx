@@ -1,4 +1,4 @@
-import {React,useState, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 import * as bootstrap from 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -7,7 +7,6 @@ import simInt_image from "../../assets/images/portfolio/thumbnails/1.jpg";
 import emotionRecog_image from "../../assets/images/portfolio/thumbnails/2.jpg";
 import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
 import "./styles.css";
-
 import Model from 'react-modal';
 import Login_Popup from "../../components/Login_Popup";
 import Signin_popup from "../../components/Signin_popup";
@@ -68,7 +67,7 @@ function Main() {
 
                     
 
-                <a className="navbar-brand"  onClick={()=>setvisible(true)}>Login</a>
+                <a className="navbar-brand" onClick={()=>setvisible(true)}>Login</a>
                     <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
@@ -77,7 +76,6 @@ function Main() {
                         height:'70%',
                         margin: 'auto',
                         backgroundColor: "#B8A995",
-                        
                       } 
                 }}>
                         <Login_Popup/>

@@ -3,8 +3,14 @@
 # dependencies
 client/node_modules
 /.vscode
+flask-server/Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth
+flask-server/Avatar/Wav2Lip/model_cache/model_cache.pth
+flask-server/__pycache__
+flask-server/Fer/model
 /.pnp
 .pnp.js
+*.pyc
+*.pth
 
 # testing
 /coverage
