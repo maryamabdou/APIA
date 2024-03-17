@@ -4,7 +4,8 @@ from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
 # from firebase import firebase
 import os
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 from gtts import gTTS
 import uuid
 import pyttsx3
@@ -13,11 +14,10 @@ from time import sleep
 app = Flask(__name__)
 # f = firebase()
 # storage, database = f.initialize()
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'flask'
-
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'flask'
 mysql = MySQL(app)
 
 @app.route('/login', methods=["POST"])
@@ -27,7 +27,8 @@ def login():
     # data = request.json
     username = data2['username']
     password = data2['password']
-    cursor = mysql.connection.cursor()
+    # cursor = mysql.connection.cursor()
+    cursor = mysql.get_db().cursor()
     # cursor.execute('''SELECT username, password FROM customer WHERE username = %s AND password = %s''', (username, password))
     query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
     cursor.execute(query, (username, password))
@@ -50,7 +51,8 @@ def signup():
     email = data['email']
     password = data['password']
 
-    cursor = mysql.connection.cursor()
+    # cursor = mysql.connection.cursor()
+    cursor = mysql.get_db().cursor()
     cursor.execute(''' CREATE TABLE Customer (
     username VARCHAR(255), 
     email VARCHAR(255),
@@ -68,7 +70,8 @@ def signup():
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
     query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
     cursor.execute(query, (username, email, password))
-    mysql.connection.commit()
+    # mysql.connection.commit()
+    mysql.get_db().commit()
     cursor.close()
 
     return jsonify({'message': 'User signed up successfully'})
