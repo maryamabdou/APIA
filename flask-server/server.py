@@ -29,7 +29,7 @@ def login():
     password = data2['password']
     cursor = mysql.connection.cursor()
     # cursor.execute('''SELECT username, password FROM customer WHERE username = %s AND password = %s''', (username, password))
-    query = '''SELECT username, password FROM customer WHERE username = %s AND password = %s'''
+    query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
     cursor.execute(query, (username, password))
     result = cursor.fetchone()  # Fetch the first row
 
@@ -51,16 +51,19 @@ def signup():
     password = data['password']
 
     cursor = mysql.connection.cursor()
-    # cursor.execute(''' CREATE TABLE Customer (
-    # username VARCHAR(255), 
-    # email VARCHAR(255),
-    # password VARCHAR(255)             
-    # ); ''')
-    # cursor.execute(''' CREATE TABLE History (
-    #   time VARCHAR(255), 
-    #     type VARCHAR(255),
-    #     score INT               -- Example data type for age
-    # ); ''')
+    cursor.execute(''' CREATE TABLE Customer (
+    username VARCHAR(255), 
+    email VARCHAR(255),
+    password VARCHAR(255)             
+    ); ''')
+    cursor.execute(''' CREATE TABLE History (
+      time VARCHAR(255), 
+        type VARCHAR(255),
+        eyeScore INT,
+        faceScore INT,
+        AnswerScore INT,
+        score INT               -- Example data type for age
+    ); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
     query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
