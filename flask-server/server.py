@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-from firebase import firebase
+# from firebase import firebase
 import os
 from flask_mysqldb import MySQL
 from gtts import gTTS
@@ -11,16 +11,35 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+# f = firebase()
+# storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
+
 mysql = MySQL(app)
 
-total_score = 250
-similarity_score = 0
+@app.route('/login', methods=["POST"])
+def login():
+    print("Hello, this is a debug message of login!")
+    data2 = request.get_json()
+    # data = request.json
+    username = data2['username']
+    password = data2['password']
+    cursor = mysql.connection.cursor()
+    # cursor.execute('''SELECT username, password FROM customer WHERE username = %s AND password = %s''', (username, password))
+    query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
+    cursor.execute(query, (username, password))
+    result = cursor.fetchone()  # Fetch the first row
+
+    if result:
+        print("done")
+        return jsonify({'message': 'success'})
+    else:
+        print("error")
+        return jsonify({'message': 'Invalid username or password'}), 401
+       
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -40,10 +59,15 @@ def signup():
     cursor.execute(''' CREATE TABLE History (
       time VARCHAR(255), 
         type VARCHAR(255),
+        eyeScore INT,
+        faceScore INT,
+        AnswerScore INT,
         score INT               -- Example data type for age
     ); ''')
 
-    cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+    # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+    query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
+    cursor.execute(query, (username, email, password))
     mysql.connection.commit()
     cursor.close()
 
@@ -132,6 +156,7 @@ def upload_audio():
 @app.route("/")
 def home():
     return "hello"
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -19,7 +19,6 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<Signin_popup />} />
           <Route path="/firstpage" element={<Firstpage />} />
-          <Route path="/main" element={<Main />} />
           <Route path="/interview" element={<Interview />} />
         </Routes>
       </Router> 
