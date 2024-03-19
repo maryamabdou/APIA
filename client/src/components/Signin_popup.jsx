@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import TextBox from './TextBox';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import "./SignUp.css"
 //import { withRouter } from 'react-router-dom';
 
 
@@ -143,7 +144,6 @@ const Signin_popup = () => {
             
              {/* <Button label="Sign In" onClick={() => navigate("/firstpage")}/>  */}
              <Button label="Sign In" onClick={handleSubmit} />
-             <a href='/login' style={{ color: 'black', fontFamily: 'Arial', fontSize: '16px', fontWeight: 'bold' }}>Already Have an Account ?</a>
            {/* <input type = "submit" value = "Sign In"  /> */}
         </form>
       </div>

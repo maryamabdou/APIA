@@ -1,0 +1,71 @@
+.signup-page {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.form {
+  width: 30%;
+  height: 20%;
+  margin: 15% auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4%;
+  margin-right: 14%;
+  margin-top: 10%;
+  margin-bottom: 0em;
+}
+
+.twelve h1 {
+  font-size: 50px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 160px;
+  text-align: center;
+  margin: auto;
+  white-space: nowrap;
+  margin-top: 5%;
+}
+.twelve h1:before {
+  background-color: orangered;
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100px;
+  margin-bottom: 5px;
+  margin-left: -20%;
+}
+.twelve h1:after {
+  background-color: orangered;
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100px;
+  margin-left: 50%;
+}
+
+.textbox {
+  gap: 1%;
+  width: Fixed (558px);
+  height: Fixed (60px);
+  padding: 18px, 26px, 18px, 26px;
+  border-radius: 45px;
+  border: 1px;
+}
+
+.error-card {
+  /* background-color: #fde0d0;   */
+  color: #cc0000;
+  width: 50%;
+  height: 6.3em;
+  display: inline;
+  padding: 1em 1.6em;
+  border-radius: 1em;
+  margin-bottom: 1em;
+  font-family: Poppins-SemiBold;
+  font-size: 0.875em;
+  line-height: 1.2;
+  font-weight: 600;
+}

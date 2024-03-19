@@ -141,21 +141,15 @@ const Login_Popup = () => {
             <br/>
             
             <Button label="Login"  onClick={handleSubmit}/>
-            <div className='click-text'>
+        {/*    <div className='click-text'>
             {/* <span onClick={() => navigate("/signup")} style={{ cursor: 'pointer'}}>
                 Create an Account ?
-            </span> */}
+            </span> 
             <a href="./signup" style={{ color:'black', fontSize: '16px', fontWeight: 'bold',cursor: 'pointer'}}>Create an Account ?</a>
-            <div className='forgot_password'>
-            {/* <span onClick={() => navigate("/signup")} style={{ cursor: 'pointer'}}>
-                Forgot Password?
-            </span> */}
-            <a href="./signup" style={{color:'black', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer'}}>Forgot Password?</a>
-            <div className='forgot_password'></div>
-            </div>
-            </div>
+            </div>*/}
         </form>
       </div>
+            
   );
 };
 export default Login_Popup;
