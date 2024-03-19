@@ -50,6 +50,8 @@ parser.add_argument('--rotate', default=False, action='store_true',
 parser.add_argument('--nosmooth', default=False, action='store_true',
 					help='Prevent smoothing face detections over a short temporal window')
 
+# parser.add_argument('--device', type=str, default='auto', help='If you need to run cpu/gpu (cpu, 0, 1, 2, ...)')
+
 args = parser.parse_args()
 args.img_size = 96
 
@@ -257,20 +259,20 @@ def main():
 	for i, (img_batch, mel_batch, frames, coords) in enumerate(tqdm(gen, 
 											total=int(np.ceil(float(len(mel_chunks))/batch_size)))):
 		if i == 0:
-			# model = load_model(args.checkpoint_path)
-			# print ("Model loaded")
+			model = load_model(args.checkpoint_path)
+			print ("Model loaded")
 
 			# Check if the model is already in the cache
-			CACHE_FILE_PATH = "Avatar/Wav2Lip/model_cache/model_cache.pth"
-			if not os.path.exists(CACHE_FILE_PATH):
-				# If not, load the model and save it to the cache
-				model = load_model(args.checkpoint_path)
-				save_model_to_cache(model, CACHE_FILE_PATH)
-				print ("Model loaded")
-			else:
-				# If yes, load the model from the cache
-				model = load_model_from_cache(CACHE_FILE_PATH)
-				print ("Model loaded from cashe")
+			# CACHE_FILE_PATH = "Avatar/Wav2Lip/model_cache/model_cache.pth"
+			# if not os.path.exists(CACHE_FILE_PATH):
+			# 	# If not, load the model and save it to the cache
+			# 	model = load_model(args.checkpoint_path)
+			# 	save_model_to_cache(model, CACHE_FILE_PATH)
+			# 	print ("Model loaded")
+			# else:
+			# 	# If yes, load the model from the cache
+			# 	model = load_model_from_cache(CACHE_FILE_PATH)
+			# 	print ("Model loaded from cashe")
 			
 
 			print("full frames: ", full_frames[0].shape)

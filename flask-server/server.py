@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-# from firebase import firebase
+from firebase import firebase
 import os
 from flask_mysqldb import MySQL
 from gtts import gTTS
@@ -11,14 +11,21 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-# f = firebase()
-# storage, database = f.initialize()
+f = firebase()
+storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
+
+d = FaceEmotionDetection()
+prediction = []
+similarity_score = 0
+fer_score = 0
+eye_score = 0
+score = 300
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -84,20 +91,40 @@ def similarity():
     if cosine_scores < 0.6:
         similarity_score = similarity_score + 5
     print('similarity score: ', cosine_scores)
-    print('score: ', similarity_score)
+    print('sim score: ', similarity_score)
+    # send to database
     return "completed"
 
 @app.route("/fer", methods=['POST'])
 def fer():
+    global prediction
+    global fer_score
+    sad_score = 0
+    fear_score = 0
     data = request.get_json()
     method = data.get('text', '')
-    prediction = []
     if method == 1:
-        d = FaceEmotionDetection()
-        prediction = Response(d.predict())
+        for i in d.predict():
+            prediction = i
     else:
         print(prediction)
+        sad_score =  prediction.count("Sad")
+        fear_score = prediction.count("Fearful")
+        fer_score = fer_score + (sad_score * 3 + fear_score * 3)
+        print('fer score: ', fer_score)
+        # send to database
     # return Response(d.predict())
+    return "completed"
+
+@app.route("/score")
+def interviewScore():
+    global similarity_score
+    global fer_score
+    global eye_score
+    global score
+    
+    score = score - (similarity_score + fer_score + eye_score)
+    # send to database
     return "completed"
 
 @app.route('/uploadText', methods=['POST'])
@@ -105,52 +132,62 @@ def upload_audio():
     data = request.get_json()
     received_text = data.get('text', '')
     fileName = received_text[len(received_text) - 1]
+    # fileName = fileName[:-4]
     received_text.pop()
     print(received_text[0])
     print(fileName)
+
     index = 0
-    # for question in received_text:
-    # tts = gTTS(received_text[0], tld="us")
-    # audio_path = 'Avatar/audio.wav'
-    # tts.save(audio_path)
-    engine = pyttsx3.init()
-    rate = engine.getProperty('rate')
-    engine.setProperty('rate', rate+30)
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[10].id)
-    # for voice in voices:
-    #     if voice.languages[0] == 'en-US' and 'male' in voice.name.lower():
-    #         engine.setProperty('voice', voice.id)
-    #         break
-    engine.save_to_file(received_text[0], "Avatar/audio.wav")
-    engine.say(received_text[0])
-    engine.runAndWait()
+    for question in received_text:
+        # tts = gTTS(received_text[0], tld="us")
+        # audio_path = 'Avatar/audio.wav'
+        # tts.save(audio_path)
+        engine = pyttsx3.init()
+        rate = engine.getProperty('rate')
+        engine.setProperty('rate', rate-10)
+        voices = engine.getProperty('voices')
+        # for voice in voices:
+        #     print("Voice:", voice.name)
+        #     print(" - ID: %s" % voice.id)
+        #     print(" - Languages: %s" % voice.languages)
+        #     print(" - Gender: %s" % voice.gender)
+        #     print(" - Age: %s" % voice.age)
+        engine.setProperty('voice', voices[10].id)
+        # engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+        # for voice in voices:
+        #     if voice.languages == 'en-us' and voice.gender =='male' in voice.name.lower():
+        #         engine.setProperty('voice', voice.id)
+        #         break
+        engine.save_to_file(question, "Avatar/audio.wav")
+        # engine.say(received_text[0])
+        engine.runAndWait()
+        
     # while "audio.wav" not in os.listdir("Avatar"):
     #     sleep(1)
 
-        # audio_name = "audio"+str(uuid.uuid4())+".wav"
-        # audio_data = {
-        #     "id": index,
-        #     "filename": audio_name
-        # }
-        # storage.child(fileName+"audios/"+audio_name).put("Avatar/audio.wav")
-        # database.child(fileName+"audios").child(str(index)).set(audio_data)
+        audio_name = "audio"+str(uuid.uuid4())+".wav"
+        audio_data = {
+            "id": index,
+            "filename": audio_name
+        }
+        storage.child(fileName+"/audios/"+audio_name).put("Avatar/audio.wav")
+        database.child(fileName+"/audios/"+str(index)).set(audio_data)
         
-        # command = "python3 Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/talking.mp4 --audio Avatar/audio.wav"
-        # try:
-        #     os.system(command)
-        #     video_name = "video"+str(uuid.uuid4())+".mp4"
-        #     video_data = {
-        #         "id": index,
-        #         "filename": video_name  # Extract filename if needed
-        #     }
-        #     storage.child(fileName+"videos/"+video_name).put("./Avatar/result_video.mp4")
-        #     database.child(fileName+"videos").child(str(index)).set(video_data)
-        #     print("completed "+ str(index))
-        # except Exception as e:
-        #     print("not completed: "+ e)
+        command = "python3 Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/animation.mp4 --audio Avatar/audio.wav"
+        try:
+            os.system(command)
+            video_name = "video"+str(uuid.uuid4())+".mp4"
+            video_data = {
+                "id": index,
+                "filename": video_name  # Extract filename if needed
+            }
+            storage.child(fileName+"/videos/"+video_name).put("./Avatar/result_video.mp4")
+            database.child(fileName+"/videos/"+str(index)).set(video_data)
+            print("completed "+ str(index))
+        except Exception as e:
+            print("not completed: "+ e)
 
-        # index+=1
+        index+=1
     return "completed"
 
 @app.route("/")
