@@ -49,13 +49,22 @@ const Signin_popup = () => {
             })
             .then(response => response.json())
             .then(responseData => {
+              // const messages = responseData.messages; // Access the list of messages
+
+    // // messages.forEach(messageObject => {
+    // //   const message = messageObject.message;
+    //   console.log(message); 
+      
+    // });
+              
                 console.log(responseData); // Response from Flask route
             });
+            
            
         console.log("formData");
         //console.log(response.data);
-        alert('successfull');
-       navigate('/firstpage');
+      alert('successfull');
+      navigate('/firstpage', { state: { username: formData.username } });
       } catch (error) {
         console.error('Error:', error);
       }

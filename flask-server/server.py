@@ -4,10 +4,11 @@ from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
 from firebase import firebase
 import os
+import json
 from flask_mysqldb import MySQL
 from gtts import gTTS
 import uuid
-import pyttsx3
+# import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
@@ -21,11 +22,30 @@ app.config['MYSQL_DB'] = 'flask'
 mysql = MySQL(app)
 
 d = FaceEmotionDetection()
+
 prediction = []
 similarity_score = 0
 fer_score = 0
 eye_score = 0
 score = 300
+
+@app.route('/firstpage', methods=["POST"])
+def firstpage():
+    print("Hello, this is a debug message of firstpage!")
+    data3 = request.get_json()
+    # data = request.json
+    print(data3)
+    username = data3
+    # data_dict = json.loads(data3)
+
+    # username = data_dict['username']
+    print(username)
+    cursor = mysql.connection.cursor()
+    query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
+    cursor.execute(query2, (username,))
+    result2 = cursor.fetchone() 
+    print(result2)
+    return jsonify({'message': result2})
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -39,13 +59,21 @@ def login():
     query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
     cursor.execute(query, (username, password))
     result = cursor.fetchone()  # Fetch the first row
-
+       
     if result:
         print("done")
-        return jsonify({'message': 'success'})
+        
+        # data = [
+        #     {'message': 'success'},
+        #     {'message': result2}
+        # ]
+        # return jsonify(data)
+        return jsonify({'message': "success"})
+        
     else:
         print("error")
         return jsonify({'message': 'Invalid username or password'}), 401
+    
        
 
 @app.route('/signup', methods=["POST"])
@@ -58,27 +86,35 @@ def signup():
     password = data['password']
 
     cursor = mysql.connection.cursor()
-    cursor.execute(''' CREATE TABLE Customer (
-    username VARCHAR(255), 
-    email VARCHAR(255),
-    password VARCHAR(255)             
-    ); ''')
-    cursor.execute(''' CREATE TABLE History (
-      time VARCHAR(255), 
-        type VARCHAR(255),
-        eyeScore INT,
-        faceScore INT,
-        AnswerScore INT,
-        score INT               -- Example data type for age
-    ); ''')
+    # cursor.execute(''' CREATE TABLE Customer (
+    # id INT AUTO_INCREMENT PRIMARY KEY,
+    # username VARCHAR(255), 
+    # email VARCHAR(255),
+    # password VARCHAR(255)  
+               
+    # ); ''')
+    # cursor.execute(''' CREATE TABLE History (
+    #   time VARCHAR(255), 
+        
+    #     eyeScore INT,
+    #     faceScore INT,
+    #     AnswerScore INT,
+    #     score INT               -- Example data type for age
+    # ); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+#     data2 = [
+#     {'message': 'success'},
+#     {'message': 'Message 2'}
+# ]
     query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
     cursor.execute(query, (username, email, password))
     mysql.connection.commit()
     cursor.close()
-
-    return jsonify({'message': 'User signed up successfully'})
+    # return jsonify(data2)
+   
+   
+   
 
 @app.route("/similarity", methods=['POST'])
 def similarity():

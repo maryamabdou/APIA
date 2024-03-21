@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 import * as bootstrap from 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -7,8 +7,19 @@ import simInt_image from "../../assets/images/portfolio/thumbnails/1.jpg";
 import emotionRecog_image from "../../assets/images/portfolio/thumbnails/2.jpg";
 import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
 import "./style.css";
+//  import formData2 from "../../components/Login_Popup";
+import { useLocation } from 'react-router-dom';
+import Login_Popup from "../../components/Login_Popup";
 
 function Firstpage() {
+    const location = useLocation();
+    const [username, setUsername] = useState('');
+  
+    useEffect(() => {
+      if (location.state && location.state.username) {
+        setUsername(location.state.username);
+      }
+    }, [location.state]);
     useEffect(() => {
         // Navbar shrink function
         const navbarShrink = () => {
@@ -52,6 +63,24 @@ function Firstpage() {
         });
 
     }, []);
+    const handleClick = async (event) => {
+        event.preventDefault();
+        console.log(username)
+        
+        try {
+          const response = await fetch('/firstpage', {
+              method: 'POST',
+              body: JSON.stringify(username),
+              headers: { 'Content-Type': 'application/json' }
+          });
+          
+          const responseData = await response.json();
+          console.log(responseData.message)
+        //   response data feha el rage3 mn history
+        } catch (error) {
+            console.error('Error:', error);
+        }
+      };
 
     return (
         <div>
@@ -65,7 +94,7 @@ function Firstpage() {
                     
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto my-2 my-lg-0">
-                            <li className="nav-item"><a className="nav-link" href="#about">History</a></li>
+                            <li className="nav-item"><a className="nav-link" href="#about" onClick={handleClick}>History</a></li>
                             <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>
                             
                             <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
