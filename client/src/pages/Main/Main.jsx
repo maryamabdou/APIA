@@ -1,4 +1,5 @@
 import {React, useEffect, useState} from "react";
+import { Link } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -9,11 +10,23 @@ import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
 import "./styles.css";
 import Model from 'react-modal';
 import Login_Popup from "../../components/Login_Popup";
+
 import Signin_popup from "../../components/Signin_popup";
+import "../../components/LoginPage.css"
 
 function Main() {
     const[visible,setvisible]=useState(false)
     const[visible2,setvisible2]=useState(false)
+
+    const openLoginModal = () => {
+        setvisible(true);
+        setvisible2(false);
+    };
+
+    const openSignUpModal = () => {
+        setvisible2(true);
+        setvisible(false);
+    };
 
     useEffect(() => {
         // Navbar shrink function
@@ -64,10 +77,7 @@ function Main() {
             {/* Navigation */}
             <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div className="container px-4 px-lg-5">
-
-                    
-
-                <a className="navbar-brand" onClick={()=>setvisible(true)}>Login</a>
+                <a className="navbar-brand" onClick={openLoginModal}>Login</a>
                     <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
@@ -79,6 +89,11 @@ function Main() {
                       } 
                 }}>
                         <Login_Popup/>
+                        <div className='click-text'>
+             <span onClick={openSignUpModal} style={{ color:'black',marginLeft:'56%', fontSize: '16px', fontWeight: 'bold',cursor: 'pointer'}}>
+                Create an Account ?
+            </span>
+            </div>
                         
                         {/* <a onClick={()=>setvisible(false)}>close model</a> */}
                     </Model>
@@ -86,7 +101,7 @@ function Main() {
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" onClick={()=>setvisible2(true)}>Sign Up</a>
+                    <a className="navbar-brand" onClick={openSignUpModal}>Sign Up</a>
                     <Model isOpen={visible2} onRequestClose={()=>setvisible2(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
@@ -100,6 +115,11 @@ function Main() {
                     
 
                         <Signin_popup/>
+                        <div className='click-text'>
+             <span onClick={openLoginModal} style={{ color: 'black',marginLeft:'52.5%' ,fontSize: '16px', fontWeight: 'bold',cursor: 'pointer' }}>
+                Already Have an Account ?
+            </span>
+            </div>
                         {/* <a onClick={()=>setvisible(false)}>close model</a> */}
                     </Model>
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

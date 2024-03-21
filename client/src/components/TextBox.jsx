@@ -1,5 +1,4 @@
-import React from 'react';
-import "./TextBox.css"
+import React from 'react'
 
 const TextBox = (props) => {
 
