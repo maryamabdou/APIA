@@ -51,8 +51,8 @@ class FaceEmotionDetection():
                         prediction.append(detection)
                 yield f"data:{prediction}\n\n"
             # cv2.imshow('Emotion Detection', frame)
-            # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     break
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
         camera.release()
         cv2.destroyAllWindows()

@@ -1,9 +1,9 @@
 import React, { useState , useEffect} from 'react';
-import { Box, Stack } from "@mui/material";
+import { adaptV4Theme, Box, Stack } from "@mui/material";
 // import questions from '../pages/Interview/questions.json';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { storage, database } from '../firebase';
-import { getDownloadURL, listAll, ref as storageRef } from "firebase/storage";
+import { getDownloadURL, listAll, ref as storageRef, uploadBytes } from "firebase/storage";
 import { ref as databaseRef, onValue } from "firebase/database";
 import Papa from "papaparse";
 
@@ -29,7 +29,12 @@ const Upload = () => {
     };
 
     const uploadQuestions = (event) => {
-        const fileName = event.target.files[0].name;
+        let fileName = event.target.files[0].name;
+        fileName = fileName.slice(0, -4);
+        const fileRef = storageRef(storage, fileName + "/file/" + event.target.files[0].name);
+        uploadBytes(fileRef, event.target.files[0]).then(() => {
+
+        })
 
         Papa.parse(event.target.files[0], {
             complete: function(results) {
