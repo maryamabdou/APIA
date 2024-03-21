@@ -39,7 +39,6 @@ const SpeechReader = () => {
   let answer = [];
   let totalQuestions = 0;
 
-  // const getQuestions = () => {
     // const fileRef = storageRef(storage, "questions/file/questions.csv");
     // getDownloadURL(fileRef)
     // .then((downloadURL) => {
@@ -50,12 +49,12 @@ const SpeechReader = () => {
     //   console.error("Error getting file URL:", error);
     // });
 
-    Papa.parse(question_file.current, {
+    Papa.parse(questions, {
       header: true,
       download: true,
       dynamicTyping: true,
       complete: function(results) {
-        // console.log(results.data)
+        console.log(results.data)
         results.data.map((d) => {
             question.push(Object.values(d)[1])
             answer.push(Object.values(d)[2])
@@ -66,7 +65,6 @@ const SpeechReader = () => {
         // answer.current = ans;
       }
     });
-  // }
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
