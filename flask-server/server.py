@@ -8,7 +8,7 @@ import json
 from flask_mysqldb import MySQL
 from gtts import gTTS
 import uuid
-# import pyttsx3
+import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
