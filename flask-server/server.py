@@ -25,14 +25,13 @@ app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
 
-<<<<<<< Updated upstream
-=======
 # d = FaceEmotionDetection()
 prediction = []
 similarity_score = 0
 fer_score = 0
 eye_score = 0
 score = 300
+
 @app.route('/firstpage', methods=["POST"])
 def firstpage():
     print("Hello, this is a debug message of firstpage!")
@@ -51,7 +50,6 @@ def firstpage():
     print(result2)
     return jsonify({'message': result2})
 
->>>>>>> Stashed changes
 @app.route('/login', methods=["POST"])
 def login():
     print("Hello, this is a debug message of login!")
