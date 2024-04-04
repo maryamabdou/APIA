@@ -10,10 +10,12 @@ import "./style.css";
 //  import formData2 from "../../components/Login_Popup";
 import { useLocation } from 'react-router-dom';
 import Login_Popup from "../../components/Login_Popup";
+import HistoryTable from "../../components/History";
 
 function Firstpage() {
     const location = useLocation();
     const [username, setUsername] = useState('');
+    const [response, setResponse] = useState(null);
   
     useEffect(() => {
       if (location.state && location.state.username) {
@@ -77,6 +79,7 @@ function Firstpage() {
           const responseData = await response.json();
           console.log(responseData.message)
         //   response data feha el rage3 mn history
+        setResponse(responseData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -111,6 +114,9 @@ function Firstpage() {
                             <h1 className="text-white font-weight-bold">APIA</h1>
                             <h3 className="text-white-75 mb-5">Your Interview Performance, Our Expertise</h3>
                             <hr className="divider" />
+                        </div>
+                        <div>
+                        {response && <HistoryTable response={response} />}
                         </div>
                         <div className="col-lg-8 align-self-baseline">
                             <h4 className="text-white-75 mb-5">Sharpen your interview edge. Simulate real-world scenarios with advanced AI coaching.</h4>
