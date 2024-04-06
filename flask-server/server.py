@@ -43,7 +43,7 @@ def firstpage():
     cursor = mysql.connection.cursor()
     query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
     cursor.execute(query2, (username,))
-    result2 = cursor.fetchone() 
+    result2 = cursor.fetchall() 
     print(result2)
     return jsonify({'message': result2})
 
@@ -94,12 +94,13 @@ def signup():
                
      #); ''')
     #cursor.execute(''' CREATE TABLE History (
-       #time VARCHAR(255), 
-        
-         #eyeScore INT,
-         #faceScore INT,
-         #AnswerScore INT,
-         #score INT               -- Example data type for age
+      #time VARCHAR(255), 
+        #id INT,
+        #eyeScore INT,
+        #faceScore INT,
+        #AnswerScore INT,
+        #score INT , 
+        #FOREIGN KEY (id) REFERENCES Customer(id)
      #); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))

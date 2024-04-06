@@ -66,6 +66,10 @@ function Firstpage() {
 
     }, []);
     const handleClick = async (event) => {
+        const historySection = document.getElementById('history');
+        if (historySection) {
+          historySection.scrollIntoView({ behavior: 'smooth' });
+        }
         event.preventDefault();
         console.log(username)
         
@@ -97,9 +101,8 @@ function Firstpage() {
                     
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto my-2 my-lg-0">
-                            <li className="nav-item"><a className="nav-link" href="#about" onClick={handleClick}>History</a></li>
+                            <li className="nav-item"><a className="nav-link" href="#history" onClick={handleClick}>History</a></li>
                             <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>
-                            
                             <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -115,9 +118,6 @@ function Firstpage() {
                             <h3 className="text-white-75 mb-5">Your Interview Performance, Our Expertise</h3>
                             <hr className="divider" />
                         </div>
-                        <div>
-                        {response && <HistoryTable response={response} />}
-                        </div>
                         <div className="col-lg-8 align-self-baseline">
                             <h4 className="text-white-75 mb-5">Sharpen your interview edge. Simulate real-world scenarios with advanced AI coaching.</h4>
                             <a className="btn btn-primary btn-xl" href="/interview">Start Interview</a>
@@ -127,14 +127,15 @@ function Firstpage() {
             </header>
 
             {/* About */}
-            <section className="page-section bg-primary" id="about">
+            <section className="page-section bg-primary" id="history">
                 <div className="container px-4 px-lg-5">
                     <div className="row gx-4 gx-lg-5 justify-content-center">
                         <div className="col-lg-8 text-center">
-                            <h2 className="text-white mt-0">We've got what you need!</h2>
-                            <hr className="divider divider-light" />
+                            <h2 className="text-white mt-0">Your History</h2>
+                           {/* <hr className="divider divider-light" />
                             <p className="text-white-75 mb-4">Unleash the power of AI in your job search! Meet APIA, the intelligent interview companion designed to elevate your performance and boost your confidence.</p>
-                            <a className="btn btn-light btn-xl" href="#services">Get Started!</a>
+    <a className="btn btn-light btn-xl" href="#services">Get Started!</a>*/}
+                            {response && <HistoryTable data={response} />}
                         </div>
                     </div>
                 </div>
