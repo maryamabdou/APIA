@@ -117,7 +117,7 @@ def signup():
    
    
 
-'''@app.route("/similarity", methods=['POST'])
+@app.route("/similarity", methods=['POST'])
 def similarity():
     global similarity_score
     data = request.get_json()
@@ -131,8 +131,8 @@ def similarity():
     print('sim score: ', similarity_score)
     # send to database
     return "completed"
-'''
-'''@app.route("/fer", methods=['POST'])
+
+@app.route("/fer", methods=['POST'])
 def fer():
     global prediction
     global fer_score
@@ -152,7 +152,7 @@ def fer():
         # send to database
     # return Response(d.predict())
     return "completed"
-'''
+
 @app.route("/score")
 def interviewScore():
     global similarity_score
@@ -164,7 +164,7 @@ def interviewScore():
     # send to database
     return "completed"
 
-'''@app.route('/uploadText', methods=['POST'])
+@app.route('/uploadText', methods=['POST'])
 def upload_audio():
     data = request.get_json()
     received_text = data.get('text', '')
@@ -219,7 +219,7 @@ def upload_audio():
 
         index+=1
     return "completed"
-'''
+
 @app.route("/")
 def home():
     return "hello"
