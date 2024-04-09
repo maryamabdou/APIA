@@ -182,20 +182,13 @@ def upload_audio():
         rate = engine.getProperty('rate')
         engine.setProperty('rate', rate-10)
         voices = engine.getProperty('voices')
-        # for voice in voices:
-        #     print("Voice:", voice.name)
-        #     print(" - ID: %s" % voice.id)
-        #     print(" - Languages: %s" % voice.languages)
-        #     print(" - Gender: %s" % voice.gender)
-        #     print(" - Age: %s" % voice.age)
-        engine.setProperty('voice', voices[10].id)
-        # engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+        # engine.setProperty('voice', voices[10].id)
+        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
         # for voice in voices:
         #     if voice.languages == 'en-us' and voice.gender =='male' in voice.name.lower():
         #         engine.setProperty('voice', voice.id)
         #         break
         engine.save_to_file(question, "Avatar/audio.wav")
-        # engine.say(received_text[0])
         engine.runAndWait()
         
     # while "audio.wav" not in os.listdir("Avatar"):
