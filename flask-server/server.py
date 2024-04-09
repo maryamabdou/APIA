@@ -202,7 +202,7 @@ def upload_audio():
         storage.child(fileName+"/audios/"+audio_name).put("Avatar/audio.wav")
         database.child(fileName+"/audios/"+str(index)).set(audio_data)
         
-        command = "python3 Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/animation.mp4 --audio Avatar/audio.wav"
+        command = "python Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/animation.mp4 --audio Avatar/audio.wav"
         try:
             os.system(command)
             video_name = "video"+str(uuid.uuid4())+".mp4"
