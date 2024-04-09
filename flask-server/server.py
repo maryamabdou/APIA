@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-#from firebase import firebase
+from firebase import firebase
 import os
 import json
 from flask_mysqldb import MySQL
@@ -12,8 +12,8 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-#f = firebase()
-#storage, database = f.initialize()
+f = firebase()
+storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -21,7 +21,7 @@ app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
 
-#d = FaceEmotionDetection()
+d = FaceEmotionDetection()
 
 prediction = []
 similarity_score = 0
@@ -43,7 +43,7 @@ def firstpage():
     cursor = mysql.connection.cursor()
     query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
     cursor.execute(query2, (username,))
-    result2 = cursor.fetchall() 
+    result2 = cursor.fetchone() 
     print(result2)
     return jsonify({'message': result2})
 
@@ -203,7 +203,7 @@ def upload_audio():
         storage.child(fileName+"/audios/"+audio_name).put("Avatar/audio.wav")
         database.child(fileName+"/audios/"+str(index)).set(audio_data)
         
-        command = "python3 Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/animation.mp4 --audio Avatar/audio.wav"
+        command = "python Avatar/Wav2Lip/inference.py --checkpoint_path Avatar/Wav2Lip/checkpoints/wav2lip_gan.pth --face Avatar/animation.mp4 --audio Avatar/audio.wav"
         try:
             os.system(command)
             video_name = "video"+str(uuid.uuid4())+".mp4"
