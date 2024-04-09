@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-from firebase import firebase
+#from firebase import firebase
 import os
 import json
 from flask_mysqldb import MySQL
@@ -12,8 +12,8 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+#f = firebase()
+#storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -21,7 +21,7 @@ app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
 
-d = FaceEmotionDetection()
+#d = FaceEmotionDetection()
 
 prediction = []
 similarity_score = 0
@@ -43,7 +43,7 @@ def firstpage():
     cursor = mysql.connection.cursor()
     query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
     cursor.execute(query2, (username,))
-    result2 = cursor.fetchone() 
+    result2 = cursor.fetchall() 
     print(result2)
     return jsonify({'message': result2})
 
@@ -86,21 +86,22 @@ def signup():
     password = data['password']
 
     cursor = mysql.connection.cursor()
-    # cursor.execute(''' CREATE TABLE Customer (
-    # id INT AUTO_INCREMENT PRIMARY KEY,
-    # username VARCHAR(255), 
-    # email VARCHAR(255),
-    # password VARCHAR(255)  
+    #cursor.execute(''' CREATE TABLE Customer (
+     #id INT AUTO_INCREMENT PRIMARY KEY,
+     #username VARCHAR(255), 
+     #email VARCHAR(255),
+     #password VARCHAR(255)  
                
-    # ); ''')
-    # cursor.execute(''' CREATE TABLE History (
-    #   time VARCHAR(255), 
-        
-    #     eyeScore INT,
-    #     faceScore INT,
-    #     AnswerScore INT,
-    #     score INT               -- Example data type for age
-    # ); ''')
+     #); ''')
+    #cursor.execute(''' CREATE TABLE History (
+      #time VARCHAR(255), 
+        #id INT,
+        #eyeScore INT,
+        #faceScore INT,
+        #AnswerScore INT,
+        #score INT , 
+        #FOREIGN KEY (id) REFERENCES Customer(id)
+     #); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
 #     data2 = [
@@ -116,7 +117,7 @@ def signup():
    
    
 
-@app.route("/similarity", methods=['POST'])
+'''@app.route("/similarity", methods=['POST'])
 def similarity():
     global similarity_score
     data = request.get_json()
@@ -130,8 +131,8 @@ def similarity():
     print('sim score: ', similarity_score)
     # send to database
     return "completed"
-
-@app.route("/fer", methods=['POST'])
+'''
+'''@app.route("/fer", methods=['POST'])
 def fer():
     global prediction
     global fer_score
@@ -151,7 +152,7 @@ def fer():
         # send to database
     # return Response(d.predict())
     return "completed"
-
+'''
 @app.route("/score")
 def interviewScore():
     global similarity_score
@@ -163,7 +164,7 @@ def interviewScore():
     # send to database
     return "completed"
 
-@app.route('/uploadText', methods=['POST'])
+'''@app.route('/uploadText', methods=['POST'])
 def upload_audio():
     data = request.get_json()
     received_text = data.get('text', '')
@@ -218,7 +219,7 @@ def upload_audio():
 
         index+=1
     return "completed"
-
+'''
 @app.route("/")
 def home():
     return "hello"
