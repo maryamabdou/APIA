@@ -10,6 +10,7 @@ import eyeTrack_image from "../../assets/images/portfolio/thumbnails/3.jpg";
 import "./styles.css";
 import Model from 'react-modal';
 import Login_Popup from "../../components/Login_Popup";
+
 import Signin_popup from "../../components/Signin_popup";
 import "../../components/LoginPage.css"
 
@@ -76,7 +77,7 @@ function Main() {
             {/* Navigation */}
             <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div className="container px-4 px-lg-5">
-                <a className="navbar-brand" onClick={openLoginModal} style={{ cursor: 'pointer' }}>Login</a>
+                <a className="navbar-brand" onClick={openLoginModal}>Login</a>
                     <Model isOpen={visible} onRequestClose={()=>setvisible(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
@@ -100,7 +101,7 @@ function Main() {
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" onClick={openSignUpModal} style={{ cursor: 'pointer' }}>Sign Up</a>
+                    <a className="navbar-brand" onClick={openSignUpModal}>Sign Up</a>
                     <Model isOpen={visible2} onRequestClose={()=>setvisible2(false)} style={{
                         overlay: { // Style for the overlay (background)
                             backgroundColor: 'rgba(0, 0, 0, 0.5)', // Black overlay with reduced opacity
