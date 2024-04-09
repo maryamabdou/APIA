@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-from firebase import firebase
+#from firebase import firebase
 import os
 import json
 from flask_mysqldb import MySQL
@@ -12,8 +12,8 @@ import pyttsx3
 from time import sleep
 
 app = Flask(__name__)
-f = firebase()
-storage, database = f.initialize()
+#f = firebase()
+#storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -21,7 +21,7 @@ app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
 
-d = FaceEmotionDetection()
+#d = FaceEmotionDetection()
 
 prediction = []
 similarity_score = 0
@@ -43,7 +43,7 @@ def firstpage():
     cursor = mysql.connection.cursor()
     query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
     cursor.execute(query2, (username,))
-    result2 = cursor.fetchone() 
+    result2 = cursor.fetchall() 
     print(result2)
     return jsonify({'message': result2})
 
@@ -86,21 +86,22 @@ def signup():
     password = data['password']
 
     cursor = mysql.connection.cursor()
-    # cursor.execute(''' CREATE TABLE Customer (
-    # id INT AUTO_INCREMENT PRIMARY KEY,
-    # username VARCHAR(255), 
-    # email VARCHAR(255),
-    # password VARCHAR(255)  
+    #cursor.execute(''' CREATE TABLE Customer (
+     #id INT AUTO_INCREMENT PRIMARY KEY,
+     #username VARCHAR(255), 
+     #email VARCHAR(255),
+     #password VARCHAR(255)  
                
-    # ); ''')
-    # cursor.execute(''' CREATE TABLE History (
-    #   time VARCHAR(255), 
-        
-    #     eyeScore INT,
-    #     faceScore INT,
-    #     AnswerScore INT,
-    #     score INT               -- Example data type for age
-    # ); ''')
+     #); ''')
+    #cursor.execute(''' CREATE TABLE History (
+      #time VARCHAR(255), 
+        #id INT,
+        #eyeScore INT,
+        #faceScore INT,
+        #AnswerScore INT,
+        #score INT , 
+        #FOREIGN KEY (id) REFERENCES Customer(id)
+     #); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
 #     data2 = [
@@ -112,9 +113,7 @@ def signup():
     mysql.connection.commit()
     cursor.close()
     # return jsonify(data2)
-   
-   
-   
+    
 
 @app.route("/similarity", methods=['POST'])
 def similarity():
@@ -182,20 +181,13 @@ def upload_audio():
         rate = engine.getProperty('rate')
         engine.setProperty('rate', rate-10)
         voices = engine.getProperty('voices')
-        # for voice in voices:
-        #     print("Voice:", voice.name)
-        #     print(" - ID: %s" % voice.id)
-        #     print(" - Languages: %s" % voice.languages)
-        #     print(" - Gender: %s" % voice.gender)
-        #     print(" - Age: %s" % voice.age)
-        engine.setProperty('voice', voices[10].id)
-        # engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+        # engine.setProperty('voice', voices[10].id)
+        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
         # for voice in voices:
         #     if voice.languages == 'en-us' and voice.gender =='male' in voice.name.lower():
         #         engine.setProperty('voice', voice.id)
         #         break
         engine.save_to_file(question, "Avatar/audio.wav")
-        # engine.say(received_text[0])
         engine.runAndWait()
         
     # while "audio.wav" not in os.listdir("Avatar"):

@@ -4,3 +4,9 @@ Question Number,Question,Answer
 2,"In any programming language, what is the most common way to iterate through an array?",&#039;For&#039; loops
 3,What does the &quot;MP&quot; stand for in MP3?,Moving Picture
 4,"According to the International System of Units, how many bytes are in a kilobyte of RAM?",1000
+5,Describe the principles of Object-Oriented Programming (OOP).,"OOP principles include encapsulation, inheritance, polymorphism, and abstraction, promoting organized and maintainable code."
+6,What is the purpose of a constructor?,"A constructor initializes object properties upon class instantiation, ensuring a well-defined state."
+7,Explain the difference between stack and heap memory.,"Stack memory stores local variables and function calls; heap memory is for dynamic allocation. Stack operates in LIFO, heap managed manually or by garbage collection."
+8,"What is a design pattern, and can you name a few?","Design patterns are solutions to common design problems. Examples: Singleton, Factory, Observer, MVC."
+9,"Define the term ""DRY"" in software development.",DRY (Don't Repeat Yourself) advocates for avoiding code duplication by reusing existing code.
+10,What is the SOLID principle?,"SOLID represents five design principles for OOP: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion."

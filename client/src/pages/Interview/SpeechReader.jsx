@@ -71,12 +71,12 @@ const SpeechReader = () => {
   }
 
   const getQuestionVideo = (videoId) => {
-    var videosRef = databaseRef(database, "videos/" + videoId)
+    var videosRef = databaseRef(database, "questions/videos/" + videoId)
     onValue(videosRef, (snapshot) => {
       const data = snapshot.val();
       const filename = data.filename;
       console.log(filename);
-      const urlRef = storageRef(storage, "videos/" + filename);
+      const urlRef = storageRef(storage, "questions/videos/" + filename);
       getDownloadURL(urlRef)
       .then((downloadURL) => {
         setVideoUrl(downloadURL)
