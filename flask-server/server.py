@@ -113,9 +113,7 @@ def signup():
     mysql.connection.commit()
     cursor.close()
     # return jsonify(data2)
-   
-   
-   
+    
 
 @app.route("/similarity", methods=['POST'])
 def similarity():
