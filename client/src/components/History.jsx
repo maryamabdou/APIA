@@ -1,10 +1,10 @@
-import React from 'react';
-import './History.css';
+import React from "react";
+import "./History.css";
 
 const HistoryTable = ({ data }) => {
   if (!data || !data.message || data.message.length === 0) {
     return (
-      <div className='card'>
+      <div className="card">
         <p>No History To Display</p>
       </div>
     );
@@ -13,11 +13,11 @@ const HistoryTable = ({ data }) => {
   const displayRows = data.message.slice(0, 30);
 
   return (
-    <div className='tableContainer'>
+    <div className="tableContainer">
       <table>
         <thead>
           <tr>
-            <th>Time</th> 
+            <th>Time</th>
             <th>Eye Score</th>
             <th>Face Score</th>
             <th>Answer Score</th>
@@ -25,15 +25,15 @@ const HistoryTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-            {displayRows.map((row, index) => (
-              <tr key={index}>
-                <td>{row[0]}</td>
-                <td>{row[2]}</td>
-                <td>{row[3]}</td>
-                <td>{row[4]}</td>
-                <td>{row[5]}</td>
-              </tr>
-            ))}
+          {displayRows.map((row, index) => (
+            <tr key={index}>
+              <td>{row[0]}</td>
+              <td>{row[2]}</td>
+              <td>{row[3]}</td>
+              <td>{row[4]}</td>
+              <td>{row[5]}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
