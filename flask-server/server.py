@@ -113,11 +113,9 @@ def signup():
     mysql.connection.commit()
     cursor.close()
     # return jsonify(data2)
-   
-   
-   
+    
 
-'''@app.route("/similarity", methods=['POST'])
+@app.route("/similarity", methods=['POST'])
 def similarity():
     global similarity_score
     data = request.get_json()
@@ -131,8 +129,8 @@ def similarity():
     print('sim score: ', similarity_score)
     # send to database
     return "completed"
-'''
-'''@app.route("/fer", methods=['POST'])
+
+@app.route("/fer", methods=['POST'])
 def fer():
     global prediction
     global fer_score
@@ -152,7 +150,7 @@ def fer():
         # send to database
     # return Response(d.predict())
     return "completed"
-'''
+
 @app.route("/score")
 def interviewScore():
     global similarity_score
@@ -164,7 +162,7 @@ def interviewScore():
     # send to database
     return "completed"
 
-'''@app.route('/uploadText', methods=['POST'])
+@app.route('/uploadText', methods=['POST'])
 def upload_audio():
     data = request.get_json()
     received_text = data.get('text', '')
@@ -183,20 +181,13 @@ def upload_audio():
         rate = engine.getProperty('rate')
         engine.setProperty('rate', rate-10)
         voices = engine.getProperty('voices')
-        # for voice in voices:
-        #     print("Voice:", voice.name)
-        #     print(" - ID: %s" % voice.id)
-        #     print(" - Languages: %s" % voice.languages)
-        #     print(" - Gender: %s" % voice.gender)
-        #     print(" - Age: %s" % voice.age)
-        engine.setProperty('voice', voices[10].id)
-        # engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+        # engine.setProperty('voice', voices[10].id)
+        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
         # for voice in voices:
         #     if voice.languages == 'en-us' and voice.gender =='male' in voice.name.lower():
         #         engine.setProperty('voice', voice.id)
         #         break
         engine.save_to_file(question, "Avatar/audio.wav")
-        # engine.say(received_text[0])
         engine.runAndWait()
         
     # while "audio.wav" not in os.listdir("Avatar"):
@@ -226,7 +217,7 @@ def upload_audio():
 
         index+=1
     return "completed"
-'''
+
 @app.route("/")
 def home():
     return "hello"

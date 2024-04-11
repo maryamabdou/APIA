@@ -10,7 +10,7 @@ function Avatar({url}) {
 
   return(
     <div className="avatar">
-      <video autoPlay muted={false} src={url}>
+      <video autoPlay muted={false} src={url} style={{width:"73vw", height:"73vh", marginBottom:"20px"}}>
         {/* <source src={url} type="video/mp4" /> */}
       </video>
       {/* <button onClick={handleToggleMute} className="unmute_button">
