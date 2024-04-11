@@ -4,11 +4,6 @@ import Button from './Button';
 import {  useNavigate } from 'react-router-dom';
 import "./LoginPage.css"
 
-// const formData2 = {
-//   username: '',
-//   password: ''
-// };
-
 const Login_Popup = () => {
   ;
     const [formData2, setFormData2] = useState({
@@ -47,7 +42,8 @@ const Login_Popup = () => {
           navigate('/firstpage', { state: { username: formData2.username } });
       } else {
           console.error('Login failed:', responseData);
-          alert("Invalid username or password.");
+          //alert("Invalid username or password.");
+          setError('Login Failed');
       }
   } catch (error) {
       console.error('Error:', error);

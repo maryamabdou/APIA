@@ -27,19 +27,19 @@ const Signin_popup = () => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       if (!formData.username || !formData.email || !formData.password || !formData.confirmPass) {
-        // setError("Please Fill In All The Fields.");
-        alert("Please Fill In All The Fields.");
+        setError("Please Fill In All The Fields.");
+        //alert("Please Fill In All The Fields.");
         return ;
       }
       if (!isEmailValid(formData.email)) {
-        //setError("Please enter a valid email address.");
-        alert("Please enter a valid email address.")
+        setError("Please enter a valid email address.");
+        //alert("Please enter a valid email address.")
         return;
       }
 
       if (formData.password!==formData.confirmPass) {
-       // setError("Password and confirm password do not match.");
-       alert("Password and confirm password do not match.")
+       setError("Password and confirm password do not match.");
+      // alert("Password and confirm password do not match.")
         return;
       }
       try {
@@ -64,7 +64,7 @@ const Signin_popup = () => {
            
         console.log("formData");
         //console.log(response.data);
-      alert('successfull');
+      //alert('successfull');
       navigate('/firstpage', { state: { username: formData.username } });
       } catch (error) {
         console.error('Error:', error);
@@ -73,13 +73,12 @@ const Signin_popup = () => {
   
   return (
       <div>
+             
         <div class ='twelve'>
           <h1>Sign Up</h1>
         </div>
         
         <form className = 'form' >
-        
-
           <div className = 'textbox'>
             <TextBox id="input"
              onChange={(e) => {

@@ -11,6 +11,7 @@ import "./style.css";
 import { useLocation } from 'react-router-dom';
 import Login_Popup from "../../components/Login_Popup";
 import HistoryTable from "../../components/History";
+import LineChart from "../../components/Dashboard";
 
 function Firstpage() {
     const location = useLocation();
@@ -136,6 +137,7 @@ function Firstpage() {
                             <p className="text-white-75 mb-4">Unleash the power of AI in your job search! Meet APIA, the intelligent interview companion designed to elevate your performance and boost your confidence.</p>
     <a className="btn btn-light btn-xl" href="#services">Get Started!</a>*/}
                             {response && <HistoryTable data={response} />}
+                            {response && <LineChart data={response}/>}
                         </div>
                     </div>
                 </div>
