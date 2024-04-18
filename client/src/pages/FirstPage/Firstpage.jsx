@@ -12,12 +12,34 @@ function Firstpage() {
   const location = useLocation();
   const [username, setUsername] = useState("");
   const [response, setResponse] = useState(null);
-
   useEffect(() => {
     if (location.state && location.state.username) {
       setUsername(location.state.username);
     }
+    
   }, [location.state]);
+
+  useEffect(() => {
+    // Fetch history when the component mounts
+    const fetchHistory = async () => {
+      try {
+        console.log(username);
+        const response = await fetch("/firstpage", {
+          method: "POST",
+          body: JSON.stringify(username),
+          headers: { "Content-Type": "application/json" },
+        });
+        const responseData = await response.json();
+        console.log(responseData)
+        setResponse(responseData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchHistory(); // Call the fetchHistory function when the component mounts
+  }, [username]); // Trigger the effect whenever the username changes
+
   useEffect(() => {
     // Navbar shrink function
     const navbarShrink = () => {
@@ -60,29 +82,6 @@ function Firstpage() {
       });
     });
   }, []);
-  const handleClick = async (event) => {
-    const historySection = document.getElementById("history");
-    if (historySection) {
-      historySection.scrollIntoView({ behavior: "smooth" });
-    }
-    event.preventDefault();
-    console.log(username);
-
-    try {
-      const response = await fetch("/firstpage", {
-        method: "POST",
-        body: JSON.stringify(username),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const responseData = await response.json();
-      console.log(responseData.message);
-      setResponse(responseData);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   return (
     <div>
       {/* Navigation */}
@@ -109,7 +108,7 @@ function Firstpage() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto my-2 my-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="#history" onClick={handleClick}>
+                <a className="nav-link" href="#history" >
                   History
                 </a>
               </li>
