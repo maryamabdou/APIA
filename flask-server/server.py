@@ -1,17 +1,19 @@
-from flask import Flask, request, jsonify, Response;
+from flask import Flask, request, jsonify, Response,session, redirect, url_for;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
-from FaceEmotionDetection import FaceEmotionDetection
+#from FaceEmotionDetection import FaceEmotionDetection
 #from firebase import firebase
 import os
 import json
 from flask_mysqldb import MySQL
 from gtts import gTTS
 import uuid
-import pyttsx3
+#import pyttsx3
+
 from time import sleep
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 #f = firebase()
 #storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
@@ -63,18 +65,28 @@ def login():
     if result:
         print("done")
         
-        # data = [
-        #     {'message': 'success'},
-        #     {'message': result2}
-        # ]
-        # return jsonify(data)
+        session['username'] = username
         return jsonify({'message': "success"})
         
     else:
         print("error")
         return jsonify({'message': 'Invalid username or password'}), 401
-    
-       
+    # LOGOUT HATET3MAL BA3DEN
+# @app.route('/logout', methods=["GET"])
+# def logout():
+#     # Remove user session
+#     session.pop('username', None)  
+
+@app.route('/checksession', methods=["GET"])
+def check_session():
+    if 'username' in session:
+        # Session is active
+        print("tmam")
+        return jsonify({'authenticated': True, 'username': session['username']})
+    else:
+        # Session is not active
+        print("mesh tmam")
+        return jsonify({'authenticated': False})
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -182,7 +194,7 @@ def upload_audio():
         engine.setProperty('rate', rate-10)
         voices = engine.getProperty('voices')
         # engine.setProperty('voice', voices[10].id)
-        engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+        #engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
         # for voice in voices:
         #     if voice.languages == 'en-us' and voice.gender =='male' in voice.name.lower():
         #         engine.setProperty('voice', voice.id)
