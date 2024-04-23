@@ -7,6 +7,7 @@ import "./style.css";
 import { useLocation } from "react-router-dom";
 import HistoryTable from "../../components/History";
 import LineChart from "../../components/Dashboard";
+import axios from 'axios';
 
 function Firstpage() {
   const location = useLocation();
@@ -82,6 +83,15 @@ function Firstpage() {
       });
     });
   }, []);
+  // const handlesignout = async () => {
+  //   try {
+  //     console.log("gowa handle")
+  //     await axios.get('http://localhost:5000/signout');
+  //     // Update the local state to reflect that the user is now logged out
+  //   } catch (error) {
+  //     console.error('Error signing out:', error);
+  //   }
+  // };
   return (
     <div>
       {/* Navigation */}
@@ -91,6 +101,7 @@ function Firstpage() {
       >
         <div className="container px-4 px-lg-5">
           <a className="navbar-brand" href="/">
+          {/* <a className="navbar-brand" onClick={handlesignout}> */}
             Sign out
           </a>
           <button

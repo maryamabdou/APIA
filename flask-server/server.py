@@ -72,10 +72,11 @@ def login():
         print("error")
         return jsonify({'message': 'Invalid username or password'}), 401
     # LOGOUT HATET3MAL BA3DEN
-# @app.route('/logout', methods=["GET"])
-# def logout():
-#     # Remove user session
-#     session.pop('username', None)  
+@app.route('/signout', methods=["GET"])
+def signout():
+    # Remove user session
+    session.pop('username', None)  
+    return jsonify({'message': 'Logged out successfully'})
 
 @app.route('/checksession', methods=["GET"])
 def check_session():
