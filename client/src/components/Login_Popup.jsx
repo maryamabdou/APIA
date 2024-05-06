@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
 const Login_Popup = () => {
-  
   const [formData2, setFormData2] = useState({
     username: "",
     password: "",
@@ -65,8 +64,8 @@ const Login_Popup = () => {
           />
 
           <br />
-          <TextBox
-            type="password"
+          <TextBox 
+          type="password"
             onChange={(e) => {
               setFormData2({
                 ...formData2,

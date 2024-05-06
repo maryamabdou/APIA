@@ -3,10 +3,21 @@ import { Box, Stack } from "@mui/material";
 import Navbar from "../../components/Navbar.jsx";
 import WebGazer from './WebGazer';
 import SpeechReader from "./SpeechReader";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 
 function Interview() {
-  const[visible,setvisible]=useState(true);
+  const [visible, setVisible] = useState(true);
 
+  const location = useLocation();
+  const username = new URLSearchParams(location.search).get('username');
+  const navigate = useNavigate();
+  console.log("hiiii");
+  console.log(username);
+  const handleClick = () => {
+    navigate("/firstpage", { state: { username: username } });
+  };
   return(
     <div>
       <Stack direction="column" spacing={1}>
@@ -19,7 +30,8 @@ function Interview() {
                   
                   <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ms-auto my-2 my-lg-0">
-                      <a className="navbar-brand" href="/firstpage" style={{color: '#f4623a'}}>End</a>
+                      <a className="navbar-brand" onClick={handleClick} style={{color: '#f4623a'}}>End</a>
+                     {/*<a href={`/firstpage?username=${encodeURIComponent(sharedVariable)}`} style={{color: '#f4623a'}}>End</a>*/}
                           {/* <li className="nav-item"><a className="nav-link" href="#about">History</a></li>
                           <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>
                           <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li> */}

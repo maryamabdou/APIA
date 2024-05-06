@@ -7,12 +7,16 @@ import "./style.css";
 import { useLocation } from "react-router-dom";
 import HistoryTable from "../../components/History";
 import LineChart from "../../components/Dashboard";
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+
+
 
 function Firstpage() {
   const location = useLocation();
   const [username, setUsername] = useState("");
   const [response, setResponse] = useState(null);
+
   useEffect(() => {
     if (location.state && location.state.username) {
       setUsername(location.state.username);
@@ -24,7 +28,7 @@ function Firstpage() {
     // Fetch history when the component mounts
     const fetchHistory = async () => {
       try {
-        console.log(username);
+        //console.log(username);
         const response = await fetch("/firstpage", {
           method: "POST",
           body: JSON.stringify(username),
@@ -83,15 +87,6 @@ function Firstpage() {
       });
     });
   }, []);
-  // const handlesignout = async () => {
-  //   try {
-  //     console.log("gowa handle")
-  //     await axios.get('http://localhost:5000/signout');
-  //     // Update the local state to reflect that the user is now logged out
-  //   } catch (error) {
-  //     console.error('Error signing out:', error);
-  //   }
-  // };
   return (
     <div>
       {/* Navigation */}
@@ -101,7 +96,6 @@ function Firstpage() {
       >
         <div className="container px-4 px-lg-5">
           <a className="navbar-brand" href="/">
-          {/* <a className="navbar-brand" onClick={handlesignout}> */}
             Sign out
           </a>
           <button
@@ -154,7 +148,8 @@ function Firstpage() {
                 Sharpen your interview edge. Simulate real-world scenarios with
                 advanced AI coaching.
               </h4>
-              <a className="btn btn-primary btn-xl" href="/interview">
+              {/*<a className="btn btn-primary btn-xl" href={`/interview?username=username`}>*/}
+              <a className="btn btn-primary btn-xl" href={`/interview?username=${username}`}>
                 Start Interview
               </a>
             </div>

@@ -115,7 +115,7 @@ const Signin_popup = () => {
             placeholder="Password"
           />
           <TextBox
-            type="confirmpass"
+            type="password"
             onChange={(e) => {
               console.log(e.target.value);
               setFormData({

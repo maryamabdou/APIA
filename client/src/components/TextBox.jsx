@@ -2,12 +2,12 @@ import React from 'react'
 
 const TextBox = (props) => {
 
-    const { value, onChange, placeholder } = props;
+    const { type,value, onChange, placeholder } = props;
   
     return (
       <input
         className='textbox'
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
