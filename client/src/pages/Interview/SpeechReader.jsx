@@ -14,6 +14,7 @@ import Button from '../../components/Button';
 import onMic from "../../assets/images/microphone-alt-1-svgrepo-com.svg";
 import offMic from "../../assets/images/microphone-slash-svgrepo-com.svg"
 import './SpeechReader.css'
+import WebGazer from './WebGazer';
 
 const SpeechReader = () => {
   const [firstQuest, setFirstQuest] = useState(true);
@@ -123,6 +124,22 @@ const SpeechReader = () => {
     });
   }
 
+  const finalScore = (text) => {
+    fetch('/score', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json', // Set the Content-Type header
+        },
+        body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error(error);
+    });
+  }
+
   const handleReadFromDataset = () => {
     SpeechRecognition.stopListening()
     datectFer(0)
@@ -140,7 +157,7 @@ const SpeechReader = () => {
     // new question
       quest_index.current = quest_index.current + 1
 
-      if(quest_index.current < 6){
+      if(quest_index.current < 3){
         const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];
@@ -180,6 +197,11 @@ const SpeechReader = () => {
       }, 10000); //get size q from vid avatar
   };
 
+  const endInterview = () => {
+    finalScore(1)
+    navigate('/firstpage')
+  }
+
   return (
     <div>
       <Model isOpen={visibleStart} style={{
@@ -203,6 +225,9 @@ const SpeechReader = () => {
       </Model>
 
       <Stack direction="column" spacing={3}>
+        {/* <Box sx={{ height: "0.2vh"}}> */}
+          <WebGazer />
+        {/* </Box> */}
         <Box sx={{height: "85vh"}}>
           <Avatar url={videoUrl} />
         </Box>
@@ -231,7 +256,7 @@ const SpeechReader = () => {
           <h1 className="titleText">End of Interview</h1>
           <p className="text">The score of the interview is graded by losing 5 points for each wrong answer, losing 3 points for looking
           around and lose 3 points for being anxious. The total score is from 300. Navigate to score page to see your result. Good Luck!</p>
-          <Button label="Get the Score"  onClick={() => navigate('/firstpage')} />
+          <Button label="Get the Score"  onClick={() => endInterview() } />
         </div>
       </Model>
     </div>
