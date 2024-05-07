@@ -17,28 +17,10 @@ import './SpeechReader.css'
 
 
 const SpeechReader = () => {
-  const active = useRef(false);
 const [seconds, setSeconds] = useState(0);
 
-  // // console.log("Active in timer: " + active);
-  // let interval = null;
-  // useEffect(() => {
-  //   if (active.current) {
-  //     // setSeconds(0)
-  //     interval = setInterval(() => {
-  //       setSeconds(seconds => seconds + 1);
-  //     }, 1000);
-  //   } 
-  //   // else if (!active && seconds !== 0) {
-  //   //   // clearInterval(interval);
-  //   //   setSeconds(0)
-  //   // }
-  //   setSeconds(0)
-  //   return () => clearInterval(interval);
-  // }, [active.current]);
-
-
   const [firstQuest, setFirstQuest] = useState(true);
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
   const {
     transcript,
     listening,
@@ -62,19 +44,6 @@ const [seconds, setSeconds] = useState(0);
   let answer = [];
   let totalQuestions = 0;
   const videoDuration = useRef(0);
-  
-
-  // const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
-
-    // const fileRef = storageRef(storage, "questions/file/questions.csv");
-    // getDownloadURL(fileRef)
-    // .then((downloadURL) => {
-    //   question_file.current = downloadURL;
-    //   console.log(question_file.current)
-    // })
-    // .catch((error) => {
-    //   console.error("Error getting file URL:", error);
-    // });
 
     Papa.parse(questions, {
       header: true,
@@ -87,32 +56,12 @@ const [seconds, setSeconds] = useState(0);
             answer.push(Object.values(d)[2])
         })
         totalQuestions = question.length;
-        // question.current = ques;
-        // console.log(question[0])
-        // answer.current = ans;
       }
     });
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
-
-  // async function getVideoDuration(url) {
-  //   return await new Promise((resolve, reject) => {
-  //     const video = document.createElement('video');
-  //     video.style.display = 'none'; // Hide the video element
-  
-  //     video.addEventListener('loadedmetadata', () => {
-  //       resolve(video.duration);
-  //     });
-  
-  //     video.addEventListener('error', (error) => {
-  //       reject(error);
-  //     });
-  
-  //     video.src = url;
-  //   });
-  // }
 
   const getQuestionVideo = async (videoId) => {
     var videosRef = databaseRef(database, "questions/videos/" + videoId)
@@ -128,32 +77,6 @@ const [seconds, setSeconds] = useState(0);
       .then(async (downloadURL) => {
         setVideoUrl(downloadURL)
         console.log("Video URL:", downloadURL);
-
-
-        //  await getVideoDuration(downloadURL)
-        // .then(duration => {
-        //   videoDuration.current = duration
-        //   console.log('Video duration in seconds:', videoDuration.current);
-          
-        // })
-        // .catch(error => {
-        //   console.error('Error fetching video duration:', error);
-        // });
-        // const video = document.createElement('video');
-        // video.src = downloadURL;
-    
-        // // This might be asynchronous depending on the library implementation
-        // await MediaInfo.analyze({ url: downloadURL });
-    
-        // // Access the extracted metadata (structure might vary based on library)
-        // const mediaInfo = MediaInfo.getStreamInfo();
-        // const duration = mediaInfo.general && mediaInfo.general.duration; // Example property name
-    
-        // if (duration) {
-        //     console.log("Video duration:", duration);
-        // } else {
-        //     console.log("Failed to extract duration");
-        // }
       })
       .catch((error) => {
         console.error("Error getting video URL:", error);
@@ -219,6 +142,7 @@ const [seconds, setSeconds] = useState(0);
   }
 
   const handleReadFromDataset = async () => {
+    setButtonDisabled(true)
     SpeechRecognition.stopListening()
     datectFer(0)
     //compare result before getting new question
@@ -248,15 +172,10 @@ const [seconds, setSeconds] = useState(0);
         setTimeout(() => {
           //TODO: timer
           console.log("Before 10 secs: " + new Date().getSeconds());
-          // clearTimeout()
-          // active.current = true;
-          // let interval = null;
+
           interval = setInterval(() => {
             setSeconds(seconds => seconds + 1);
           }, 1000);
-          // console.log("Timer started");
-          // console.log("Active after true: " + active.current);
-
 
         }, videoDuration.current*1000 + 2000); //get size q from vid avatar
 
@@ -265,6 +184,7 @@ const [seconds, setSeconds] = useState(0);
           clearInterval(interval);
           console.log("After 10 secs: " + new Date().getSeconds());
           SpeechRecognition.startListening({continuous: true})
+          setButtonDisabled(false)
           datectFer(1)
           // active.current = false;
           
@@ -272,10 +192,6 @@ const [seconds, setSeconds] = useState(0);
           // console.log("Active after false: " + active.current);
         }, videoDuration.current*1000 + 12000); //get size q from vid avatar
 
-        // if(micOpen) {
-        //   SpeechRecognition.startListening({continuous: true})
-        //   datectFer(1)
-        // }
       }
       else{
         //No more questions
@@ -304,14 +220,9 @@ const [seconds, setSeconds] = useState(0);
       setTimeout(() => {
         //TODO: timer
         console.log("Before 10 secs: " + new Date().getSeconds());
-        // clearTimeout()
-        // active.current = true;
-        // let interval = null;
         interval = setInterval(() => {
           setSeconds(seconds => seconds + 1);
         }, 1000);
-        // console.log("Timer started");
-        // console.log("Active after true: " + active.current);
 
 
       }, videoDuration.current*1000 + 4000); //get size q from vid avatar
@@ -321,17 +232,10 @@ const [seconds, setSeconds] = useState(0);
         clearInterval(interval);
         console.log("After 10 secs: " + new Date().getSeconds());
         SpeechRecognition.startListening({continuous: true})
+        setButtonDisabled(false)
         datectFer(1)
-        // active.current = false;
-        
-        // console.log("Timer stopped");
-        // console.log("Active after false: " + active.current);
       }, videoDuration.current*1000 + 14000); //get size q from vid avatar
 
-      // if(micOpen) {
-      //   SpeechRecognition.startListening({continuous: true})
-      //   datectFer(1)
-      // }
   };
 
   const endInterview = () => {
@@ -370,9 +274,7 @@ const [seconds, setSeconds] = useState(0);
         </Box>
         <Stack direction="row" spacing={3} style={{justifyContent: "center"}}>
           <p style={{fontSize:'20px'}}>Mic: {listening ? <img className="img-fluid" src={onMic} alt="..." /> : <img className="img-fluid" src={offMic} alt="..." />}</p>
-            <button onClick={handleReadFromDataset}>Stop</button>
-            {/* <Timer videoDuration={videoDuration}/> */}
-            {/* <Timer active = {active.current}/> */}
+            <button onClick={handleReadFromDataset} disabled={isButtonDisabled}>Stop</button>
             <div className="app">
               <div className="time">
                 {seconds}s
