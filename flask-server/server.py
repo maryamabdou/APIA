@@ -17,8 +17,8 @@ app = Flask(__name__)
 f = firebase()
 storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_USER'] = 'phpmyadmin'
+app.config['MYSQL_PASSWORD'] = 'maryam2000'
 app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
@@ -92,22 +92,22 @@ def signup():
     user_email = email
 
     cursor = mysql.connection.cursor()
-    #cursor.execute(''' CREATE TABLE Customer (
-     #id INT AUTO_INCREMENT PRIMARY KEY,
-     #username VARCHAR(255), 
-     #email VARCHAR(255),
-     #password VARCHAR(255)  
+    cursor.execute(''' CREATE TABLE Customer (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     username VARCHAR(255), 
+     email VARCHAR(255),
+     password VARCHAR(255)  
                
-     #); ''')
-    #cursor.execute(''' CREATE TABLE History (
-      #time VARCHAR(255), 
-        #id INT,
-        #eyeScore INT,
-        #faceScore INT,
-        #AnswerScore INT,
-        #score INT , 
-        #FOREIGN KEY (id) REFERENCES Customer(id)
-     #); ''')
+     ); ''')
+    cursor.execute(''' CREATE TABLE History (
+      time VARCHAR(255), 
+        id INT,
+        eyeScore INT,
+        faceScore INT,
+        AnswerScore INT,
+        score INT , 
+        FOREIGN KEY (id) REFERENCES Customer(id)
+     ); ''')
 
     # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
 #     data2 = [
