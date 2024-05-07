@@ -3,16 +3,15 @@ import videoFile from './result_video.mp4';
 import './Avatar.css';
 
 
-function Avatar({url}) {
+function Avatar({url, imageUrl}) {
 
   // const [muted, setMuted] = useState(true);
   // const handleToggleMute = () => setMuted(current => !current);
 
   return(
     <div className="avatar">
-      <video autoPlay muted={true} src={url} style={{width:"73vw", height:"73vh", marginBottom:"20px"}}>
-        {/* <source src={url} type="video/mp4" /> */}
-      </video>
+      <video autoPlay muted={false} src={url} className="video-background"></video>
+      <img src={imageUrl} alt="Background Image" className="image-overlay"/>
       {/* <button onClick={handleToggleMute} className="unmute_button">
         {muted ? 'Unmute' : 'Mute'}
       </button> */}
