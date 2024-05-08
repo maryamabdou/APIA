@@ -17,8 +17,8 @@ app = Flask(__name__)
 f = firebase()
 storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'phpmyadmin'
-app.config['MYSQL_PASSWORD'] = 'maryam2000'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
