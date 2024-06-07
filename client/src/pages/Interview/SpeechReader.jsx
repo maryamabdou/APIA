@@ -2,6 +2,7 @@ import React, { useState , useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Stack, duration } from "@mui/material";
 import questions from '../../assets/questions.csv';
+import WebGazer from './WebGazer';
 // import soft_questions from '../../assets/Software Questions.csv';
 import Avatar from "./Avatar.jsx";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
@@ -109,7 +110,7 @@ const [seconds, setSeconds] = useState(0);
       });
   }
 
-  const datectFer = (text) => {
+  const detectFer = (text) => {
     fetch('/fer', {
         method: 'POST',
         headers: {
@@ -127,11 +128,11 @@ const [seconds, setSeconds] = useState(0);
 
   const finalScore = (text) => {
     fetch('/score', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json', // Set the Content-Type header
-        },
-        body: JSON.stringify({ text }),
+        // method: 'POST',
+        // headers: {
+        // 'Content-Type': 'application/json', // Set the Content-Type header
+        // },
+        // body: JSON.stringify({ text }),
     })
     .then(response => {
         // Handle response from Flask
@@ -144,7 +145,7 @@ const [seconds, setSeconds] = useState(0);
   const handleReadFromDataset = async () => {
     setButtonDisabled(true)
     SpeechRecognition.stopListening()
-    datectFer(0)
+    detectFer(0)
     //compare result before getting new question
     if(firstQuest){
       setFirstQuest(false)
@@ -160,7 +161,7 @@ const [seconds, setSeconds] = useState(0);
       quest_index.current = quest_index.current + 1
 
       let interval = null;
-      if(quest_index.current < 6){
+      if(quest_index.current < 2){
         const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];
@@ -185,7 +186,7 @@ const [seconds, setSeconds] = useState(0);
           console.log("After 10 secs: " + new Date().getSeconds());
           SpeechRecognition.startListening({continuous: true})
           setButtonDisabled(false)
-          datectFer(1)
+          detectFer(1)
           // active.current = false;
           
           // console.log("Timer stopped");
@@ -196,16 +197,9 @@ const [seconds, setSeconds] = useState(0);
       else{
         //No more questions
         // navigate to score page
-        setvisibleEnd(true)
-
-        fetch('/score', {
-        })
-        .then(response => {
-            // Handle response from Flask
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        setTimeout(() => {
+          setvisibleEnd(true)
+        }, 3000);
       }
   };
 
@@ -233,14 +227,16 @@ const [seconds, setSeconds] = useState(0);
         console.log("After 10 secs: " + new Date().getSeconds());
         SpeechRecognition.startListening({continuous: true})
         setButtonDisabled(false)
-        datectFer(1)
+        detectFer(1)
       }, videoDuration.current*1000 + 14000); //get size q from vid avatar
 
   };
 
   const endInterview = () => {
-    finalScore(1)
-    navigate('/firstpage')
+    finalScore()
+    setTimeout(() => {
+      navigate('/firstpage')
+    }, 2000);
   }
 
   return (
@@ -265,6 +261,7 @@ const [seconds, setSeconds] = useState(0);
         </div>
       </Model>
 
+      {/* <WebGazer /> */}
       <Stack direction="column" spacing={3}>
         <Box sx={{height: "85vh"}}>
           <Avatar url={videoUrl} imageUrl={imageUrl}/>

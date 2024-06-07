@@ -17,8 +17,8 @@ app = Flask(__name__)
 f = firebase()
 storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_USER'] = 'phpmyadmin'
+app.config['MYSQL_PASSWORD'] = 'maryam2000'
 app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
@@ -36,48 +36,46 @@ user_email = ''
 def firstpage():
     print("Hello, this is a debug message of firstpage!")
     data3 = request.get_json()
-    # data = request.json
     print(data3)
-    username = data3
-    # data_dict = json.loads(data3)
-
-    # username = data_dict['username']
-    print(username)
+    email = data3
+    global user_email
+    print("Email: ", user_email)
+    print(email)
     cursor = mysql.connection.cursor()
-    query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
-    cursor.execute(query2, (username,))
+    query2 ='''SELECT * FROM History WHERE customer_id in ( SELECT id FROM Customer WHERE email = %s)'''
+    cursor.execute(query2, (user_email,))
     result2 = cursor.fetchall() 
     print(result2)
     return jsonify({'message': result2})
 
 @app.route('/login', methods=["POST"])
 def login():
+    global user_email
     print("Hello, this is a debug message of login!")
     data2 = request.get_json()
-    # data = request.json
-    username = data2['username']
+    email = data2['email']
     password = data2['password']
+    user_email = email
+    print("Email: ", user_email)
     cursor = mysql.connection.cursor()
-    # cursor.execute('''SELECT username, password FROM customer WHERE username = %s AND password = %s''', (username, password))
-    query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
-    cursor.execute(query, (username, password))
+    query = '''SELECT email, password FROM Customer WHERE email = %s AND password = %s'''
+    cursor.execute(query, (email, password))
     result = cursor.fetchone()  # Fetch the first row
-       
+    print(result)
     if result:
         print("done")
-        
-        # data = [
-        #     {'message': 'success'},
-        #     {'message': result2}
-        # ]
-        # return jsonify(data)
         return jsonify({'message': "success"})
         
     else:
         print("error")
-        return jsonify({'message': 'Invalid username or password'}), 401
+        return jsonify({'message': 'Invalid email or password'}), 401
     
-       
+@app.route('/signout', methods=["POST"])
+def signout(): 
+    global user_email
+    # user_email = ''
+
+    return "signout"
 
 @app.route('/signup', methods=["POST"])
 def signup():
@@ -99,26 +97,23 @@ def signup():
     #  password VARCHAR(255)  
                
     #  ); ''')
-    # cursor.execute(''' CREATE TABLE History (
-    #   time VARCHAR(255), 
-    #     id INT,
+    # cursor.execute('''  CREATE TABLE History (
+    #     id INT AUTO_INCREMENT PRIMARY KEY,
+    #     time VARCHAR(255), 
+    #     customer_id INT,
     #     eyeScore INT,
     #     faceScore INT,
     #     AnswerScore INT,
     #     score INT , 
-    #     FOREIGN KEY (id) REFERENCES Customer(id)
+    #     FOREIGN KEY (customer_id) REFERENCES Customer(id)
     #  ); ''')
 
-    # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-#     data2 = [
-#     {'message': 'success'},
-#     {'message': 'Message 2'}
-# ]
     query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
     cursor.execute(query, (username, email, password))
     mysql.connection.commit()
     cursor.close()
     # return jsonify(data2)
+    return "done"
     
 
 @app.route("/similarity", methods=['POST'])
@@ -144,14 +139,17 @@ def fer():
     data = request.get_json()
     method = data.get('text', '')
     if method == 1:
-        for i in d.predict():
+        for i in d.predict(method):
             prediction = i
-    else:
+    elif method == 0:
+        d.predict(method)
         print(prediction)
         sad_score =  prediction.count("Sad")
         fear_score = prediction.count("Fearful")
         fer_score = fer_score + (sad_score * 3 + fear_score * 3)
         print('fer score: ', fer_score)
+    else:
+        return "completed"
     # return Response(d.predict())
     return "completed"
 
@@ -163,7 +161,6 @@ def eye():
     if method == 1:
         eye_score += 3
         print('eye score: ', eye_score)
-    # return Response(d.predict())
     return "completed"
 
 @app.route("/score")
@@ -173,6 +170,7 @@ def interviewScore():
     global eye_score
     global score
     global user_email
+    print("user Email: ",user_email)
     
     score = score - (similarity_score + fer_score + eye_score)
 
@@ -182,21 +180,20 @@ def interviewScore():
     print('final score: ', score)
     # send to database
     cursor = mysql.connection.cursor()
-    query = "SELECT id FROM Customer WHERE email = %s"
-    cursor.execute(query, user_email)
+    query = "SELECT * FROM Customer WHERE email = %s"
+    cursor.execute(query, (user_email,))
     # Fetch all rows
     data = cursor.fetchall()
+    print("Data: ",data[0][0])
+    id = int(data[0][0])
     # Close connection
     cursor.close()
-    # Print the data to the console
-    for row in data:
-        id = int(row)
     time = str(datetime.now())
-    cursor = mysql.connection.cursor()
-    query = "INSERT INTO History (time, id, eyeScore, faceScore, AnswerScore, score) VALUES (%s, %d, %d, %d, %d, %d)"
-    cursor.execute(query, (time, id, eye_score, fer_score, similarity_score, score))
+    cursor2 = mysql.connection.cursor()
+    query2 = "INSERT INTO History (time, customer_id, eyeScore, faceScore, AnswerScore, score) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor2.execute(query2, (time, id, eye_score, fer_score, similarity_score, score))
     mysql.connection.commit()
-    cursor.close()
+    cursor2.close()
     return "completed"
 
 @app.route('/uploadText', methods=['POST'])

@@ -11,7 +11,7 @@ class LineChart extends Component {
 
     const dataPoints = data.message.map((row) => ({
       x: row[0],
-      y: row[5],
+      y: row[6],
     }));
 
     const options = {
@@ -28,14 +28,14 @@ class LineChart extends Component {
         suffix: "",
       },
       axisX: {
-        title: "Time",
+        title: "Id",
         prefix: "",
         interval: 1,
       },
       data: [
         {
           type: "line", //spline //pie //column //area //bar
-          toolTipContent: "Time {x}: Score {y}",
+          toolTipContent: "Id {x}: Score {y}",
           dataPoints: dataPoints,
         },
       ],

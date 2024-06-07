@@ -9,17 +9,14 @@ import HistoryTable from "../../components/History";
 import LineChart from "../../components/Dashboard";
 import { Link } from 'react-router-dom';
 
-
-
-
 function Firstpage() {
   const location = useLocation();
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
-    if (location.state && location.state.username) {
-      setUsername(location.state.username);
+    if (location.state && location.state.email) {
+      setemail(location.state.email);
     }
     
   }, [location.state]);
@@ -28,10 +25,10 @@ function Firstpage() {
     // Fetch history when the component mounts
     const fetchHistory = async () => {
       try {
-        //console.log(username);
+        //console.log(email);
         const response = await fetch("/firstpage", {
           method: "POST",
-          body: JSON.stringify(username),
+          body: JSON.stringify(email),
           headers: { "Content-Type": "application/json" },
         });
         const responseData = await response.json();
@@ -43,7 +40,7 @@ function Firstpage() {
     };
 
     fetchHistory(); // Call the fetchHistory function when the component mounts
-  }, [username]); // Trigger the effect whenever the username changes
+  }, [email]); // Trigger the effect whenever the email changes
 
   useEffect(() => {
     // Navbar shrink function
@@ -87,6 +84,18 @@ function Firstpage() {
       });
     });
   }, []);
+
+  // const signOut = () => {
+  //   fetch('/signout', {
+  //   })
+  //   .then(response => {
+  //       // Handle response from Flask
+  //   })
+  //   .catch(error => {
+  //       console.error('Error uploading text:', error);
+  //   });
+  // }
+
   return (
     <div>
       {/* Navigation */}
@@ -148,8 +157,8 @@ function Firstpage() {
                 Sharpen your interview edge. Simulate real-world scenarios with
                 advanced AI coaching.
               </h4>
-              {/*<a className="btn btn-primary btn-xl" href={`/interview?username=username`}>*/}
-              <a className="btn btn-primary btn-xl" href={`/interview?username=${username}`}>
+              {/*<a className="btn btn-primary btn-xl" href={`/interview?email=email`}>*/}
+              <a className="btn btn-primary btn-xl" href={`/interview?email=${email}`}>
                 Start Interview
               </a>
             </div>

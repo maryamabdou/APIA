@@ -6,7 +6,7 @@ import "./LoginPage.css";
 
 const Login_Popup = () => {
   const [formData2, setFormData2] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -15,8 +15,8 @@ const Login_Popup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData2.username);
-    if (!formData2.username || !formData2.password) {
+    console.log(formData2.email);
+    if (!formData2.email || !formData2.password) {
       setError("Please Fill In All The Fields.");
       event.preventDefault();
       return;
@@ -32,10 +32,10 @@ const Login_Popup = () => {
       console.log(responseData);
       if (responseData.message === "success") {
         console.log("Login successful!");
-        navigate("/firstpage", { state: { username: formData2.username } });
+        navigate("/firstpage", { state: { email: formData2.email } });
       } else {
         console.error("Login failed:", responseData);
-        //alert("Invalid username or password.");
+        //alert("Invalid email or password.");
         setError("Login Failed");
       }
     } catch (error) {
@@ -56,11 +56,11 @@ const Login_Popup = () => {
             onChange={(e) => {
               setFormData2({
                 ...formData2,
-                username: e.target.value,
+                email: e.target.value,
               });
-              console.log(formData2.username);
+              console.log(formData2.email);
             }}
-            placeholder="Username"
+            placeholder="Email"
           />
 
           <br />

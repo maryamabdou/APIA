@@ -15,12 +15,12 @@ class FaceEmotionDetection():
         # load weights into new model
         self.emotion_model.load_weights("Fer/model/model_weights.h5")
 
-    def predict(self):
+    def predict(self, run):
         # start the webcam feed
         camera = cv2.VideoCapture(0)
 
         prediction = []
-        while True:
+        while run:
             # Find haar cascade to draw bounding box around face
             ret, frame = camera.read()
             if not ret:
@@ -53,9 +53,15 @@ class FaceEmotionDetection():
             # cv2.imshow('Emotion Detection', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-
+            if not run:
+                break
+            
         camera.release()
         cv2.destroyAllWindows()
+        if not run:
+            camera.release()
+            cv2.destroyAllWindows()
+
 
 # d = FaceEmotionDetection()
 # d.predict()
