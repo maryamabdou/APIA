@@ -12,6 +12,8 @@ import pyttsx3
 from time import sleep
 import cv2
 from datetime import datetime
+import numpy as np
+from PIL import Image
 
 app = Flask(__name__)
 f = firebase()
@@ -26,9 +28,10 @@ mysql = MySQL(app)
 d = FaceEmotionDetection()
 
 prediction = []
-similarity_score = 0
-fer_score = 0
-eye_score = 0
+eye_prediction = []
+similarity_score = 100
+fer_score = 100
+eye_score = 100
 score = 300
 user_email = ''
 
@@ -73,8 +76,8 @@ def login():
 @app.route('/signout', methods=["POST"])
 def signout(): 
     global user_email
-    # user_email = ''
-
+    print("done")
+    user_email = ''
     return "signout"
 
 @app.route('/signup', methods=["POST"])
@@ -125,7 +128,7 @@ def similarity():
     print(received_text[1])
     cosine_scores = sentSim(received_text[0], received_text[1])
     if cosine_scores < 0.6:
-        similarity_score = similarity_score + 5
+        similarity_score = similarity_score - 5
     print('similarity score: ', cosine_scores)
     print('sim score: ', similarity_score)
     return "completed"
@@ -134,20 +137,29 @@ def similarity():
 def fer():
     global prediction
     global fer_score
+    global eye_score
+    global eye_prediction
     sad_score = 0
     fear_score = 0
     data = request.get_json()
     method = data.get('text', '')
     if method == 1:
-        for i in d.predict(method):
-            prediction = i
+        for data1, data2 in d.predict(method):
+            prediction = data1
+            eye_prediction = data2
     elif method == 0:
         d.predict(method)
         print(prediction)
+        print(eye_prediction)
         sad_score =  prediction.count("Sad")
         fear_score = prediction.count("Fearful")
-        fer_score = fer_score + (sad_score * 3 + fear_score * 3)
+        fer_score = fer_score - (sad_score * 3 + fear_score * 3)
         print('fer score: ', fer_score)
+
+        right_score =  eye_prediction.count("right")
+        left_score = eye_prediction.count("left")
+        eye_score = eye_score - (right_score * 3 + left_score * 3)
+        print('eye score: ', eye_score)
     else:
         return "completed"
     # return Response(d.predict())
@@ -159,7 +171,7 @@ def eye():
     data = request.get_json()
     method = data.get('text', '')
     if method == 1:
-        eye_score += 3
+        eye_score -= 3
         print('eye score: ', eye_score)
     return "completed"
 
@@ -172,7 +184,7 @@ def interviewScore():
     global user_email
     print("user Email: ",user_email)
     
-    score = score - (similarity_score + fer_score + eye_score)
+    score = similarity_score + fer_score + eye_score
 
     print('eye score: ', eye_score)
     print('fer score: ', fer_score)

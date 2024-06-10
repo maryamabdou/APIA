@@ -14,6 +14,23 @@ function Firstpage() {
   const [email, setemail] = useState("");
   const [response, setResponse] = useState(null);
 
+  const signOut = () => {
+    const text = 1
+    fetch('/signout', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json', // Set the Content-Type header
+      },
+      body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error('Error uploading text:', error);
+    });
+  }
+
   useEffect(() => {
     if (location.state && location.state.email) {
       setemail(location.state.email);
@@ -85,17 +102,6 @@ function Firstpage() {
     });
   }, []);
 
-  // const signOut = () => {
-  //   fetch('/signout', {
-  //   })
-  //   .then(response => {
-  //       // Handle response from Flask
-  //   })
-  //   .catch(error => {
-  //       console.error('Error uploading text:', error);
-  //   });
-  // }
-
   return (
     <div>
       {/* Navigation */}
@@ -104,7 +110,7 @@ function Firstpage() {
         id="mainNav"
       >
         <div className="container px-4 px-lg-5">
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand" href="/" onClick={signOut}>
             Sign out
           </a>
           <button

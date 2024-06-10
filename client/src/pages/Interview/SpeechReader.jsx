@@ -40,6 +40,7 @@ const [seconds, setSeconds] = useState(0);
   
   const [videoUrl, setVideoUrl] = useState("")
   const [imageUrl, setImageUrl] = useState("")
+  const startWebgazer = useRef(0)
 
   let question = [];
   let answer = [];
@@ -51,7 +52,7 @@ const [seconds, setSeconds] = useState(0);
       download: true,
       dynamicTyping: true,
       complete: function(results) {
-        console.log(results.data)
+        // console.log(results.data)
         results.data.map((d) => {
             question.push(Object.values(d)[1])
             answer.push(Object.values(d)[2])
@@ -70,14 +71,14 @@ const [seconds, setSeconds] = useState(0);
      onValue(videosRef, async (snapshot) => {
       const data = snapshot.val();
       videoDuration.current = data.duration;
-      console.log("video duration: ", videoDuration.current);
+      // console.log("video duration: ", videoDuration.current);
       const filename = data.filename;
-      console.log("Filename: ", filename);
+      // console.log("Filename: ", filename);
       const urlRef = storageRef(storage, "questions/videos/" + filename);
       await getDownloadURL(urlRef)
       .then(async (downloadURL) => {
         setVideoUrl(downloadURL)
-        console.log("Video URL:", downloadURL);
+        // console.log("Video URL:", downloadURL);
       })
       .catch((error) => {
         console.error("Error getting video URL:", error);
@@ -146,14 +147,15 @@ const [seconds, setSeconds] = useState(0);
     setButtonDisabled(true)
     SpeechRecognition.stopListening()
     detectFer(0)
+    startWebgazer.current = 0
     //compare result before getting new question
     if(firstQuest){
       setFirstQuest(false)
     }
     else {
       const answer_quest = answer[index.current];
-      console.log("Correct: " + answer)
-      console.log("Given: " + transcript)
+      // console.log("Correct: " + answer)
+      // console.log("Given: " + transcript)
       compareAnswer(answer_quest, transcript)
       resetTranscript()
     }
@@ -169,10 +171,10 @@ const [seconds, setSeconds] = useState(0);
         setQuest(data);
         // handleSpeakClick(data);
         // await sleep(3000)
-        console.log("Duration next quest: ", videoDuration.current);
+        // console.log("Duration next quest: ", videoDuration.current);
         setTimeout(() => {
           //TODO: timer
-          console.log("Before 10 secs: " + new Date().getSeconds());
+          // console.log("Before 10 secs: " + new Date().getSeconds());
 
           interval = setInterval(() => {
             setSeconds(seconds => seconds + 1);
@@ -183,10 +185,11 @@ const [seconds, setSeconds] = useState(0);
         setTimeout(() => {
           setSeconds(0)
           clearInterval(interval);
-          console.log("After 10 secs: " + new Date().getSeconds());
+          // console.log("After 10 secs: " + new Date().getSeconds());
           SpeechRecognition.startListening({continuous: true})
           setButtonDisabled(false)
           detectFer(1)
+          startWebgazer.current = 1
           // active.current = false;
           
           // console.log("Timer stopped");
@@ -210,10 +213,10 @@ const [seconds, setSeconds] = useState(0);
       await getQuestionVideo(0)
       setQuest(data);
   
-      console.log("Inside start: ", videoDuration.current);
+      // console.log("Inside start: ", videoDuration.current);
       setTimeout(() => {
         //TODO: timer
-        console.log("Before 10 secs: " + new Date().getSeconds());
+        // console.log("Before 10 secs: " + new Date().getSeconds());
         interval = setInterval(() => {
           setSeconds(seconds => seconds + 1);
         }, 1000);
@@ -224,10 +227,11 @@ const [seconds, setSeconds] = useState(0);
       setTimeout(() => {
         setSeconds(0)
         clearInterval(interval);
-        console.log("After 10 secs: " + new Date().getSeconds());
+        // console.log("After 10 secs: " + new Date().getSeconds());
         SpeechRecognition.startListening({continuous: true})
         setButtonDisabled(false)
         detectFer(1)
+        startWebgazer.current = 1
       }, videoDuration.current*1000 + 14000); //get size q from vid avatar
 
   };
@@ -261,7 +265,7 @@ const [seconds, setSeconds] = useState(0);
         </div>
       </Model>
 
-      {/* <WebGazer /> */}
+      {/* <WebGazer start={startWebgazer.current}/> */}
       <Stack direction="column" spacing={3}>
         <Box sx={{height: "85vh"}}>
           <Avatar url={videoUrl} imageUrl={imageUrl}/>
@@ -295,7 +299,7 @@ const [seconds, setSeconds] = useState(0);
           <h1 className="titleText">End of Interview</h1>
           <p className="text">The score of the interview is graded by losing 5 points for each wrong answer, losing 3 points for looking
           around and lose 3 points for being anxious. The total score is from 300. Navigate to score page to see your result. Good Luck!</p>
-          <Button label="Get the Score"  onClick={() => endInterview()} />
+          <Button label="Get the Score" href="/firstpage" onClick={() => endInterview()} />
         </div>
       </Model>
     </div>
