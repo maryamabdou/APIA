@@ -29,7 +29,7 @@
   margin-top: 5%;
 }
 .twelve h1:before {
-  background-color: orangered;
+  background-color: #2F8BDB;
   content: "";
   display: block;
   height: 3px;
@@ -38,7 +38,7 @@
   margin-left: -20%;
 }
 .twelve h1:after {
-  background-color: orangered;
+  background-color: #2F8BDB;
   content: "";
   display: block;
   height: 3px;
@@ -57,7 +57,7 @@
 
 .error-card {
   /* background-color: #fde0d0;   */
-  color: #cc0000;
+  color: #2F8BDB;
   width: 50%;
   height: 6.3em;
   display: inline;

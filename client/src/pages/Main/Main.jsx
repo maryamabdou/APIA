@@ -97,7 +97,7 @@ function Main() {
                 width: "40%",
                 height: "70%",
                 margin: "auto",
-                backgroundColor: "#B8A995",
+                backgroundColor: "#EEF7FF",
               },
             }}
           >
@@ -150,7 +150,7 @@ function Main() {
                 width: "40%",
                 height: "70%",
                 margin: "auto",
-                backgroundColor: "#B8A995",
+                backgroundColor: "#EEF7FF",
               },
             }}
           >
@@ -267,7 +267,7 @@ function Main() {
                     className="bi bi-robot"
                     style={{
                       fontSize: "45px",
-                      color: "rgb(237, 95, 30)",
+                      color: "rgb(47, 139, 219)",
                       opacity: 1,
                       WebkitTextStrokeWidth: 0,
                     }}
@@ -286,7 +286,7 @@ function Main() {
                   <span
                     id="boot-icon"
                     className="bi bi-eye"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Eye Tracking</h3>
@@ -302,7 +302,7 @@ function Main() {
                   <span
                     id="boot-icon"
                     className="bi bi-emoji-neutral"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Facial Emotional Recognition</h3>
@@ -318,7 +318,7 @@ function Main() {
                   <span
                     id="boot-icon"
                     className="bi bi-calculator"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Scoring System</h3>

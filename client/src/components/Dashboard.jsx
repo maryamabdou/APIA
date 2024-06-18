@@ -18,7 +18,7 @@ class LineChart extends Component {
       animationEnabled: true,
       exportEnabled: true,
       zoomEnabled: true,
-      backgroundColor: "#eaa69080",
+      backgroundColor: "rgb(255, 255, 255)",
       theme: "light1", // "light1", "dark1", "dark2"
       title: {
         text: "Interview Rate",

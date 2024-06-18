@@ -42,7 +42,8 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 244, 98, 58;
+  /* --bs-primary-rgb: 244, 98, 58; */
+  --bs-primary-rgb: 47, 139, 219;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
@@ -82,9 +83,9 @@
   --bs-border-radius-xl: 1rem;
   --bs-border-radius-2xl: 2rem;
   --bs-border-radius-pill: 50rem;
-  --bs-link-color: #f4623a;
-  --bs-link-hover-color: #c34e2e;
-  --bs-code-color: #d63384;
+  --bs-link-color: #2F8BDB;
+  --bs-link-hover-color: #257AC4;
+  --bs-code-color: #257AC4;
   --bs-highlight-bg: #fff3cd;
 }
 
@@ -2974,19 +2975,19 @@ fieldset:disabled .btn {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #f4623a;
-  --bs-btn-border-color: #f4623a;
+  --bs-btn-bg: #2F8BDB;
+  --bs-btn-border-color: #2F8BDB;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #cf5331;
-  --bs-btn-hover-border-color: #c34e2e;
+  --bs-btn-hover-bg: #257AC4;
+  --bs-btn-hover-border-color: #257AC4;
   --bs-btn-focus-shadow-rgb: 246, 122, 88;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #c34e2e;
-  --bs-btn-active-border-color: #b74a2c;
+  --bs-btn-active-bg: #257AC4;
+  --bs-btn-active-border-color: #257AC4;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #f4623a;
-  --bs-btn-disabled-border-color: #f4623a;
+  --bs-btn-disabled-bg: #2F8BDB;
+  --bs-btn-disabled-border-color: #2F8BDB;
 }
 
 .btn-secondary {
@@ -11201,12 +11202,16 @@ hr.divider {
   height: 0.2rem;
   max-width: 3.25rem;
   margin: 1.5rem auto;
-  background-color: #f4623a;
+  background-color: #2F8BDB;
   opacity: 1;
 }
 
 hr.divider-light {
-  background-color: #fff;
+  height: 0.2rem;
+  max-width: 3.25rem;
+  margin: 1.5rem auto;
+  background-color: #ffffff;
+  opacity: 1;
 }
 
 #mainNav {
@@ -11232,10 +11237,10 @@ hr.divider-light {
 }
 #mainNav .navbar-nav .nav-item .nav-link:hover,
 #mainNav .navbar-nav .nav-item .nav-link:active {
-  color: #f4623a;
+  color: #257AC4;
 }
 #mainNav .navbar-nav .nav-item .nav-link.active {
-  color: #f4623a !important;
+  color: #257AC4 !important;
 }
 @media (min-width: 992px) {
   #mainNav {
@@ -11281,8 +11286,8 @@ header.masthead {
   padding-bottom: calc(10rem - 4.5rem);
   background: linear-gradient(
       to bottom,
-      rgba(92, 77, 66, 0.8) 0%,
-      rgba(92, 77, 66, 0.8) 100%
+      rgba(85, 190, 249, 0.1) 0%,
+      rgba(85, 190, 249, 0.1) 100%
     ),
     url("../../assets/images/bg-masthead.jpg");
   background-position: center;
@@ -11350,7 +11355,7 @@ header.masthead .h1 {
   text-align: center;
   opacity: 0;
   color: #fff;
-  background: rgba(244, 98, 58, 0.9);
+  background: rgba(47, 139, 219, 0.9);
   transition: opacity 0.25s ease;
   text-align: center;
 }

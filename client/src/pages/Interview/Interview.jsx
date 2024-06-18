@@ -49,7 +49,7 @@ function Interview() {
                   
                   <div className="collapse navbar-collapse" id="navbarResponsive">
                       <ul className="navbar-nav ms-auto my-2 my-lg-0">
-                      <a className="navbar-brand" href="/firstpage" onClick={handleClick} style={{color: '#f4623a'}}>End</a>
+                      <a className="navbar-brand" href="/firstpage" onClick={handleClick} style={{color: '#2F8BDB'}}>End</a>
                      {/*<a href={`/firstpage?username=${encodeURIComponent(sharedVariable)}`} style={{color: '#f4623a'}}>End</a>*/}
                           {/* <li className="nav-item"><a className="nav-link" href="#about">History</a></li>
                           <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>

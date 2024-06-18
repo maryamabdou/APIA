@@ -3,7 +3,7 @@ import * as bootstrap from "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./style.css";
+import "../Main/styles.css";
 import { useLocation } from "react-router-dom";
 import HistoryTable from "../../components/History";
 import LineChart from "../../components/Dashboard";
@@ -178,6 +178,7 @@ function Firstpage() {
           <div className="row gx-4 gx-lg-5 justify-content-center">
             <div className="col-lg-8 text-center">
               <h2 className="text-white mt-0">Your History</h2>
+              <hr className="divider-light" />
               {response && <HistoryTable data={response} />}
               {response && <LineChart data={response} />}
             </div>
@@ -199,7 +200,7 @@ function Firstpage() {
                     className="bi bi-robot"
                     style={{
                       fontSize: "45px",
-                      color: "rgb(237, 95, 30)",
+                      color: "rgb(47, 139, 219)",
                       opacity: 1,
                       WebkitTextStrokeWidth: 0,
                     }}
@@ -218,7 +219,7 @@ function Firstpage() {
                   <span
                     id="boot-icon"
                     className="bi bi-eye"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Eye Tracking</h3>
@@ -234,7 +235,7 @@ function Firstpage() {
                   <span
                     id="boot-icon"
                     className="bi bi-emoji-neutral"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Facial Emotional Recognition</h3>
@@ -250,7 +251,7 @@ function Firstpage() {
                   <span
                     id="boot-icon"
                     className="bi bi-calculator"
-                    style={{ fontSize: "45px", color: "rgb(237, 95, 30)" }}
+                    style={{ fontSize: "45px", color: "rgb(47, 139, 219)" }}
                   ></span>
                 </div>
                 <h3 className="h4 mb-2">Scoring System</h3>
