@@ -143,6 +143,23 @@ const [seconds, setSeconds] = useState(0);
     });
   }
 
+  let usedIndices = [0];
+
+  function getRandomIndex() {
+    if (usedIndices.length >= totalQuestions) {
+        console.log("All unique indices have been used");
+        return null;
+    }
+
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * totalQuestions);
+    } while (usedIndices.includes(randomIndex));
+    
+    usedIndices.push(randomIndex);
+    return randomIndex;
+  }
+
   const handleReadFromDataset = async () => {
     setButtonDisabled(true)
     SpeechRecognition.stopListening()
@@ -164,7 +181,7 @@ const [seconds, setSeconds] = useState(0);
 
       let interval = null;
       if(quest_index.current < 2){
-        const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
+        const randomIndex = getRandomIndex(); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];
         await getQuestionVideo(index.current)
