@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Response;
 from sentencesimilarity import  *
 from sentence_transformers import SentenceTransformer, util
 from FaceEmotionDetection import FaceEmotionDetection
-#from firebase import firebase
+from firebase import firebase
 import os
 import json
 from flask_mysqldb import MySQL
@@ -10,74 +10,79 @@ from gtts import gTTS
 import uuid
 import pyttsx3
 from time import sleep
+import cv2
+from datetime import datetime
+import numpy as np
+from PIL import Image
 
 app = Flask(__name__)
-#f = firebase()
-#storage, database = f.initialize()
+f = firebase()
+storage, database = f.initialize()
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_USER'] = 'phpmyadmin'
+app.config['MYSQL_PASSWORD'] = 'maryam2000'
 app.config['MYSQL_DB'] = 'flask'
 
 mysql = MySQL(app)
 
-#d = FaceEmotionDetection()
+d = FaceEmotionDetection()
 
 prediction = []
-similarity_score = 0
-fer_score = 0
-eye_score = 0
+eye_prediction = []
+similarity_score = 100
+fer_score = 100
+eye_score = 100
 score = 300
+user_email = ''
 
 @app.route('/firstpage', methods=["POST"])
 def firstpage():
     print("Hello, this is a debug message of firstpage!")
     data3 = request.get_json()
-    # data = request.json
     print(data3)
-    username = data3
-    # data_dict = json.loads(data3)
-
-    # username = data_dict['username']
-    print(username)
+    email = data3
+    global user_email
+    print("Email: ", user_email)
+    print(email)
     cursor = mysql.connection.cursor()
-    query2 ='''SELECT * FROM history WHERE id in ( select id from customer WHERE username = %s)'''
-    cursor.execute(query2, (username,))
+    query2 ='''SELECT * FROM History WHERE customer_id in ( SELECT id FROM Customer WHERE email = %s)'''
+    cursor.execute(query2, (user_email,))
     result2 = cursor.fetchall() 
     print(result2)
     return jsonify({'message': result2})
 
 @app.route('/login', methods=["POST"])
 def login():
+    global user_email
     print("Hello, this is a debug message of login!")
     data2 = request.get_json()
-    # data = request.json
-    username = data2['username']
+    email = data2['email']
     password = data2['password']
+    user_email = email
+    print("Email: ", user_email)
     cursor = mysql.connection.cursor()
-    # cursor.execute('''SELECT username, password FROM customer WHERE username = %s AND password = %s''', (username, password))
-    query = '''SELECT username, password FROM Customer WHERE username = %s AND password = %s'''
-    cursor.execute(query, (username, password))
+    query = '''SELECT email, password FROM Customer WHERE email = %s AND password = %s'''
+    cursor.execute(query, (email, password))
     result = cursor.fetchone()  # Fetch the first row
-       
+    print(result)
     if result:
         print("done")
-        
-        # data = [
-        #     {'message': 'success'},
-        #     {'message': result2}
-        # ]
-        # return jsonify(data)
         return jsonify({'message': "success"})
         
     else:
         print("error")
-        return jsonify({'message': 'Invalid username or password'}), 401
+        return jsonify({'message': 'Invalid email or password'}), 401
     
-       
+@app.route('/signout', methods=["POST"])
+def signout(): 
+    global user_email
+    print("done")
+    user_email = ''
+    return "signout"
 
 @app.route('/signup', methods=["POST"])
 def signup():
+    global user_email
     print("Hello, this is a debug message!")
     data = request.get_json()
     # data = request.json
@@ -85,34 +90,33 @@ def signup():
     email = data['email']
     password = data['password']
 
-    cursor = mysql.connection.cursor()
-    #cursor.execute(''' CREATE TABLE Customer (
-     #id INT AUTO_INCREMENT PRIMARY KEY,
-     #username VARCHAR(255), 
-     #email VARCHAR(255),
-     #password VARCHAR(255)  
-               
-     #); ''')
-    #cursor.execute(''' CREATE TABLE History (
-      #time VARCHAR(255), 
-        #id INT,
-        #eyeScore INT,
-        #faceScore INT,
-        #AnswerScore INT,
-        #score INT , 
-        #FOREIGN KEY (id) REFERENCES Customer(id)
-     #); ''')
+    user_email = email
 
-    # cursor.execute("INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-#     data2 = [
-#     {'message': 'success'},
-#     {'message': 'Message 2'}
-# ]
+    cursor = mysql.connection.cursor()
+    # cursor.execute(''' CREATE TABLE Customer (
+    #  id INT AUTO_INCREMENT PRIMARY KEY,
+    #  username VARCHAR(255), 
+    #  email VARCHAR(255),
+    #  password VARCHAR(255)  
+               
+    #  ); ''')
+    # cursor.execute('''  CREATE TABLE History (
+    #     id INT AUTO_INCREMENT PRIMARY KEY,
+    #     time VARCHAR(255), 
+    #     customer_id INT,
+    #     eyeScore INT,
+    #     faceScore INT,
+    #     AnswerScore INT,
+    #     score INT , 
+    #     FOREIGN KEY (customer_id) REFERENCES Customer(id)
+    #  ); ''')
+
     query = "INSERT INTO Customer (username, email, password) VALUES (%s, %s, %s)"
     cursor.execute(query, (username, email, password))
     mysql.connection.commit()
     cursor.close()
     # return jsonify(data2)
+    return "done"
     
 
 @app.route("/similarity", methods=['POST'])
@@ -124,31 +128,51 @@ def similarity():
     print(received_text[1])
     cosine_scores = sentSim(received_text[0], received_text[1])
     if cosine_scores < 0.6:
-        similarity_score = similarity_score + 5
+        similarity_score = similarity_score - 5
     print('similarity score: ', cosine_scores)
     print('sim score: ', similarity_score)
-    # send to database
     return "completed"
 
 @app.route("/fer", methods=['POST'])
 def fer():
     global prediction
     global fer_score
+    global eye_score
+    global eye_prediction
     sad_score = 0
     fear_score = 0
     data = request.get_json()
     method = data.get('text', '')
     if method == 1:
-        for i in d.predict():
-            prediction = i
-    else:
+        for data1, data2 in d.predict(method):
+            prediction = data1
+            eye_prediction = data2
+    elif method == 0:
+        d.predict(method)
         print(prediction)
+        print(eye_prediction)
         sad_score =  prediction.count("Sad")
         fear_score = prediction.count("Fearful")
-        fer_score = fer_score + (sad_score * 3 + fear_score * 3)
+        fer_score = fer_score - (sad_score * 3 + fear_score * 3)
         print('fer score: ', fer_score)
-        # send to database
+
+        right_score =  eye_prediction.count("right")
+        left_score = eye_prediction.count("left")
+        eye_score = eye_score - (right_score * 3 + left_score * 3)
+        print('eye score: ', eye_score)
+    else:
+        return "completed"
     # return Response(d.predict())
+    return "completed"
+
+@app.route("/eye", methods=['POST'])
+def eye():
+    global eye_score
+    data = request.get_json()
+    method = data.get('text', '')
+    if method == 1:
+        eye_score -= 3
+        print('eye score: ', eye_score)
     return "completed"
 
 @app.route("/score")
@@ -157,9 +181,31 @@ def interviewScore():
     global fer_score
     global eye_score
     global score
+    global user_email
+    print("user Email: ",user_email)
     
-    score = score - (similarity_score + fer_score + eye_score)
+    score = similarity_score + fer_score + eye_score
+
+    print('eye score: ', eye_score)
+    print('fer score: ', fer_score)
+    print('sim score: ', similarity_score)
+    print('final score: ', score)
     # send to database
+    cursor = mysql.connection.cursor()
+    query = "SELECT * FROM Customer WHERE email = %s"
+    cursor.execute(query, (user_email,))
+    # Fetch all rows
+    data = cursor.fetchall()
+    print("Data: ",data[0][0])
+    id = int(data[0][0])
+    # Close connection
+    cursor.close()
+    time = str(datetime.now())
+    cursor2 = mysql.connection.cursor()
+    query2 = "INSERT INTO History (time, customer_id, eyeScore, faceScore, AnswerScore, score) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor2.execute(query2, (time, id, eye_score, fer_score, similarity_score, score))
+    mysql.connection.commit()
+    cursor2.close()
     return "completed"
 
 @app.route('/uploadText', methods=['POST'])
@@ -205,7 +251,10 @@ def upload_audio():
         try:
             os.system(command)
             video_name = "video"+str(uuid.uuid4())+".mp4"
+            video = cv2.VideoCapture('Avatar/audio.wav')
+            duration = video.get(cv2.CAP_PROP_POS_MSEC)
             video_data = {
+                "duration": duration,
                 "id": index,
                 "filename": video_name  # Extract filename if needed
             }

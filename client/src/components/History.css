@@ -24,14 +24,13 @@
   left: 21px;
 }
 
-.tableContainer{
-  
+.tableContainer {
   border-radius: 20px;
   height: 244px;
   padding: 0 10px 10px 10px;
   overflow-y: scroll;
 }
-thead{
+thead {
   position: sticky;
   top: 0px;
   margin: 0 0 0 0;
@@ -50,14 +49,12 @@ tr {
   height: Hug (49px);
   padding: 14px 22px 14px 22px;
   gap: 10px;
-  /*background: #f1f1ff;*/
   background: rgba(241, 241, 255, 0.5);
   font-family: Poppins-Regular;
   color: #27282a;
 }
 
 th {
-  /*background: #eaa690;*/
   background: rgba(234, 166, 144, 0.5);
   padding: 10px;
 }
@@ -66,7 +63,6 @@ td {
   width: Fill (316px);
   height: Fixed (60px);
   padding: 10px;
-  /*border: 1px 0px 1px 0px;*/
   border: 1px solid transparent;
   gap: 10px;
   background: rgba(255, 255, 255, 0.5);

@@ -1,7 +1,8 @@
 import React, { useState , useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, duration } from "@mui/material";
 import questions from '../../assets/questions.csv';
+import WebGazer from './WebGazer';
 // import soft_questions from '../../assets/Software Questions.csv';
 import Avatar from "./Avatar.jsx";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
@@ -15,8 +16,12 @@ import onMic from "../../assets/images/microphone-alt-1-svgrepo-com.svg";
 import offMic from "../../assets/images/microphone-slash-svgrepo-com.svg"
 import './SpeechReader.css'
 
+
 const SpeechReader = () => {
+const [seconds, setSeconds] = useState(0);
+
   const [firstQuest, setFirstQuest] = useState(true);
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
   const {
     transcript,
     listening,
@@ -34,35 +39,25 @@ const SpeechReader = () => {
   const question_file = useRef('');
   
   const [videoUrl, setVideoUrl] = useState("")
+  const [imageUrl, setImageUrl] = useState("")
+  const startWebgazer = useRef(0)
 
   let question = [];
   let answer = [];
   let totalQuestions = 0;
-
-    // const fileRef = storageRef(storage, "questions/file/questions.csv");
-    // getDownloadURL(fileRef)
-    // .then((downloadURL) => {
-    //   question_file.current = downloadURL;
-    //   console.log(question_file.current)
-    // })
-    // .catch((error) => {
-    //   console.error("Error getting file URL:", error);
-    // });
+  const videoDuration = useRef(0);
 
     Papa.parse(questions, {
       header: true,
       download: true,
       dynamicTyping: true,
       complete: function(results) {
-        console.log(results.data)
+        // console.log(results.data)
         results.data.map((d) => {
             question.push(Object.values(d)[1])
             answer.push(Object.values(d)[2])
         })
         totalQuestions = question.length;
-        // question.current = ques;
-        // console.log(question[0])
-        // answer.current = ans;
       }
     });
 
@@ -70,22 +65,31 @@ const SpeechReader = () => {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
-  const getQuestionVideo = (videoId) => {
+  const getQuestionVideo = async (videoId) => {
     var videosRef = databaseRef(database, "questions/videos/" + videoId)
-    onValue(videosRef, (snapshot) => {
+
+     onValue(videosRef, async (snapshot) => {
       const data = snapshot.val();
+      videoDuration.current = data.duration;
+      // console.log("video duration: ", videoDuration.current);
       const filename = data.filename;
-      console.log(filename);
+      // console.log("Filename: ", filename);
       const urlRef = storageRef(storage, "questions/videos/" + filename);
-      getDownloadURL(urlRef)
-      .then((downloadURL) => {
+      await getDownloadURL(urlRef)
+      .then(async (downloadURL) => {
         setVideoUrl(downloadURL)
-        console.log("Video URL:", downloadURL);
+        // console.log("Video URL:", downloadURL);
       })
       .catch((error) => {
         console.error("Error getting video URL:", error);
       });
     });
+
+    const imageRef = storageRef(storage, "images/avatar.jpg");
+      await getDownloadURL(imageRef)
+      .then(async (downloadURL) => {
+        setImageUrl(downloadURL)
+      });
   }
 
   const compareAnswer = (answer, transcript) => { 
@@ -107,7 +111,7 @@ const SpeechReader = () => {
       });
   }
 
-  const datectFer = (text) => {
+  const detectFer = (text) => {
     fetch('/fer', {
         method: 'POST',
         headers: {
@@ -123,62 +127,121 @@ const SpeechReader = () => {
     });
   }
 
-  const handleReadFromDataset = () => {
+  const finalScore = (text) => {
+    fetch('/score', {
+        // method: 'POST',
+        // headers: {
+        // 'Content-Type': 'application/json', // Set the Content-Type header
+        // },
+        // body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error(error);
+    });
+  }
+
+  const handleReadFromDataset = async () => {
+    setButtonDisabled(true)
     SpeechRecognition.stopListening()
-    datectFer(0)
+    detectFer(0)
+    startWebgazer.current = 0
     //compare result before getting new question
     if(firstQuest){
       setFirstQuest(false)
     }
     else {
       const answer_quest = answer[index.current];
-      console.log("Correct: " + answer)
-      console.log("Given: " + transcript)
+      // console.log("Correct: " + answer)
+      // console.log("Given: " + transcript)
       compareAnswer(answer_quest, transcript)
       resetTranscript()
     }
     // new question
       quest_index.current = quest_index.current + 1
 
-      if(quest_index.current < 6){
+      let interval = null;
+      if(quest_index.current < 2){
         const randomIndex = Math.floor(Math.random() * totalQuestions); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];
-        getQuestionVideo(index.current)
+        await getQuestionVideo(index.current)
         setQuest(data);
         // handleSpeakClick(data);
+        // await sleep(3000)
+        // console.log("Duration next quest: ", videoDuration.current);
         setTimeout(() => {
+          //TODO: timer
+          // console.log("Before 10 secs: " + new Date().getSeconds());
+
+          interval = setInterval(() => {
+            setSeconds(seconds => seconds + 1);
+          }, 1000);
+
+        }, videoDuration.current*1000 + 2000); //get size q from vid avatar
+
+        setTimeout(() => {
+          setSeconds(0)
+          clearInterval(interval);
+          // console.log("After 10 secs: " + new Date().getSeconds());
           SpeechRecognition.startListening({continuous: true})
-          datectFer(1)
-        }, 10000); //get size q from vid avatar
+          setButtonDisabled(false)
+          detectFer(1)
+          startWebgazer.current = 1
+          // active.current = false;
+          
+          // console.log("Timer stopped");
+          // console.log("Active after false: " + active.current);
+        }, videoDuration.current*1000 + 12000); //get size q from vid avatar
+
       }
       else{
         //No more questions
         // navigate to score page
-        setvisibleEnd(true)
-
-        fetch('/score', {
-        })
-        .then(response => {
-            // Handle response from Flask
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        setTimeout(() => {
+          setvisibleEnd(true)
+        }, 3000);
       }
   };
 
-  const startInterview = () => {
+  const startInterview = async () => {
       setvisibleStart(false)
+      let interval = null;
       var data = question[0];
-      getQuestionVideo(0)
+      await getQuestionVideo(0)
       setQuest(data);
   
+      // console.log("Inside start: ", videoDuration.current);
       setTimeout(() => {
+        //TODO: timer
+        // console.log("Before 10 secs: " + new Date().getSeconds());
+        interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+
+
+      }, videoDuration.current*1000 + 4000); //get size q from vid avatar
+
+      setTimeout(() => {
+        setSeconds(0)
+        clearInterval(interval);
+        // console.log("After 10 secs: " + new Date().getSeconds());
         SpeechRecognition.startListening({continuous: true})
-        datectFer(1)
-      }, 10000); //get size q from vid avatar
+        setButtonDisabled(false)
+        detectFer(1)
+        startWebgazer.current = 1
+      }, videoDuration.current*1000 + 14000); //get size q from vid avatar
+
   };
+
+  const endInterview = () => {
+    finalScore()
+    setTimeout(() => {
+      navigate('/firstpage')
+    }, 2000);
+  }
 
   return (
     <div>
@@ -202,17 +265,22 @@ const SpeechReader = () => {
         </div>
       </Model>
 
+      {/* <WebGazer start={startWebgazer.current}/> */}
       <Stack direction="column" spacing={3}>
         <Box sx={{height: "85vh"}}>
-          <Avatar url={videoUrl} />
+          <Avatar url={videoUrl} imageUrl={imageUrl}/>
         </Box>
         <Box sx={{height: "2vh"}}>
           <center><p style={{fontSize:'20px'}}>{quest}</p></center>
         </Box>
         <Stack direction="row" spacing={3} style={{justifyContent: "center"}}>
           <p style={{fontSize:'20px'}}>Mic: {listening ? <img className="img-fluid" src={onMic} alt="..." /> : <img className="img-fluid" src={offMic} alt="..." />}</p>
-            <button onClick={handleReadFromDataset}>Stop</button>
-          
+            <button onClick={handleReadFromDataset} disabled={isButtonDisabled}>Stop</button>
+            <div className="app">
+              <div className="time">
+                {seconds}s
+              </div>
+            </div>
         </Stack>
         <p>{transcript}</p>
       </Stack>
@@ -231,7 +299,7 @@ const SpeechReader = () => {
           <h1 className="titleText">End of Interview</h1>
           <p className="text">The score of the interview is graded by losing 5 points for each wrong answer, losing 3 points for looking
           around and lose 3 points for being anxious. The total score is from 300. Navigate to score page to see your result. Good Luck!</p>
-          <Button label="Get the Score"  onClick={() => navigate('/firstpage')} />
+          <Button label="Get the Score" href="/firstpage" onClick={() => endInterview()} />
         </div>
       </Model>
     </div>
