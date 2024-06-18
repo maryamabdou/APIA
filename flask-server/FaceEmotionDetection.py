@@ -18,7 +18,7 @@ class FaceEmotionDetection():
         # load weights into new model
         self.emotion_model.load_weights("Fer/model/model_weights.h5")
         self.detector = dlib.get_frontal_face_detector()
-        self.predictor = dlib.shape_predictor("Fer/shape_predictor_68_face_landmarks.dat")
+        self.predictor = dlib.shape_predictor("Fer/model/shape_predictor_68_face_landmarks.dat")
         # self.camera = cv2.VideoCapture(0)
 
     def get_gaze_ratio(self, eye_points, landmarks, frame, gray):
