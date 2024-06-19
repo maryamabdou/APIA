@@ -1,5 +1,6 @@
-![alt text](./client/public/robot-blue.png){ width=50% }
-<img src="drawing.jpg" alt="drawing" width="200"/>
+![Description](./client/public/robot-blue.png)
+<img src="./client/public/robot-blue.png" alt="Description" width="200" height="200">
+
 # APIA
 
 ## Run the website
