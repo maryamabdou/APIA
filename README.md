@@ -1,4 +1,4 @@
-[logo]: client/public/robot-blue.png
+![alt text](./client/public/robot-blue.png "Logo Title Text 1")
 
 # APIA
 
