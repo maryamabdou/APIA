@@ -1,4 +1,4 @@
-![alt text](./client/public/robot-blue.png =100x100)
+![alt text](./client/public/robot-blue.png){ width=50% }
 <img src="drawing.jpg" alt="drawing" width="200"/>
 # APIA
 
