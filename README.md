@@ -44,9 +44,9 @@ Start the server
   python server.py
 ```
 
-To add the face emotion recognition model
+### Add the face emotion recognition model
 
-Download it from this link:
+Download it from this link: <br>
 https://drive.google.com/drive/folders/1_8ox7L8bhRSS_Fi7MBXvGWJw-ubpt9id?usp=sharing
 
 Put them in this folder
@@ -54,3 +54,11 @@ Put them in this folder
 ```bash
   cd flask-server/Fer/model
 ```
+
+### Contributers
+Maryam Abdou
+Farah Elgendy
+Shams Zayan
+Ingy Hany
+Youstina Hanna
+Youmna Elmezayen
