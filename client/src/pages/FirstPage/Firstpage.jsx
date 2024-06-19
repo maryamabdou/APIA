@@ -3,6 +3,7 @@ import * as bootstrap from "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import logo from "../../assets/images/robot-blue.png";
 import "../Main/styles.css";
 import { useLocation } from "react-router-dom";
 import HistoryTable from "../../components/History";
@@ -152,6 +153,7 @@ function Firstpage() {
         <div className="container px-4 px-lg-5 h-100">
           <div className="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div className="col-lg-8 align-self-end">
+              <img style={{width: "150px", height: "150px"}} src={logo} alt="..." />
               <h1 className="text-white font-weight-bold">APIA</h1>
               <h3 className="text-white-75 mb-5">
                 Your Interview Performance, Our Expertise

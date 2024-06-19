@@ -7,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import simInt_image from "../../assets/images/portfolio/thumbnails/Untitled-1-01.png";
 import emotionRecog_image from "../../assets/images/portfolio/thumbnails/Untitled-1-02.png";
 import eyeTrack_image from "../../assets/images/portfolio/thumbnails/Untitled-1-03.png";
+import logo from "../../assets/images/robot-blue.png";
 import "./styles.css";
 import Model from "react-modal";
 import Login_Popup from "../../components/Login_Popup";
@@ -214,6 +215,7 @@ function Main() {
         <div className="container px-4 px-lg-5 h-100">
           <div className="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
             <div className="col-lg-8 align-self-end">
+              <img style={{width: "150px", height: "150px"}} src={logo} alt="..." />
               <h1 className="text-white font-weight-bold">APIA</h1>
               <h3 className="text-white-75 mb-5">
                 Your Interview Performance, Our Expertise
