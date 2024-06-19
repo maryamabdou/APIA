@@ -1,4 +1,4 @@
-![Description](./client/public/robot-blue.png)
+<!-- ![Description](./client/public/robot-blue.png) -->
 <img src="./client/public/robot-blue.png" alt="Description" width="200" height="200">
 
 # APIA
