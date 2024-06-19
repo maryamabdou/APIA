@@ -56,9 +56,9 @@ Put them in this folder
 ```
 
 ### Contributers
-Maryam Abdou
-Farah Elgendy
-Shams Zayan
-Ingy Hany
-Youstina Hanna
+Maryam Abdou <br>
+Farah Elgendy <br>
+Shams Zayan <br>
+Ingy Hany <br>
+Youstina Hanna <br>
 Youmna Elmezayen
