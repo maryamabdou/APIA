@@ -1,5 +1,5 @@
-![alt text](./client/public/robot-blue.png "Logo Title Text 1")
-
+<!-- ![alt text](./client/public/robot-blue.png "Logo Title Text 1") -->
+<img src="./client/public/robot-blue.pn" alt="logo" width="50%"/>
 # APIA
 
 ## Run the website
