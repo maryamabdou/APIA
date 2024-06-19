@@ -129,6 +129,8 @@ def similarity():
     cosine_scores = sentSim(received_text[0], received_text[1])
     if cosine_scores < 0.6:
         similarity_score = similarity_score - 5
+        if similarity_score < 0:
+            similarity_score = 0
     print('similarity score: ', cosine_scores)
     print('sim score: ', similarity_score)
     return "completed"
@@ -154,25 +156,19 @@ def fer():
         sad_score =  prediction.count("Sad")
         fear_score = prediction.count("Fearful")
         fer_score = fer_score - (sad_score * 3 + fear_score * 3)
+        if fer_score < 0:
+            fer_score = 0
         print('fer score: ', fer_score)
 
         right_score =  eye_prediction.count("right")
         left_score = eye_prediction.count("left")
         eye_score = eye_score - (right_score * 3 + left_score * 3)
+        if eye_score < 0:
+            eye_score = 0
         print('eye score: ', eye_score)
     else:
         return "completed"
     # return Response(d.predict())
-    return "completed"
-
-@app.route("/eye", methods=['POST'])
-def eye():
-    global eye_score
-    data = request.get_json()
-    method = data.get('text', '')
-    if method == 1:
-        eye_score -= 3
-        print('eye score: ', eye_score)
     return "completed"
 
 @app.route("/score")

@@ -17,3 +17,8 @@
   margin-top: 15em;
   margin-right: 2em;
 }
+
+.button:hover {
+  background: #257AC4;
+  border: 1px solid #257AC4;
+}

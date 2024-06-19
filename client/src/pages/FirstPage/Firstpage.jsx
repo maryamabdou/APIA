@@ -376,7 +376,7 @@ function Firstpage() {
                 {/* Submit Button */}
                 <div className="d-grid">
                   <button
-                    className="btn btn-primary btn-xl disabled"
+                    className="btn btn-primary btn-xl"
                     id="submitButton"
                     type="submit"
                   >
