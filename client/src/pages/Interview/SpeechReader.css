@@ -17,3 +17,48 @@
     padding-right: 3%;
     padding-left: 3%;
 }
+.time{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 50px;  
+    height: 45px;         
+    background: #2F8BDB;
+    border: 1px solid #2F8BDB;
+    color: #ffffff;
+    font-family: 'Poppins-SemiBold';
+    font-size: 0.875em;
+    line-height: 1.3;
+    font-weight: 600;
+}
+.but {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;        
+  height: 40px; 
+  border-radius: 4.5em;
+  background: #2F8BDB;
+  border: 1px solid #2F8BDB;
+  color: #ffffff;
+  font-family: 'Poppins-SemiBold';
+  font-size: 0.875em;
+  line-height: 1.3;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15em;
+  margin-right: 2em;
+}
+
+.but:hover {
+  background: #257AC4;
+  border: 1px solid #257AC4;
+}
+
+.but:disabled {
+    background-color: #7597b6; /* Disabled background color */
+    cursor: not-allowed;       /* Not-allowed cursor for disabled button */
+    color: #ffffff;              /* Disabled text color if needed */
+  }

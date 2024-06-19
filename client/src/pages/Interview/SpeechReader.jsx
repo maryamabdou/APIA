@@ -276,7 +276,7 @@ const [seconds, setSeconds] = useState(0);
           <center><h1 className="titleText">Instructions</h1></center>
           <p className="text">Welcome to APIA. Your interview consists of 10 technical questions, try to answer them correctly. 
             Allow your mic and camera to answer the questions, track your eyes and detect your emotion. You have 10 seconds to think
-            of the answer of the question, after 10 seconds, the mic will open automaticaaly for you to answer the question.
+            of the answer of the question, after 10 seconds, the mic will open automaticaly for you to answer the question.
             When you finish click the stop button to go to next question. Good Luck!</p>
           <Button label="Start Interview" onClick={startInterview} />
         </div>
@@ -292,7 +292,7 @@ const [seconds, setSeconds] = useState(0);
         </Box>
         <Stack direction="row" spacing={3} style={{justifyContent: "center"}}>
           <p style={{fontSize:'20px'}}>Mic: {listening ? <img className="img-fluid" src={onMic} alt="..." /> : <img className="img-fluid" src={offMic} alt="..." />}</p>
-            <button onClick={handleReadFromDataset} disabled={isButtonDisabled}>Stop</button>
+            <button className="but" onClick={handleReadFromDataset} disabled={isButtonDisabled}>Stop</button>
             <div className="app">
               <div className="time">
                 {seconds}s
