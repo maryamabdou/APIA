@@ -48,8 +48,11 @@ Start the server
 
 ### Add the face emotion recognition model
 
-Download it from this link: <br>
+Download it from this link
+
+```bash
 https://drive.google.com/drive/folders/1_8ox7L8bhRSS_Fi7MBXvGWJw-ubpt9id?usp=sharing
+```
 
 Put them in this folder
 
