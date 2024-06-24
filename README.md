@@ -1,6 +1,8 @@
 <img src="./client/public/robot-blue.png" alt="Description" width="200" height="200">
 
-# APIA
+# APIA (AI Powered Interview Assistant)
+This project aims to create a simulated interview system utilizing AI techniques to assess an individual’s performance in a chosen field. The system involves an AI-driven avatar functioning as an interviewer, asking the user questions relevant to their selected field. Additionally, the system incorporates eye tracking and facial emotion recognition to gauge the user’s emotional state during the interview, potentially detecting feelings of anxiety or other emotions.
+At the conclusion of the session, the system provides the user with a performance score based on their responses and emotional cues. This innovative approach to performance assessment offers a dynamic and interactive platform for individuals to hone their interview skills and receive personalized feedback. The project not only focuses on the technical implementation of AI and emotion recognition but also explores the potential impact on enhancing interview preparation and assessment processes.
 
 ## Run the website
 
