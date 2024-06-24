@@ -132,7 +132,30 @@ class FaceEmotionDetection():
                 # yield f"data2:{eye}\n\n"
             # cv2.imshow('Emotion Detection', frame)
 
-            cv2.imshow("Frame", frame)
+            # Define the desired size for the frame
+            new_width = 400
+            new_height = 300
+
+            # Resize the frame
+            resized_frame = cv2.resize(frame, (new_width, new_height))
+
+            # Create a blank image (black image)
+            canvas = np.zeros((new_height, new_width, 3), dtype=np.uint8)
+
+            # Define the top-left corner where the resized frame will be placed
+            top_left_x = 0
+            top_left_y = 0
+
+            # Ensure the resized frame fits within the canvas dimensions
+            if top_left_x + new_width <= new_width and top_left_y + new_height <= new_height:
+                # Place the resized frame on the canvas
+                canvas[top_left_y:top_left_y+new_height, top_left_x:top_left_x+new_width] = resized_frame
+            else:
+                print("Error: The resized frame does not fit within the canvas dimensions")
+
+            # Display the resulting image
+            cv2.imshow('Result', canvas)
+            # cv2.imshow("Frame", frame)
 
             if cv2.waitKey(1) & method == 0:
                 break
