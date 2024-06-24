@@ -79,10 +79,10 @@ class FaceEmotionDetection():
             # take each face available on the camera and Preprocess it
             for (x, y, w, h) in num_faces:
                 # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (0, 255, 0), 4)
-                roi_gray_frame = gray_frame[y:y + h, x:x + w]
-                # roi_gray_frame = frame[y:y + h, x:x + w]
-                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
-                # cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (224, 224)), -1), 0)
+                # roi_gray_frame = gray_frame[y:y + h, x:x + w]
+                roi_gray_frame = frame[y:y + h, x:x + w]
+                # cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
+                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (224, 224)), -1), 0)
 
                 # predict the emotions
                 emotion_prediction = self.emotion_model.predict(cropped_img)
