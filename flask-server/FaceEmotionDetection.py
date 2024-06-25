@@ -87,7 +87,7 @@ class FaceEmotionDetection():
                 # predict the emotions
                 emotion_prediction = self.emotion_model.predict(cropped_img)
                 maxindex = int(np.argmax(emotion_prediction))
-                print(maxindex)
+                # print(maxindex)
                 cv2.putText(frame, self.emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
                 detection = self.emotion_dict[maxindex]
 

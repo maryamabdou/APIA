@@ -75,8 +75,16 @@ def login():
     
 @app.route('/signout', methods=["POST"])
 def signout(): 
+    global similarity_score
+    global fer_score
+    global eye_score
+    global score
     global user_email
     print("done")
+    similarity_score = 100
+    fer_score = 100
+    eye_score = 100
+    score = 300
     user_email = ''
     return "signout"
 
@@ -202,6 +210,24 @@ def interviewScore():
     cursor2.execute(query2, (time, id, eye_score, fer_score, similarity_score, score))
     mysql.connection.commit()
     cursor2.close()
+
+    similarity_score = 100
+    fer_score = 100
+    eye_score = 100
+    score = 300
+    return "completed"
+
+@app.route("/end")
+def interviewScore():
+    global similarity_score
+    global fer_score
+    global eye_score
+    global score
+
+    similarity_score = 100
+    fer_score = 100
+    eye_score = 100
+    score = 300
     return "completed"
 
 @app.route('/uploadText', methods=['POST'])

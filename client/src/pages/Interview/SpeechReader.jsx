@@ -180,7 +180,7 @@ const [seconds, setSeconds] = useState(0);
       quest_index.current = quest_index.current + 1
 
       let interval = null;
-      if(quest_index.current < 2){
+      if(quest_index.current < 4){
         const randomIndex = getRandomIndex(); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];

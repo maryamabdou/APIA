@@ -17,6 +17,20 @@ function Interview() {
   console.log(username);
 
   const handleClick = () => {
+    fetch('/end', {
+      // method: 'POST',
+      // headers: {
+      // 'Content-Type': 'application/json', // Set the Content-Type header
+      // },
+      // body: JSON.stringify({ text }),
+    })
+    .then(response => {
+        // Handle response from Flask
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
     navigate("/firstpage", { state: { username: username } });
   };
 
