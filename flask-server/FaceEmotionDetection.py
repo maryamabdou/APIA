@@ -79,10 +79,10 @@ class FaceEmotionDetection():
             # take each face available on the camera and Preprocess it
             for (x, y, w, h) in num_faces:
                 # cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (0, 255, 0), 4)
-                # roi_gray_frame = gray_frame[y:y + h, x:x + w]
-                roi_gray_frame = frame[y:y + h, x:x + w]
-                # cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
-                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (224, 224)), -1), 0)
+                roi_gray_frame = gray_frame[y:y + h, x:x + w]
+                # roi_gray_frame = frame[y:y + h, x:x + w]
+                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
+                # cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (224, 224)), -1), 0)
 
                 # predict the emotions
                 emotion_prediction = self.emotion_model.predict(cropped_img)
@@ -110,7 +110,7 @@ class FaceEmotionDetection():
                         cv2.putText(frame, "RIGHT", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "right"
                         # new_frame[:] = (0, 0, 255)
-                    elif 2 <= gaze_ratio <= 5:
+                    elif 1.5 <= gaze_ratio <= 5:
                         cv2.putText(frame, "CENTER", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "center"
                     else:
@@ -123,8 +123,6 @@ class FaceEmotionDetection():
                     else:
                         if eye[len(eye) - 1] != eye_detecion:
                             eye.append(eye_detecion)
-                
-                
 
                 # send them
                 yield f"data1:{prediction}\n\n", f"data2:{eye}\n\n"
@@ -133,8 +131,8 @@ class FaceEmotionDetection():
             # cv2.imshow('Emotion Detection', frame)
 
             # Define the desired size for the frame
-            new_width = 400
-            new_height = 300
+            new_width = 350
+            new_height = 250
 
             # Resize the frame
             resized_frame = cv2.resize(frame, (new_width, new_height))
@@ -155,6 +153,7 @@ class FaceEmotionDetection():
 
             # Display the resulting image
             cv2.imshow('Result', canvas)
+            cv2.moveWindow('Result', 0, 0)
             # cv2.imshow("Frame", frame)
 
             if cv2.waitKey(1) & method == 0:
