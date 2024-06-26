@@ -105,12 +105,12 @@ class FaceEmotionDetection():
                     gaze_ratio_left_eye = self.get_gaze_ratio([36, 37, 38, 39, 40, 41], landmarks, frame, gray_frame)
                     gaze_ratio_right_eye = self.get_gaze_ratio([42, 43, 44, 45, 46, 47], landmarks, frame, gray_frame)
                     gaze_ratio = (gaze_ratio_right_eye + gaze_ratio_left_eye) / 2
-
-                    if gaze_ratio <= 1:
+         
+                    if gaze_ratio <= 0.5:
                         cv2.putText(frame, "RIGHT", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "right"
                         # new_frame[:] = (0, 0, 255)
-                    elif 1.5 <= gaze_ratio <= 5:
+                    elif 0.5 < gaze_ratio <= 8:
                         cv2.putText(frame, "CENTER", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "center"
                     else:

@@ -109,6 +109,8 @@ const [seconds, setSeconds] = useState(0);
       .catch(error => {
           console.error('Error uploading text:', error);
       });
+
+    resetTranscript()
   }
 
   const detectFer = (text) => {
@@ -168,6 +170,7 @@ const [seconds, setSeconds] = useState(0);
     //compare result before getting new question
     if(firstQuest){
       setFirstQuest(false)
+      resetTranscript()
     }
     else {
       const answer_quest = answer[index.current];
@@ -180,7 +183,7 @@ const [seconds, setSeconds] = useState(0);
       quest_index.current = quest_index.current + 1
 
       let interval = null;
-      if(quest_index.current < 4){
+      if(quest_index.current < 3){
         const randomIndex = getRandomIndex(); // Random index for each question
         index.current = randomIndex;
         const data = question[index.current];
@@ -200,6 +203,7 @@ const [seconds, setSeconds] = useState(0);
         }, videoDuration.current*1000 + 2000); //get size q from vid avatar
 
         setTimeout(() => {
+          resetTranscript()
           setSeconds(0)
           clearInterval(interval);
           // console.log("After 10 secs: " + new Date().getSeconds());

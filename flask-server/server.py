@@ -218,7 +218,7 @@ def interviewScore():
     return "completed"
 
 @app.route("/end")
-def interviewScore():
+def end():
     global similarity_score
     global fer_score
     global eye_score
