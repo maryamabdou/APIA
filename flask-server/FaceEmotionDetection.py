@@ -43,6 +43,7 @@ class FaceEmotionDetection():
 
         height, width = threshold_eye.shape
         left_side_threshold = threshold_eye[0: height, 0: int(width / 2)]
+        cv2.imshow("Frame", left_side_threshold)
         left_side_white = cv2.countNonZero(left_side_threshold)
         right_side_threshold = threshold_eye[0: height, int(width / 2): width]
         right_side_white = cv2.countNonZero(right_side_threshold)
@@ -83,7 +84,6 @@ class FaceEmotionDetection():
                 # roi_gray_frame = frame[y:y + h, x:x + w]
                 cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
                 # cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (224, 224)), -1), 0)
-
                 # predict the emotions
                 emotion_prediction = self.emotion_model.predict(cropped_img)
                 maxindex = int(np.argmax(emotion_prediction))
@@ -106,11 +106,11 @@ class FaceEmotionDetection():
                     gaze_ratio_right_eye = self.get_gaze_ratio([42, 43, 44, 45, 46, 47], landmarks, frame, gray_frame)
                     gaze_ratio = (gaze_ratio_right_eye + gaze_ratio_left_eye) / 2
          
-                    if gaze_ratio <= 0.5:
+                    if gaze_ratio <= 0.4:
                         cv2.putText(frame, "RIGHT", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "right"
                         # new_frame[:] = (0, 0, 255)
-                    elif 0.5 < gaze_ratio <= 8:
+                    elif 0.4 < gaze_ratio <= 7:
                         cv2.putText(frame, "CENTER", (50, 100), 5, 2, (0, 0, 255), 3)
                         eye_detecion = "center"
                     else:
@@ -152,9 +152,9 @@ class FaceEmotionDetection():
                 print("Error: The resized frame does not fit within the canvas dimensions")
 
             # Display the resulting image
-            cv2.imshow('Result', canvas)
-            cv2.moveWindow('Result', 0, 0)
-            # cv2.imshow("Frame", frame)
+            # cv2.imshow('Result', canvas)
+            # cv2.moveWindow('Result', 0, 0)
+            cv2.imshow("Frame", frame)
 
             if cv2.waitKey(1) & method == 0:
                 break
