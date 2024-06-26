@@ -153,8 +153,8 @@ class FaceEmotionDetection():
 
             # Display the resulting image
             # cv2.imshow('Result', canvas)
-            # cv2.moveWindow('Result', 0, 0)
-            cv2.imshow("Frame", frame)
+            cv2.moveWindow('Result', 0, 0)
+            # cv2.imshow("Frame", frame)
 
             if cv2.waitKey(1) & method == 0:
                 break
