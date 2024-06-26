@@ -152,7 +152,7 @@ class FaceEmotionDetection():
                 print("Error: The resized frame does not fit within the canvas dimensions")
 
             # Display the resulting image
-            # cv2.imshow('Result', canvas)
+            cv2.imshow('Result', canvas)
             cv2.moveWindow('Result', 0, 0)
             # cv2.imshow("Frame", frame)
 
