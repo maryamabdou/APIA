@@ -43,7 +43,6 @@ class FaceEmotionDetection():
 
         height, width = threshold_eye.shape
         left_side_threshold = threshold_eye[0: height, 0: int(width / 2)]
-        cv2.imshow("Frame", left_side_threshold)
         left_side_white = cv2.countNonZero(left_side_threshold)
         right_side_threshold = threshold_eye[0: height, int(width / 2): width]
         right_side_white = cv2.countNonZero(right_side_threshold)
