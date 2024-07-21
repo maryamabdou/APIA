@@ -60,7 +60,7 @@ Put them in this folder
   cd flask-server/Fer/model
 ```
 
-### Contributers
+### Contributors
 Maryam Abdou <br>
 Farah Elgendy <br>
 Shams Zayan <br>
