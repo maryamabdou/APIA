@@ -7,7 +7,7 @@ import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDoQyQmb3KxiZRzVtKEMdAlwO2mw5ihEIo",
+  // apiKey: "AIzaSyDoQyQmb3KxiZRzVtKEMdAlwO2mw5ihEIo",
   authDomain: "apia-72347.firebaseapp.com",
   databaseURL: "https://apia-72347-default-rtdb.firebaseio.com",
   projectId: "apia-72347",
